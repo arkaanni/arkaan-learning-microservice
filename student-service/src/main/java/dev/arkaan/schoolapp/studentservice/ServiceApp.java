@@ -7,6 +7,7 @@ import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 import io.dropwizard.jdbi3.JdbiFactory;
+import org.jdbi.v3.core.Jdbi;
 
 public class ServiceApp extends Application<ServiceConfiguration> {
 
@@ -25,8 +26,9 @@ public class ServiceApp extends Application<ServiceConfiguration> {
 
     @Override
     public void run(ServiceConfiguration serviceConfiguration, Environment environment) {
-        new JdbiFactory().build(environment, serviceConfiguration.getDb(), "mysql8");
-        environment.jersey().register(StudentResource.class);
+        Jdbi jdbi = new JdbiFactory().build(environment, serviceConfiguration.getDb(), "mysql8");
+        StudentResource studentResource = new StudentResource(jdbi);
+        environment.jersey().register(studentResource);
     }
 
     public static void main(String[] args) throws Exception {
