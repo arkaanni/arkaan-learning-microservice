@@ -2,20 +2,21 @@ package dev.arkaan.schoolapp.studentservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.core.Configuration;
-import jakarta.validation.constraints.NotEmpty;
+import io.dropwizard.db.DataSourceFactory;
+import jakarta.validation.constraints.NotNull;
 
 public class ServiceConfiguration extends Configuration {
 
-    @NotEmpty
-    private String name;
+    @NotNull
+    private DataSourceFactory db;
 
     @JsonProperty
-    public void setName(String name) {
-        this.name = name;
+    public void setDb(DataSourceFactory db) {
+        this.db = db;
     }
 
     @JsonProperty
-    public String getName() {
-        return name;
+    public DataSourceFactory getDb() {
+        return db;
     }
 }

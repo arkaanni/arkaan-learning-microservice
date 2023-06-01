@@ -1,4 +1,3 @@
-name: student-service
 server:
   applicationConnectors:
     - type: http
@@ -6,3 +5,8 @@ server:
   adminConnectors:
     - type: http
       port: 8446
+db:
+  driverClass: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://${db_host}:${db_port}
+  user: ${db_user}
+  password: ${db_password}
