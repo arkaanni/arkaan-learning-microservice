@@ -5,7 +5,6 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.jdbi.v3.core.Jdbi;
 
 import java.util.List;
 
@@ -14,13 +13,19 @@ public class StudentResource {
 
     private final StudentDao studentDao;
 
-    public StudentResource(Jdbi jdbi) {
-        this.studentDao = jdbi.onDemand(StudentDao.class);
+    public StudentResource(StudentDao studentDao) {
+        this.studentDao = studentDao;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<String> allStudentFirstNames() {
         return studentDao.getAllFirstName();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> allStudentLastNames() {
+        return studentDao.getAllLastName();
     }
 }
