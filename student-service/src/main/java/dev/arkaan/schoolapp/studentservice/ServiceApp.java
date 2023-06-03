@@ -1,5 +1,6 @@
 package dev.arkaan.schoolapp.studentservice;
 
+import dev.arkaan.schoolapp.studentservice.db.StudentDao;
 import dev.arkaan.schoolapp.studentservice.resources.StudentResource;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -27,7 +28,7 @@ public class ServiceApp extends Application<ServiceConfiguration> {
     @Override
     public void run(ServiceConfiguration serviceConfiguration, Environment environment) {
         Jdbi jdbi = new JdbiFactory().build(environment, serviceConfiguration.getDb(), "mysql8");
-        StudentResource studentResource = new StudentResource(jdbi);
+        StudentResource studentResource = new StudentResource(jdbi.onDemand(StudentDao.class));
         environment.jersey().register(studentResource);
     }
 
