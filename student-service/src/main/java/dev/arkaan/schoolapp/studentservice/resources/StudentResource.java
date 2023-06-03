@@ -22,4 +22,10 @@ public class StudentResource {
     public List<String> allStudentFirstNames() {
         return studentDao.getAllFirstName();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> allStudentLastNames() {
+        return studentDao.getAllLastName();
+    }
 }

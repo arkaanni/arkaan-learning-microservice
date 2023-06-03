@@ -8,4 +8,7 @@ public interface StudentDao extends SqlObject {
 
     @SqlQuery("SELECT first_name FROM student;")
     List<String> getAllFirstName();
+
+    @SqlQuery("SELECT last_name FROM student;")
+    List<String> getAllLastName();
 }

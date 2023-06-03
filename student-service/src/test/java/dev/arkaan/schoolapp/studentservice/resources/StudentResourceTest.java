@@ -36,4 +36,12 @@ class StudentResourceTest {
         var s = studentResource.allStudentFirstNames();
         assertEquals(s.get(0), allFirstName.get(0));
     }
+
+    @Test
+    void testGetAllLastName() {
+        var lastNameList = List.of("Doe");
+        when(studentDao.getAllLastName()).thenReturn(lastNameList);
+        var result = studentResource.allStudentLastNames();
+        assertEquals(result.get(0), lastNameList.get(0));
+    }
 }
