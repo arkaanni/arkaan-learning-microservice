@@ -3,7 +3,7 @@ plugins {
     id 'io.ktor.plugin' version '2.3.1'
 }
 
-group "com.example"
+group "dev.arkaan.schoolapp.subject-service"
 version "0.0.1"
 mainClassName = "io.ktor.server.netty.EngineMain"
 
@@ -19,6 +19,8 @@ dependencies {
     implementation "io.ktor:ktor-server-netty-jvm:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-server-config-yaml:$ktor_version"
+    implementation "org.jdbi:jdbi3-sqlobject:$jdbi_version"
+    implementation "com.mysql:mysql-connector-j:$mysql_version"
     testImplementation "io.ktor:ktor-server-tests-jvm:$ktor_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
