@@ -1,9 +1,3 @@
-properties([
-        parameters([
-                string([defaultValue: '', description: 'Your Git Repository', name: 'GIT_REPO']),
-                string([defaultValue: 'dev', description: 'The branch to be checked out', name: 'GIT_BRANCH'])
-        ])
-])
 node {
     checkout scm
 
@@ -11,7 +5,6 @@ node {
     String repo = '.'
 
     stage('Set Build Tool') {
-        git url: "${params.GIT_REPO}", branch: "${params.GIT_BRANCH}"
         repo = sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).trim()
         if (repo == 'student-service') {
             buildTool = 'maven'
