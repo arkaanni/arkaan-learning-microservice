@@ -25,6 +25,7 @@ node {
             }
             if (buildTool == 'gradle') {
                 withGradle {
+                    sh 'chmod +x gradlew'
                     sh './gradlew test'
                 }
             }
