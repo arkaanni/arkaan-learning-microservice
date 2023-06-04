@@ -3,4 +3,4 @@ ktor:
         modules:
             - dev.arkaan.schoolapp.subjectservice.SubjectServiceAppKt.module
     deployment:
-        port: 8000
+        port: 8008
