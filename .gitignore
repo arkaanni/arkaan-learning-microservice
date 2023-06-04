@@ -16,3 +16,5 @@ subject-service/!gradle-wrapper.properties
 
 # lib
 lib
+
+out
