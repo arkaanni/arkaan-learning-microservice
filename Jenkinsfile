@@ -6,8 +6,13 @@ node {
 
     stage('Set Build Tool') {
         repo = sh (script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).trim()
-        if (repo.contains('student-service')) {
+        if (repo == 'student-service') {
             buildTool = 'maven'
+            return
+        }
+        if (repo == 'subject-service') {
+            buildTool = 'gradle'
+            return
         }
     }
 
@@ -16,6 +21,11 @@ node {
             if (buildTool == 'maven') {
                 withMaven(maven: 'maven-3') {
                     sh 'mvn clean verify'
+                }
+            }
+            if (buildTool == 'gradle') {
+                withGradle {
+                    sh './gradlew test'
                 }
             }
         }
