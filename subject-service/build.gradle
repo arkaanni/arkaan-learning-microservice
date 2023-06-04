@@ -1,9 +1,10 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
     id 'io.ktor.plugin' version '2.3.1'
 }
 
-group "dev.arkaan.schoolapp.subject-service"
+group "subject-service"
 version "0.0.1"
 mainClassName = "io.ktor.server.netty.EngineMain"
 
@@ -15,12 +16,18 @@ repositories {
 }
 
 dependencies {
+    implementation platform("org.jdbi:jdbi3-bom:$jdbi_version")
+
     implementation "io.ktor:ktor-server-core-jvm:$ktor_version"
     implementation "io.ktor:ktor-server-netty-jvm:$ktor_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "io.ktor:ktor-server-config-yaml:$ktor_version"
-    implementation "org.jdbi:jdbi3-sqlobject:$jdbi_version"
+    implementation "io.ktor:ktor-server-content-negotiation:$ktor_version"
+    implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
+    implementation "org.jdbi:jdbi3-core"
     implementation "com.mysql:mysql-connector-j:$mysql_version"
+    implementation "com.zaxxer:HikariCP:$hikari_version"
+
     testImplementation "io.ktor:ktor-server-tests-jvm:$ktor_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }
