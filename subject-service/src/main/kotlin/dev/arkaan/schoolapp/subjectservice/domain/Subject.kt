@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.subjectservice.getSubject
+package dev.arkaan.schoolapp.subjectservice.domain
 
 import kotlinx.serialization.Serializable
 
