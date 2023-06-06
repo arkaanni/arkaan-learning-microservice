@@ -1,31 +1,58 @@
 package dev.arkaan.schoolapp.studentservice.resources;
 
-import dev.arkaan.schoolapp.studentservice.db.StudentDao;
-import org.junit.jupiter.api.BeforeEach;
+import dev.arkaan.schoolapp.studentservice.ServiceApp;
+import dev.arkaan.schoolapp.studentservice.ServiceConfiguration;
+import io.dropwizard.testing.ConfigOverride;
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit5.DropwizardAppExtension;
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import org.junit.ClassRule;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.mockito.Mockito.*;
-
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-import java.util.List;
+import java.time.Duration;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith(MockitoExtension.class)
+@Testcontainers
+@ExtendWith(DropwizardExtensionsSupport.class)
 class StudentResourceTest {
 
-    @InjectMocks
-    private StudentResource studentResource;
+    @Container
+    private static MySQLContainer<?> mysql = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.32"))
+            .withUsername("test")
+            .withPassword("test")
+            .withDatabaseName("test")
+            .withExposedPorts(3306, 3307)
+            .waitingFor(Wait.forHealthcheck());
 
-    @Mock
-    private StudentDao studentDao;
+    static {
+        mysql.start();
+    }
 
-    @BeforeEach
-    void setup() {
-        studentResource = new StudentResource(studentDao);
+    @AfterAll
+    static void tearDown() {
+        mysql.stop();
+    }
+
+    private static DropwizardAppExtension<ServiceConfiguration> server = new DropwizardAppExtension<>(
+            ServiceApp.class,
+            ResourceHelpers.resourceFilePath("test-config.yml"),
+            ConfigOverride.config("db.url", String.format("jdbc:mysql://%s:%d/test", mysql.getHost(), mysql.getMappedPort(3306)))
+    );
+
+    @Test
+    void dummyTest() {
+        assertNotNull(server.client());
     }
 }
