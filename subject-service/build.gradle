@@ -16,7 +16,8 @@ repositories {
 }
 
 dependencies {
-    implementation platform("org.jdbi:jdbi3-bom:$jdbi_version")
+    implementation platform("org.jdbi:jdbi3-bom:3.38.2")
+    implementation platform('org.testcontainers:testcontainers-bom:1.18.3')
 
     implementation "io.ktor:ktor-server-core-jvm:$ktor_version"
     implementation "io.ktor:ktor-server-netty-jvm:$ktor_version"
@@ -30,4 +31,5 @@ dependencies {
 
     testImplementation "io.ktor:ktor-server-tests-jvm:$ktor_version"
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation('org.testcontainers:mysql')
 }
