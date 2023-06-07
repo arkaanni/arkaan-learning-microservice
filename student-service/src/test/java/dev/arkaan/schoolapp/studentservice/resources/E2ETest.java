@@ -6,27 +6,22 @@ import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
-import org.junit.ClassRule;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Duration;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
 @ExtendWith(DropwizardExtensionsSupport.class)
-class StudentResourceTest {
+class E2ETest {
 
     @Container
     private static MySQLContainer<?> mysql = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.32"))
@@ -34,6 +29,7 @@ class StudentResourceTest {
             .withPassword("test")
             .withDatabaseName("test")
             .withExposedPorts(3306, 3307)
+            .withInitScript("init_db.sql")
             .waitingFor(Wait.forHealthcheck());
 
     static {
@@ -53,6 +49,11 @@ class StudentResourceTest {
 
     @Test
     void dummyTest() {
-        assertNotNull(server.client());
+        Response response = server.client()
+                .target("http://localhost:8443")
+                .path("/students/1")
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get();
+        assertEquals(200, response.getStatus());
     }
 }
