@@ -7,7 +7,7 @@ node {
     stage('Set Build Tool') {
         repo = sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).trim()
         echo repo
-        if (repo == 'student-service') {
+        if (repo == 'student-service' || repo == 'course-plan-service') {
             buildTool = 'maven'
             return
         }
