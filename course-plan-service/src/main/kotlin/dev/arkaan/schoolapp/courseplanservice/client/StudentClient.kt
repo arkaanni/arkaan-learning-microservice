@@ -1,15 +1,16 @@
 package dev.arkaan.schoolapp.courseplanservice.client
 
-import jakarta.ws.rs.client.Client
+import dev.arkaan.schoolapp.courseplanservice.api.Student
+import jakarta.ws.rs.client.WebTarget
 import jakarta.ws.rs.core.MediaType
 
 class StudentClient(
-    private val jerseyClient: Client
+    private val studentApi: WebTarget
 ) {
-    fun getDummy(): String {
-        val target = jerseyClient.target("https://jsonplaceholder.typicode.com")
-        return target.path("/posts/1")
-            .request(MediaType.APPLICATION_JSON_TYPE)
-            .get(String::class.java)
+    fun getDummyStudent(): Student {
+        return studentApi.path("/students/121983")
+            .request()
+            .accept(MediaType.APPLICATION_JSON)
+            .get(Student::class.java)
     }
 }
