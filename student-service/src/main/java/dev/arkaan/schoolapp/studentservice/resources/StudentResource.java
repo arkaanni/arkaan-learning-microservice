@@ -20,7 +20,7 @@ public class StudentResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Response allStudentFirstNames(@PathParam("id") int id) {
+    public Response allStudentFirstNames(@PathParam("id") String id) {
         return Response.ok(studentDao.getStudent(id)).build();
     }
 }

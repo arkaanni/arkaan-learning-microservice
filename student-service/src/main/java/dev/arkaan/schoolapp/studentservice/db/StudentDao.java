@@ -8,7 +8,7 @@ import org.jdbi.v3.sqlobject.statement.UseRowMapper;
 public interface StudentDao extends SqlObject {
 
     @SqlQuery("SELECT id, student_id, first_name, last_name, address, phone " +
-            "FROM student WHERE id=?")
+            "FROM student WHERE student_id=?")
     @UseRowMapper(StudentMapper.class)
-    Student getStudent(int id);
+    Student getStudent(String id);
 }

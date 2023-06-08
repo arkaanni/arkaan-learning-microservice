@@ -2,6 +2,7 @@ package dev.arkaan.schoolapp.studentservice.resources;
 
 import dev.arkaan.schoolapp.studentservice.ServiceApp;
 import dev.arkaan.schoolapp.studentservice.ServiceConfiguration;
+import dev.arkaan.schoolapp.studentservice.api.Student;
 import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
@@ -48,12 +49,14 @@ class E2ETest {
     );
 
     @Test
-    void dummyTest() {
+    void shouldReturn_student_ifExist() {
         Response response = server.client()
                 .target("http://localhost:8443")
-                .path("/students/1")
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .path("/students/121983")
+                .request(MediaType.APPLICATION_JSON)
                 .get();
         assertEquals(200, response.getStatus());
+        var student = response.readEntity(Student.class);
+        assertEquals("121983", student.getStudentId());
     }
 }

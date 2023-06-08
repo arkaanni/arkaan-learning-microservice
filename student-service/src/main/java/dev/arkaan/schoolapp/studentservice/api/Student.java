@@ -5,15 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize
 public class Student {
-    private final int id;
+    private int id;
     @JsonProperty("student_id")
-    private final String studentId;
+    private String studentId;
     @JsonProperty("first_name")
-    private final String firstName;
+    private String firstName;
     @JsonProperty("last_name")
-    private final String lastName;
-    private final String address;
-    private final String phone;
+    private String lastName;
+    private String address;
+    private String phone;
+
+    public Student() {}
 
     public Student(int id, String studentId, String firstName, String lastName, String address, String phone) {
         this.id = id;
