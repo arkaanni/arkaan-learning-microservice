@@ -58,9 +58,17 @@ class E2ETest {
     }
 
     @Test
-    fun myTest() = testSuspend {
+    fun `get all subjects`() = testSuspend {
         val response = server.client.get("/subject")
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals("[{\"subjectCode\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"},{\"subjectCode\":\"MK02\",\"name\":\"Biology\",\"description\":\"Biology\"}]", response.bodyAsText())
+    }
+
+    @Test
+    fun `get subject by code`() = testSuspend {
+        val code = "MK01"
+        val response = server.client.get("/subject/$code")
+        assertEquals(HttpStatusCode.OK, response.status)
+        assertEquals("{\"subjectCode\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}", response.bodyAsText())
     }
 }
