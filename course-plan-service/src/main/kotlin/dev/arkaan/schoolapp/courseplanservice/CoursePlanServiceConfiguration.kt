@@ -1,9 +1,9 @@
 package dev.arkaan.schoolapp.courseplanservice
 
 import dev.arkaan.schoolapp.courseplanservice.client.ClientConfiguration
+import dev.arkaan.schoolapp.courseplanservice.db.DatabaseConfiguration
 import io.dropwizard.client.JerseyClientConfiguration
 import io.dropwizard.core.Configuration
-import io.dropwizard.db.DataSourceFactory
 import jakarta.validation.constraints.NotNull
 
 class CoursePlanServiceConfiguration : Configuration() {
@@ -15,5 +15,5 @@ class CoursePlanServiceConfiguration : Configuration() {
     lateinit var client: ClientConfiguration
 
     @NotNull
-    lateinit var db: DataSourceFactory
+    lateinit var db: DatabaseConfiguration
 }
