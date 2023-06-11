@@ -8,8 +8,8 @@ server:
     - type: http
       port: 8447
 client:
-  student: ${student.api}
-  subject: ${subject.api}
+  student:
+  subject:
 db:
   driverClass: com.mysql.cj.jdbc.Driver
   url:
