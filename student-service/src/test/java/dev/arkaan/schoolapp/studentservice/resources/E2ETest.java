@@ -7,6 +7,7 @@ import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.AfterAll;
@@ -42,7 +43,7 @@ class E2ETest {
         mysql.stop();
     }
 
-    private static DropwizardAppExtension<ServiceConfiguration> server = new DropwizardAppExtension<>(
+    private static final DropwizardAppExtension<ServiceConfiguration> server = new DropwizardAppExtension<>(
             ServiceApp.class,
             ResourceHelpers.resourceFilePath("test-config.yml"),
             ConfigOverride.config("db.url", String.format("jdbc:mysql://%s:%d/test", mysql.getHost(), mysql.getMappedPort(3306)))
@@ -58,5 +59,29 @@ class E2ETest {
         assertEquals(200, response.getStatus());
         var student = response.readEntity(Student.class);
         assertEquals("121983", student.getStudentId());
+    }
+
+    @Test
+    void shouldAdd_new_student() {
+        var student = new Student("123456", "John", "Doe", "Earth", "1234567890", (byte) 1);
+        try (Response response = server.client()
+                .target("http://localhost:8443")
+                .path("/students")
+                .request()
+                .post(Entity.entity(student, MediaType.APPLICATION_JSON))) {
+            assertEquals(200, response.getStatus());
+        }
+    }
+
+    @Test
+    void shouldReturn_badRequest_if_studentId_alreadyExists() {
+        var student = new Student("121983", "John", "Doe", "Earth", "1234567890", (byte) 1);
+        try (Response response = server.client()
+                .target("http://localhost:8443")
+                .path("/students")
+                .request()
+                .post(Entity.entity(student, MediaType.APPLICATION_JSON))) {
+            assertEquals(400, response.getStatus());
+        }
     }
 }
