@@ -8,6 +8,7 @@ import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.AfterAll;
@@ -19,7 +20,10 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Testcontainers
 @ExtendWith(DropwizardExtensionsSupport.class)
@@ -82,6 +86,19 @@ class E2ETest {
                 .request()
                 .post(Entity.entity(student, MediaType.APPLICATION_JSON))) {
             assertEquals(400, response.getStatus());
+        }
+    }
+
+    @Test
+    void shouldReturn_all_students() {
+        try (Response response = server.client()
+                .target("http://localhost:8443")
+                .path("/students")
+                .request()
+                .get()) {
+            assertEquals(200, response.getStatus());
+            List<Student> result = response.readEntity(new GenericType<>() {});
+            assertTrue(result.size() > 0);
         }
     }
 }
