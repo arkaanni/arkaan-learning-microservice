@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice;
+package dev.arkaan.schoolapp.roomservice.room;
 
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;

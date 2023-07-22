@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice;
+package dev.arkaan.schoolapp.roomservice.room;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
