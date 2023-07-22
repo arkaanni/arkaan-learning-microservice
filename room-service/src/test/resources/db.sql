@@ -15,8 +15,8 @@ CREATE TABLE `room` (
 CREATE TABLE `schedule` (
   `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
   `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `start` datetime NOT NULL,
-  `until` datetime NOT NULL,
+  `start` timestamp NOT NULL,
+  `until` timestamp NOT NULL,
   `room_id` tinyint unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `schedule_FK` (`room_id`),
