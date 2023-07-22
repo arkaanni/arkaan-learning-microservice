@@ -9,5 +9,5 @@ CREATE TABLE `room` (
   `code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` tinyint unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `room_FK` FOREIGN KEY (`id`) REFERENCES `category` (`id`)
+  CONSTRAINT `room_FK` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
