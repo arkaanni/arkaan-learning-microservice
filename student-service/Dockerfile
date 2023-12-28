@@ -9,4 +9,4 @@ EXPOSE 8446:8446
 RUN mkdir /app
 COPY --from=build /home/app/target/*.jar /app/student-service.jar
 COPY config/config.yml /app/config.yml
-ENTRYPOINT ["java","-jar","/app/student-service.jar", "server", "/app/config.yml"]
+ENTRYPOINT ["java", "-Xmx64m", "-jar","/app/student-service.jar", "server", "/app/config.yml"]

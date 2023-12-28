@@ -7,4 +7,4 @@ FROM eclipse-temurin:11-jre
 EXPOSE 8008:8008
 RUN mkdir /app
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/subject-service.jar
-ENTRYPOINT ["java","-jar","/app/subject-service.jar"]
+ENTRYPOINT ["java", "-Xmx64m", "-jar","/app/subject-service.jar"]
