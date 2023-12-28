@@ -1,43 +1,26 @@
 node {
     checkout scm
-
-    String buildTool = 'all'
-//     def repo = []
-
-    stage('Set Build Tool') {
+    stage('Test and package') {
         def repos = sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]
         for (repo in repos) {
-            switch ("${pwd}/buildtool") {
-                case "maven":
-                    runMaven()
-                case "gradle":
-                    runGradle()
-                default:
-                    println("Unknown Build Tool")
+            dir(repo) {
+                def path = "${pwd()}/buildtool"
+                if (fileExists(path)) {
+                    def buildTool = readFile path
+                    switch (buildTool) {
+                        case "maven":
+                            runMaven()
+                            break
+                        case "gradle":
+                            runGradle()
+                            break
+                        default:
+                            println("No-op, skipping...")
+                    }
+                }
             }
         }
-
-//         if (repo == 'student-service' || repo == 'course-plan-service') {
-//             buildTool = 'maven'
-//             return
-//         }
-//         if (repo == 'subject-service') {
-//             buildTool = 'gradle'
-//             return
-//         }
     }
-
-//     stage('Test') {
-//         dir(repo) {
-//             if (buildTool == 'maven') {
-//                 runMaven()
-//             }
-//             if (buildTool == 'gradle') {
-//                 runGradle()
-//             }
-//         }
-//
-//     }
 }
 
 def runMaven() {
