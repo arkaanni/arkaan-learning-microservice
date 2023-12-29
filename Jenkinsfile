@@ -1,4 +1,4 @@
-node {
+node('node1') {
     checkout scm
     stage('Test and package') {
         def repos = sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]

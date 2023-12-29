@@ -14,7 +14,6 @@ import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 import org.junit.Assert.assertEquals
 
-
 /**
  * Reference: https://gist.github.com/Stexxe/87b6a4985ceda80e1444208cb64826c4
  */
