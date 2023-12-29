@@ -32,6 +32,6 @@ def runMaven() {
 def runGradle() {
     withGradle {
         sh 'chmod +x gradlew'
-        sh './gradlew test'
+        sh './gradlew clean build'
     }
 }

@@ -4,7 +4,7 @@ plugins {
     id 'io.ktor.plugin' version '2.3.1'
 }
 
-group "subject-service"
+group "dev.arkaan.schl"
 version "0.0.1"
 mainClassName = "io.ktor.server.netty.EngineMain"
 
@@ -13,6 +13,16 @@ applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
 
 repositories {
     mavenCentral()
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("subject-service.jar")
+    }
+}
+
+jar {
+    enabled false
 }
 
 dependencies {
