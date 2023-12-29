@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-plan-service
+  namespace: schl
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: course-plan-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: course-plan-service
+    spec:
+      containers:
+        - env:
+            - name: db_host
+              value: 192.168.0.198
+            - name: db_port
+              value: "3306"
+            - name: db_user
+              value: course_plan_service
+            - name: db_password
+              value: course_plan_service
+          image: docker.local/course-plan-service:latest
+          imagePullPolicy: Always
+          name: course-plan-service
+          resources:
+            limits:
+              memory: 128M
+            requests:
+              memory: 128M
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: course-plan-service
+  namespace: schl
+spec:
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - name: app-port
+      nodePort: 30003
+      port: 8444
+      protocol: TCP
+      targetPort: 8444
+    - name: admin-port
+      nodePort: 30103
+      port: 8447
+      protocol: TCP
+      targetPort: 8447
+  selector:
+    app: course-plan-service
+  sessionAffinity: None
+  type: NodePort
