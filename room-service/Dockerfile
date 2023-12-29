@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre
+FROM eclipse-temurin:17-jre
 EXPOSE 8080:8080
 RUN mkdir /app
 # Assuming the jar file is already built
