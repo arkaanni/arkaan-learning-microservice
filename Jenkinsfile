@@ -17,6 +17,7 @@ node {
                         default:
                             println("No-op, skipping...")
                     }
+                    buildAndPushImage(repo)
                 }
             }
         }
@@ -34,4 +35,10 @@ def runGradle() {
         sh 'chmod +x gradlew'
         sh './gradlew clean build'
     }
+}
+
+def buildAndPushImage(appName) {
+    sh "docker build . -t ${env.containerRegistry}/${appName}:latest"
+    sh "docker push ${env.containerRegistry}/${appName}:latest"
+    sh "docker rmi ${env.containerRegistry}/${appName}:latest"
 }
