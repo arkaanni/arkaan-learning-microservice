@@ -50,8 +50,13 @@ class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
             register(CoursePlanResource(studentClient, subjectClient, coroutineScope, jdbi))
         }
     }
+
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            CoursePlanServiceApp().run(*args)
+        }
+    }
 }
 
-fun main(args: Array<String>) {
-    CoursePlanServiceApp().run(*args)
-}
+

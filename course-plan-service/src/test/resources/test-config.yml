@@ -3,10 +3,10 @@ server:
   maxThreads: 1024
   applicationConnectors:
     - type: http
-      port: 8444
+      port: 8443
   adminConnectors:
     - type: http
-      port: 8447
+      port: 8446
 client:
   student:
   subject:

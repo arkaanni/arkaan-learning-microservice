@@ -3,15 +3,15 @@ server:
   maxThreads: 1024
   applicationConnectors:
     - type: http
-      port: 8444
+      port: 8443
   adminConnectors:
     - type: http
-      port: 8447
+      port: 8446
 client:
   student: ${student.api}
   subject: ${subject.api}
 db:
   driverClass: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://${db.host}:${db.port}/course_plan
-  user: ${db.user}
-  password: ${db.password}
+  url: jdbc:mysql://${db_host}:${db_port}/course_plan
+  user: ${db_user}
+  password: ${db_password}

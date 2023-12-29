@@ -1,9 +1,9 @@
 server:
-  port: 8087
+  port: 8080
 
 spring:
   datasource:
-    jdbcUrl: jdbc:mysql://localhost:3306/room
+    jdbcUrl: jdbc:mysql://${db_host}:${db_port}/room
     driverClass: com.mysql.cj.jdbc.Driver
-    username: root
-    password: changeit
+    username: ${db_user}
+    password: ${db_password}

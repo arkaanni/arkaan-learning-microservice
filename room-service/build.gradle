@@ -19,6 +19,8 @@ jar {
     enabled false
 }
 
+setTestResultsDirName "test-reports"
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jdbi:jdbi3-core:3.39.1'
@@ -32,7 +34,3 @@ dependencies {
     testImplementation 'org.springframework:spring-test:6.0.10'
     testImplementation 'org.testcontainers:mysql'
 }
-
-//test {
-//    useJUnitPlatform()
-//}
