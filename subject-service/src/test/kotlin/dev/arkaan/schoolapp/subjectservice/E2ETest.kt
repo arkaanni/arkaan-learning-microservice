@@ -12,7 +12,7 @@ import org.junit.ClassRule
 import org.junit.Test
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
-import kotlin.test.assertEquals
+import org.junit.Assert.assertEquals
 
 
 /**

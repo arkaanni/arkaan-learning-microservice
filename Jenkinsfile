@@ -25,7 +25,7 @@ node {
 }
 
 def runMaven() {
-    withMaven(maven: 'maven-3') {
+    withMaven(maven: 'maven-3', options: [artifactsPublisher(disabled: true)]) {
         sh 'mvn clean verify'
     }
 }
