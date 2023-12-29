@@ -35,6 +35,7 @@ def runGradle() {
         sh 'chmod +x gradlew'
         sh './gradlew clean build'
     }
+    junit 'build/test-reports/test/*.xml'
 }
 
 def buildAndPushImage(appName) {
