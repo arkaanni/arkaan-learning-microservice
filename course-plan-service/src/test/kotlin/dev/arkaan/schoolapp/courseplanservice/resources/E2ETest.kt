@@ -13,9 +13,10 @@ import io.dropwizard.testing.junit5.DropwizardAppExtension
 import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import jakarta.ws.rs.client.Entity
 import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 import org.eclipse.jetty.http.HttpStatus
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -25,7 +26,6 @@ import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 @Testcontainers
 @ExtendWith(DropwizardExtensionsSupport::class)
@@ -65,34 +65,6 @@ class E2ETest {
         )
 
         @JvmStatic
-        @BeforeAll
-        fun setUp() {
-            wireMock.stubFor(
-                get(urlEqualTo("/students/13123")).willReturn(
-                    ok(
-                        mapper.writeValueAsString(Student().apply {
-                            studentId = "13123"
-                            firstName = "John"
-                            lastName = "Titor"
-                        })
-                    ).withHeader("content-type", MediaType.APPLICATION_JSON)
-                )
-            )
-            wireMock.stubFor(
-                get(urlEqualTo("/subject/MK01")).willReturn(
-                    ok(
-                        mapper.writeValueAsString(
-                            Subject(
-                                "MK01",
-                                "Mathematics"
-                            )
-                        )
-                    ).withHeader("content-type", MediaType.APPLICATION_JSON)
-                )
-            )
-        }
-
-        @JvmStatic
         @AfterAll
         fun tearDown() {
             mysql.stop()
@@ -100,9 +72,33 @@ class E2ETest {
         }
     }
 
+    @BeforeEach
+    fun resetWireMock() {
+        wireMock.resetAll()
+    }
+
+    private val baseUrl = "http://localhost:${server.localPort}"
+
+    @Test
+    fun `should not add new course plan if student not exists`() {
+        mockSubjectCLient()
+        val response = server.client().target(baseUrl)
+            .path("/course-plan")
+            .request()
+            .post(
+                Entity.entity(
+                    CoursePlanRequest("13123", "MK01", 1, 2023),
+                    MediaType.APPLICATION_JSON
+                )
+            )
+        assertEquals(HttpStatus.NOT_FOUND_404, response.status)
+        assertEquals("{\"code\":404,\"message\":\"Student does not exists\"}", response.readEntity(String::class.java))
+    }
+
     @Test
     fun `should add new course plan if student and subject are valid`() {
-        assertNotNull(server.environment)
+        mockStudentClient()
+        mockSubjectCLient()
         val response = server.client().target("http://localhost:${server.localPort}")
             .path("/course-plan")
             .request()
@@ -113,6 +109,33 @@ class E2ETest {
                 )
             )
         assertEquals(HttpStatus.OK_200, response.status)
-        assertEquals("OK", response.readEntity(String::class.java))
+    }
+
+    private fun mockStudentClient() {
+        wireMock.stubFor(
+            get(urlEqualTo("/students/13123")).willReturn(
+                ok(
+                    mapper.writeValueAsString(Response.ok(Student().apply {
+                        studentId = "13123"
+                        firstName = "John"
+                        lastName = "Titor"
+                    }).build())
+                ).withHeader("Content-Type", MediaType.APPLICATION_JSON)
+            )
+        )
+    }
+
+    private fun mockSubjectCLient() {
+        wireMock.stubFor(
+            get(urlEqualTo("/subject/MK01")).willReturn(
+                ok(
+                    mapper.writeValueAsString(Response.ok(
+                        Subject(
+                            "MK01",
+                            "Mathematics"
+                        )).build())
+                ).withHeader("content-type", MediaType.APPLICATION_JSON)
+            )
+        )
     }
 }

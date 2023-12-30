@@ -29,26 +29,23 @@ class CoursePlanResource(
     ) {
         coroutineScope.launch {
             with(coursePlan) {
-                val getStudent = async(Dispatchers.IO) { studentClient.getStudentById(studentId) }
-                val getSubject = async(Dispatchers.IO) { subjectClient.getSubjectByCode(subjectCode) }
-                val awaitAll = awaitAll(getStudent, getSubject)
-                if (awaitAll[0] == null || awaitAll[1] == null) {
-                    response.resume(WebApplicationException("Subject or student not found", Response.Status.NOT_FOUND))
+                try {
+                    studentClient.checkStudentExist(studentId)
+                    subjectClient.checkSubjectExist(subjectCode)
+                } catch (e: WebApplicationException) {
+                    response.resume(e)
                     return@launch
                 }
                 db.withHandle<Unit, SQLException> {
-                    // TODO :(
-                    with(coursePlan) {
-                        it.createUpdate("INSERT INTO course_plan (student_id, subject_code, semester, `year`) VALUES (?, ?, ?, ?)")
-                            .bind(0, studentId)
-                            .bind(1, subjectCode)
-                            .bind(2, semester)
-                            .bind(3, year)
-                            .execute()
-                    }
+                    it.createUpdate("INSERT INTO course_plan (student_id, subject_code, semester, `year`) VALUES (?, ?, ?, ?)")
+                        .bind(0, studentId)
+                        .bind(1, subjectCode)
+                        .bind(2, semester)
+                        .bind(3, year)
+                        .execute()
                 }
-                response.resume("OK")
             }
+            response.resume(Response.ok().build())
         }
     }
 }
