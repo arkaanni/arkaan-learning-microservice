@@ -4,6 +4,7 @@ import dev.arkaan.schoolapp.courseplanservice.api.CoursePlanRequest
 import dev.arkaan.schoolapp.courseplanservice.client.StudentClient
 import dev.arkaan.schoolapp.courseplanservice.client.SubjectClient
 import dev.arkaan.schoolapp.courseplanservice.db.CoursePlanDao
+import jakarta.inject.Inject
 import jakarta.validation.constraints.NotNull
 import jakarta.ws.rs.*
 import jakarta.ws.rs.container.AsyncResponse
@@ -13,7 +14,7 @@ import jakarta.ws.rs.core.Response
 import kotlinx.coroutines.*
 
 @Path("/course-plan")
-class CoursePlanResource(
+class CoursePlanResource @Inject constructor(
     private val studentClient: StudentClient,
     private val subjectClient: SubjectClient,
     private val coroutineScope: CoroutineScope,
