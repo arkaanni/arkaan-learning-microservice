@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import api from "../api";
 
 async function getAllStudents() {
-  return await fetch('http://localhost:8443/students')
+  return await fetch(`${api.studentService}/students`)
     .then(res => res.json());
 }
 

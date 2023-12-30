@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './app.css';
 import StudentComponent from './student';
 import SubjectComponent from './subject';
 import CoursePlanComponent from './courseplan';
