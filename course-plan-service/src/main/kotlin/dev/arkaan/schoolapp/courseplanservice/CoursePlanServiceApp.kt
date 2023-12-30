@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.arkaan.schoolapp.courseplanservice.client.StudentClient
 import dev.arkaan.schoolapp.courseplanservice.client.SubjectClient
+import dev.arkaan.schoolapp.courseplanservice.db.CoursePlanDao
 import dev.arkaan.schoolapp.courseplanservice.resources.CoursePlanResource
 import io.dropwizard.client.JerseyClientBuilder
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor
@@ -46,8 +47,9 @@ class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
         val studentClient = StudentClient(jerseyClient.target("http://${configuration.client.student}"))
         val subjectClient = SubjectClient(jerseyClient.target("http://${configuration.client.subject}"))
         val coroutineScope = CoroutineScope(Dispatchers.Default)
+        val coursePlanDao = CoursePlanDao(jdbi)
         environment.jersey().apply {
-            register(CoursePlanResource(studentClient, subjectClient, coroutineScope, jdbi))
+            register(CoursePlanResource(studentClient, subjectClient, coroutineScope, coursePlanDao))
         }
     }
 
