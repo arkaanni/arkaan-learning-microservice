@@ -15,12 +15,12 @@ fun Route.postRoute() {
 }
 
 fun Route.insertSubject() {
-    withJdbi { jdbi ->
-        post("/subject") {
+    post("/subject") {
+        withJdbi { jdbi ->
             val subject = call.receive<Subject>()
             var status = HttpStatusCode.OK
             var msg = "Success."
-            jdbi.withHandle<Unit, SQLException> {
+            jdbi.inTransaction<Unit, SQLException> {
                 try {
                     it.createUpdate("INSERT INTO subject (subject_code, name, description) VALUES(?, ?, ?)")
                         .bind(0, subject.subjectCode)

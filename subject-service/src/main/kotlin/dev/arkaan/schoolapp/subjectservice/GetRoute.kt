@@ -14,8 +14,8 @@ fun Route.getRoute() {
 }
 
 fun Route.getAllSubjects() {
-    withJdbi { jdbi ->
-        get("/subject") {
+    get("/subject") {
+        withJdbi { jdbi ->
             val subjects = jdbi.withHandle<List<Subject>, SQLException> {
                 it.createQuery("SELECT * FROM subject")
                     .map { r, _, _ ->
@@ -33,8 +33,8 @@ fun Route.getAllSubjects() {
 }
 
 fun Route.getSubjectByCode() {
-    withJdbi { jdbi ->
-        get("/subject/{code}") {
+    get("/subject/{code}") {
+        withJdbi { jdbi ->
             val code = call.parameters["code"]
             val subject = jdbi.withHandle<Subject, SQLException> {
                 it.createQuery("SELECT id, subject_code, name, description FROM subject WHERE subject_code=?")
@@ -42,9 +42,11 @@ fun Route.getSubjectByCode() {
                     .map { rs, _ -> Subject(rs.getString(2), rs.getString(3), rs.getString(4)) }
                     .one()
             }
-            var status = HttpStatusCode.OK
-            if (subject == null) status = HttpStatusCode.NotFound
-            call.respond(status, subject)
+            subject?.let {
+                call.respond(HttpStatusCode.OK, it)
+                return@let
+            }
+            call.respond(HttpStatusCode.NotFound)
         }
     }
 }
