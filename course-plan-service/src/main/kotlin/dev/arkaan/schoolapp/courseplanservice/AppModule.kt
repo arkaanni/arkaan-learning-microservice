@@ -1,23 +1,45 @@
 package dev.arkaan.schoolapp.courseplanservice
 
 import com.google.inject.AbstractModule
-import com.google.inject.name.Names
-import com.zaxxer.hikari.HikariConfig
+import com.google.inject.Provides
 import com.zaxxer.hikari.HikariDataSource
-import dev.arkaan.schoolapp.courseplanservice.resources.CoursePlanResource
 import io.dropwizard.client.JerseyClientBuilder
 import io.dropwizard.core.setup.Environment
+import jakarta.inject.Named
+import jakarta.ws.rs.client.Client
 import jakarta.ws.rs.client.WebTarget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.jdbi.v3.core.Jdbi
+import javax.sql.DataSource
 
 class AppModule(
     private val configuration: CoursePlanServiceConfiguration,
     private val environment: Environment
 ) : AbstractModule() {
     override fun configure() {
-        val hikariConfig = HikariConfig().apply {
+        val jerseyClient = JerseyClientBuilder(environment)
+            .using(configuration.jerseyClient)
+            .build(environment.name)
+        bind(Client::class.java).toInstance(jerseyClient)
+        bind(CoroutineScope::class.java).toInstance(CoroutineScope(Dispatchers.Default))
+    }
+
+    @Provides
+    @Named("StudentClient")
+    fun provideStudentClientTarget(client: Client): WebTarget {
+        return client.target("http://${configuration.client.student}")
+    }
+
+    @Provides
+    @Named("SubjectClient")
+    fun provideSubjectClientTarget(client: Client): WebTarget {
+        return client.target("http://${configuration.client.subject}")
+    }
+
+    @Provides
+    fun provideDataSource(): DataSource {
+        return HikariDataSource().apply {
             configuration.db.let {
                 driverClassName = it.driverClass
                 jdbcUrl = it.url
@@ -25,16 +47,10 @@ class AppModule(
                 password = it.password
             }
         }
-        
-        val jerseyClient = JerseyClientBuilder(environment)
-            .using(configuration.jerseyClient)
-            .build(environment.name)
-        
-        bind(WebTarget::class.java).annotatedWith(Names.named("StudentClient")).toInstance(jerseyClient.target("http://${configuration.client.student}"))
-        bind(WebTarget::class.java).annotatedWith(Names.named("SubjectClient")).toInstance(jerseyClient.target("http://${configuration.client.subject}"))
-        
-        bind(Jdbi::class.java).toInstance(Jdbi.create(HikariDataSource(hikariConfig)))
-        bind(CoursePlanResource::class.java)
-        bind(CoroutineScope::class.java).toInstance(CoroutineScope(Dispatchers.Default))
+    }
+
+    @Provides
+    fun provideJdbi(dataSource: DataSource): Jdbi {
+        return Jdbi.create(dataSource)
     }
 }
