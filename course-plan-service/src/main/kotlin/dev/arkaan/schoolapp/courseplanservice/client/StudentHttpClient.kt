@@ -1,20 +1,19 @@
 package dev.arkaan.schoolapp.courseplanservice.client
 
+import dev.arkaan.schoolapp.courseplanservice.db.NotFoundException
 import jakarta.inject.Inject
 import jakarta.inject.Named
-import jakarta.ws.rs.WebApplicationException
 import jakarta.ws.rs.client.WebTarget
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.eclipse.jetty.http.HttpStatus
 
 class StudentHttpClient @Inject constructor(
     @Named("StudentClient") private val studentApi: WebTarget
 ) : StudentClient {
-    suspend fun getStudent(id: String): Response = withContext(Dispatchers.IO) {
-        studentApi.path("/students/$id")
+    
+    private val getStudent: (id: String) -> Response = {
+        studentApi.path("/students/$it")
             .request()
             .accept(MediaType.APPLICATION_JSON)
             .get()
@@ -24,7 +23,7 @@ class StudentHttpClient @Inject constructor(
         getStudent(id)
             .run {
                 if (status == HttpStatus.NOT_FOUND_404)
-                    throw WebApplicationException("Student does not exists", HttpStatus.NOT_FOUND_404)
+                    throw NotFoundException("Student does not exists.")
             }
     }
 }

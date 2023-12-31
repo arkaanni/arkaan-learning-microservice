@@ -10,7 +10,6 @@ import dev.arkaan.schoolapp.courseplanservice.api.Subject
 import io.dropwizard.testing.ConfigOverride
 import io.dropwizard.testing.ResourceHelpers
 import io.dropwizard.testing.junit5.DropwizardAppExtension
-import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
 import jakarta.ws.rs.client.Entity
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
@@ -18,17 +17,13 @@ import org.eclipse.jetty.http.HttpStatus
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
 import kotlin.test.assertEquals
 
-@Testcontainers
-@ExtendWith(DropwizardExtensionsSupport::class)
 class E2ETest {
     companion object {
         private val mapper = ObjectMapper()
@@ -92,7 +87,23 @@ class E2ETest {
                 )
             )
         assertEquals(HttpStatus.NOT_FOUND_404, response.status)
-        assertEquals("{\"code\":404,\"message\":\"Student does not exists\"}", response.readEntity(String::class.java))
+        assertEquals("{\"code\":404,\"message\":\"Student does not exists.\"}", response.readEntity(String::class.java))
+    }
+
+    @Test
+    fun `should not add new course plan if subject not exists`() {
+        mockStudentClient()
+        val response = server.client().target(baseUrl)
+            .path("/course-plan")
+            .request()
+            .post(
+                Entity.entity(
+                    CoursePlanRequest("13123", "MK01", 1, 2023),
+                    MediaType.APPLICATION_JSON
+                )
+            )
+        assertEquals(HttpStatus.NOT_FOUND_404, response.status)
+        assertEquals("{\"code\":404,\"message\":\"Subject does not exists.\"}", response.readEntity(String::class.java))
     }
 
     @Test

@@ -4,12 +4,9 @@ import com.google.inject.AbstractModule
 import com.google.inject.name.Names
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import dev.arkaan.schoolapp.courseplanservice.client.StudentClient
-import dev.arkaan.schoolapp.courseplanservice.client.SubjectClient
 import dev.arkaan.schoolapp.courseplanservice.resources.CoursePlanResource
 import io.dropwizard.client.JerseyClientBuilder
 import io.dropwizard.core.setup.Environment
-import jakarta.ws.rs.client.Client
 import jakarta.ws.rs.client.WebTarget
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

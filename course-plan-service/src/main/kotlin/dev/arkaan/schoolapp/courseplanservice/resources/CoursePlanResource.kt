@@ -27,7 +27,7 @@ class CoursePlanResource @Inject constructor(
         @Suspended response: AsyncResponse,
         @NotNull coursePlan: CoursePlanRequest
     ) {
-        coroutineScope.launch {
+        coroutineScope.launch(Dispatchers.IO) {
             with(coursePlan) {
                 try {
                     studentClient.checkStudentExist(studentId)
