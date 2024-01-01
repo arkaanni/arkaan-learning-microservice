@@ -39,18 +39,20 @@ fun Route.getAllSubjects() {
 fun Route.getSubjectByCode() {
     get("/subject/{code}") {
         withJdbi { jdbi ->
-            val code = call.parameters["code"]
-            val subject = jdbi.withHandle<Subject, SQLException> {
-                it.createQuery("SELECT id, subject_code, name, description FROM subject WHERE subject_code=?")
-                    .bind(0, code)
-                    .map { rs, _ -> Subject(rs.getString(2), rs.getString(3), rs.getString(4)) }
-                    .one()
+            withContext(Dispatchers.IO) {
+                val code = call.parameters["code"]
+                val subject = jdbi.withHandle<Subject, SQLException> {
+                    it.createQuery("SELECT id, subject_code, name, description FROM subject WHERE subject_code=?")
+                        .bind(0, code)
+                        .map { rs, _ -> Subject(rs.getString(2), rs.getString(3), rs.getString(4)) }
+                        .one()
+                }
+                subject?.let {
+                    call.respond(HttpStatusCode.OK, it)
+                    return@let
+                }
+                call.respond(HttpStatusCode.NotFound)
             }
-            subject?.let {
-                call.respond(HttpStatusCode.OK, it)
-                return@let
-            }
-            call.respond(HttpStatusCode.NotFound)
         }
     }
 }
