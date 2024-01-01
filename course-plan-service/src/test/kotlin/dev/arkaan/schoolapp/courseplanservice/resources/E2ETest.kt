@@ -72,13 +72,21 @@ class E2ETest {
         wireMock.resetAll()
     }
 
-    private val baseUrl = "http://localhost:${server.localPort}"
+    private val endpoint = "http://localhost:${server.localPort}/course-plan"
+
+    @Test
+    fun `should get all course plan`() {
+        val response = server.client().target(endpoint)
+            .request()
+            .accept(MediaType.APPLICATION_JSON_TYPE)
+            .get()
+        assertEquals(HttpStatus.OK_200, response.status)
+    }
 
     @Test
     fun `should not add new course plan if student not exists`() {
         mockSubjectCLient()
-        val response = server.client().target(baseUrl)
-            .path("/course-plan")
+        val response = server.client().target(endpoint)
             .request()
             .post(
                 Entity.entity(
@@ -93,8 +101,7 @@ class E2ETest {
     @Test
     fun `should not add new course plan if subject not exists`() {
         mockStudentClient()
-        val response = server.client().target(baseUrl)
-            .path("/course-plan")
+        val response = server.client().target(endpoint)
             .request()
             .post(
                 Entity.entity(
@@ -110,8 +117,7 @@ class E2ETest {
     fun `should add new course plan if student and subject are valid`() {
         mockStudentClient()
         mockSubjectCLient()
-        val response = server.client().target("http://localhost:${server.localPort}")
-            .path("/course-plan")
+        val response = server.client().target(endpoint)
             .request()
             .post(
                 Entity.entity(

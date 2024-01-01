@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource
 import io.dropwizard.client.JerseyClientBuilder
 import io.dropwizard.core.setup.Environment
 import jakarta.inject.Named
+import jakarta.inject.Singleton
 import jakarta.ws.rs.client.Client
 import jakarta.ws.rs.client.WebTarget
 import kotlinx.coroutines.CoroutineScope
@@ -18,11 +19,15 @@ class AppModule(
     private val environment: Environment
 ) : AbstractModule() {
     override fun configure() {
-        val jerseyClient = JerseyClientBuilder(environment)
+        bind(CoroutineScope::class.java).toInstance(CoroutineScope(Dispatchers.Default))
+    }
+
+    @Provides
+    @Singleton
+    fun provideJerseyClient(): Client {
+        return JerseyClientBuilder(environment)
             .using(configuration.jerseyClient)
             .build(environment.name)
-        bind(Client::class.java).toInstance(jerseyClient)
-        bind(CoroutineScope::class.java).toInstance(CoroutineScope(Dispatchers.Default))
     }
 
     @Provides

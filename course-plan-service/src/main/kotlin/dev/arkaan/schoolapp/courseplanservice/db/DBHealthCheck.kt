@@ -11,7 +11,7 @@ class DBHealthCheck @Inject constructor(private val db: Jdbi) : HealthCheck() {
             db.open().close()
             Result.healthy()
         } catch (e: Exception) {
-            return Result.unhealthy("Unable to connect to database.")
+            Result.unhealthy("Unable to connect to database.")
         }
     }
 }

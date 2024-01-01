@@ -37,9 +37,23 @@ class CoursePlanResource @Inject constructor(
                     cancel()
                     return@launch
                 }
-                coursePlanDao.addCoursePlan(studentId, subjectCode, semester, year)
+                coursePlanDao.addOne(studentId, subjectCode, semester, year)
             }
             response.resume(Response.ok().build())
+            yield()
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    fun getAllCoursePlan(
+        @Suspended response: AsyncResponse
+    ) {
+        coroutineScope.launch {
+            val q = async { coursePlanDao.getAll() }
+            val res = q.await()
+            yield()
+            response.resume(Response.ok(res).build())
         }
     }
 }
