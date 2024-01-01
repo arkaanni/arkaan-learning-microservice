@@ -2,22 +2,26 @@ package dev.arkaan.schoolapp.subjectservice.db
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
-import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.*
 import io.ktor.server.config.*
 import org.jdbi.v3.core.Jdbi
 import org.slf4j.LoggerFactory
+import javax.sql.DataSource
 
 object DB {
-    
-    fun getJdbi(environment: ApplicationEnvironment): Jdbi {
-        val dataSource = HikariDataSource(hikariConfig(environment.config))
-        return Jdbi.create(dataSource)
+
+    private lateinit var instance: Jdbi
+
+    fun init(environment: ApplicationEnvironment) {
+        instance = Jdbi.create(hikariConfig(environment.config))
+        instance.open().close()
     }
 
-    private fun hikariConfig(config: ApplicationConfig): HikariConfig {
-        val hikariConfig = HikariConfig()
+    fun getJdbi(): Jdbi = instance
+
+    private fun hikariConfig(config: ApplicationConfig): DataSource {
+        val hikariConfig = HikariDataSource()
         with(config) {
             val host = property("db.host").getString()
             val port = property("db.port").getString()
@@ -33,7 +37,7 @@ object DB {
             }
         }
         (LoggerFactory.getLogger("com.zaxxer.hikari") as Logger).apply {
-            level = Level.INFO
+            level = Level.DEBUG
         }
         return hikariConfig
     }

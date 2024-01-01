@@ -6,6 +6,8 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.sql.SQLException
 
 fun Route.getRoute() {
@@ -16,18 +18,20 @@ fun Route.getRoute() {
 fun Route.getAllSubjects() {
     get("/subject") {
         withJdbi { jdbi ->
-            val subjects = jdbi.withHandle<List<Subject>, SQLException> {
-                it.createQuery("SELECT * FROM subject")
-                    .map { r, _, _ ->
-                        Subject(
-                            r.getString("subject_code"),
-                            r.getString("name"),
-                            r.getString("description")
-                        )
-                    }
-                    .toList()
+            withContext(Dispatchers.IO) {
+                val subjects = jdbi.withHandle<List<Subject>, SQLException> {
+                    it.createQuery("SELECT * FROM subject")
+                        .map { r, _, _ ->
+                            Subject(
+                                r.getString("subject_code"),
+                                r.getString("name"),
+                                r.getString("description")
+                            )
+                        }
+                        .toList()
+                }
+                call.respond(subjects)
             }
-            call.respond(subjects)
         }
     }
 }

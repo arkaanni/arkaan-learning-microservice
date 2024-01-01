@@ -1,5 +1,6 @@
 package dev.arkaan.schoolapp.subjectservice
 
+import dev.arkaan.schoolapp.subjectservice.db.DB
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
@@ -11,6 +12,7 @@ fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.setUp() {
+    DB.init(environment)
     install(ContentNegotiation) {
         jackson()
     }
