@@ -42,7 +42,6 @@ public class StudentResource {
         try {
             List<Student> students = studentDao.getAll();
             return Response.ok(students)
-                    .header(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*")
                     .build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
