@@ -30,7 +30,7 @@ function App() {
       <Grid item flex={0.5}>
         <Sidebar />
       </Grid>
-      <Grid item flex={4} paddingTop={4}>
+      <Grid item flex={4} paddingTop={2}>
         <Outlet />
       </Grid>
     </Grid>
