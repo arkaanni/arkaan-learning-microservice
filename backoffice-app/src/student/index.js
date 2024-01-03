@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import { Button, Container, Grid } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { Link } from 'react-router-dom'
 
 async function getAllStudents() {
-  return await fetch(`${api.studentService}/students`)
+  return await fetch(`${api}/students`)
     .then(res => res.json());
 }
 
@@ -11,33 +14,37 @@ function StudentComponent() {
 
   useEffect(() => {
     getAllStudents().then(data => {
-      setStudents(data);
+      setStudents(data.map((value, index) => ({no: index + 1, ...value})));
     });
   }, []);
 
+  const columns = [
+    { field: 'no', headerName: 'No.'},
+    { field: 'student_id', headerName: 'ID', flex: 1, sortable: false },
+    {
+      field: 'name',
+      headerName: 'Name',
+      valueGetter: (params) => `${params.row.first_name} ${params.row.last_name}`,
+      flex: 2
+    },
+    { field: 'semester', headerName: 'Semester', flex: 0.5, sortable: false },
+  ]
+
   return (
-    <>
-      <div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Semester</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.map(st => (
-              <tr key={st.student_id}>
-                <td>{st.student_id}</td>
-                <td>{st.first_name + " " + st.last_name}</td>
-                <td>{st.semester}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+    <Container>
+      <Grid container direction='column' gap={2}>
+        <Grid item flex={1}>
+          <Button variant='contained' component={Link} to='add' color='primary'>ADD</Button>
+        </Grid>
+        <Grid item flex={4}>
+          <DataGrid
+            rows={students}
+            columns={columns}
+            getRowId={row => row.student_id}
+          />
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 

@@ -1,42 +1,39 @@
-import React, { useState } from 'react';
-import './app.css';
-import StudentComponent from './student';
-import SubjectComponent from './subject';
-import CoursePlanComponent from './courseplan';
-import ScheduleComponent from './schedule';
+import React from 'react'
+import { Grid, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
-function Sidebar(props) {
-  function switching(key) {
-    props.onMenuClick(menuMap[key])
-  }
+const mainMenu = [ "student", "subject", "course-plan", "schedule"]
 
+function Sidebar() {
+  const location = useLocation()
   return (
-    <ul className="menu">
-      <li><button onClick={() => switching('Student')}>Students</button></li>
-      <li><button onClick={() => switching('Subject')}>Subjects</button></li>
-      <li><button onClick={() => switching('CousePlan')}>Course Plan</button></li>
-      <li><button onClick={() => switching('Schedule')}>Schedule</button></li>
-    </ul>
-  );
+    <List>
+      {mainMenu.map(it =>
+        <ListItem key={it}>
+          <ListItemButton
+            component={Link}
+            to={it}
+            selected={location.pathname.indexOf(it) > -1}
+            >
+            <ListItemText primary={it} />
+          </ListItemButton>
+        </ListItem>
+      )}
+    </List>
+  )
 }
 
-const menuMap = {
-  Student: <StudentComponent />,
-  Subject: <SubjectComponent />,
-  CousePlan: <CoursePlanComponent />,
-  Schedule: <ScheduleComponent />,
-};
 
 function App() {
-  const [currentMenu, setCurrentMenu] = useState(menuMap.Student);
-
   return (
-    <div className="container mx-auto flex">
-      <Sidebar onMenuClick={setCurrentMenu} />
-      <div>
-        {currentMenu}
-      </div>
-    </div>
+    <Grid container direction="row">
+      <Grid item flex={0.5}>
+        <Sidebar />
+      </Grid>
+      <Grid item flex={4} paddingTop={4}>
+        <Outlet />
+      </Grid>
+    </Grid>
   );
 }
 
