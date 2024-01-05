@@ -1,10 +1,11 @@
 package dev.arkaan.schoolapp.subjectservice.db
 
-import io.ktor.server.application.*
-import io.ktor.util.pipeline.*
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.jdbi.v3.core.Jdbi
 
 fun db() = DB.getJdbi()
 
-suspend fun <T> PipelineContext<Unit, ApplicationCall>.withJdbi(action: suspend (jdbi: Jdbi) -> T?): T? = action(db())
+suspend fun <T> withJdbi(action: CoroutineScope.(jdbi: Jdbi) -> T): T = withContext(Dispatchers.IO) { action(db()) }
+

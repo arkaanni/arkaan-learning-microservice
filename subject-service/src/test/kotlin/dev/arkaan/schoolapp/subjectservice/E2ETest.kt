@@ -73,7 +73,7 @@ class E2ETest {
         val response = server.client.get("/subject/$code")
         assertEquals(HttpStatusCode.OK, response.status)
         assertEquals(
-            "{\"subjectCode\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}",
+            "{\"subject_code\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}",
             response.bodyAsText()
         )
     }
