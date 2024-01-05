@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: course-plan-service
+  name: subject-service
   namespace: schl
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: course-plan-service
+      app: subject-service
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -17,37 +17,27 @@ spec:
   template:
     metadata:
       labels:
-        app: course-plan-service
+        app: subject-service
     spec:
       containers:
         - env:
-            - name: db_host
+            - name: DB_HOST
               valueFrom:
                 configMapKeyRef:
                   key: db_host
                   name: mysql
-            - name: db_port
+            - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
                   key: db_port
                   name: mysql
-            - name: db_user
-              value: course_plan_service
-            - name: db_password
-              value: course_plan_service
-            - name: student.api
-              valueFrom:
-                configMapKeyRef:
-                  key: student_api
-                  name: api
-            - name: subject.api
-              valueFrom:
-                configMapKeyRef:
-                  key: subject_api
-                  name: api
-          image: docker.local/course-plan-service:latest
+            - name: DB_USER
+              value: subject_service
+            - name: DB_PASSWORD
+              value: subject_service
+          image: docker.local/subject-service:latest
           imagePullPolicy: Always
-          name: course-plan-service
+          name: subject-service
           resources:
             limits:
               memory: 256M
@@ -63,7 +53,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: course-plan-service
+  name: subject-service
   namespace: schl
 spec:
   internalTrafficPolicy: Cluster
@@ -72,10 +62,10 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
     - name: app-port
-      port: 8443
+      port: 8008
       protocol: TCP
-      targetPort: 8443
+      targetPort: 8008
   selector:
-    app: course-plan-service
+    app: subject-service
   sessionAffinity: None
   type: ClusterIP

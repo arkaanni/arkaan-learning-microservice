@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: course-plan-service
+  name: room-service
   namespace: schl
 spec:
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: course-plan-service
+      app: room-service
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: course-plan-service
+        app: room-service
     spec:
       containers:
         - env:
@@ -32,22 +32,12 @@ spec:
                   key: db_port
                   name: mysql
             - name: db_user
-              value: course_plan_service
+              value: room_service
             - name: db_password
-              value: course_plan_service
-            - name: student.api
-              valueFrom:
-                configMapKeyRef:
-                  key: student_api
-                  name: api
-            - name: subject.api
-              valueFrom:
-                configMapKeyRef:
-                  key: subject_api
-                  name: api
-          image: docker.local/course-plan-service:latest
+              value: room_service
+          image: docker.local/room-service:latest
           imagePullPolicy: Always
-          name: course-plan-service
+          name: room-service
           resources:
             limits:
               memory: 256M
@@ -63,7 +53,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: course-plan-service
+  name: room-service
   namespace: schl
 spec:
   internalTrafficPolicy: Cluster
@@ -72,10 +62,10 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
     - name: app-port
-      port: 8443
+      port: 8080
       protocol: TCP
-      targetPort: 8443
+      targetPort: 8080
   selector:
-    app: course-plan-service
+    app: room-service
   sessionAffinity: None
   type: ClusterIP
