@@ -31,4 +31,10 @@ public class RoomDao {
                     return new Category(id, name);
                 }).list());
     }
+
+    public void addCategory(String name) {
+        jdbi.useTransaction(handle -> handle.createUpdate("INSERT INTO category (name) values (?)")
+                .bind(0, name)
+                .execute());
+    }
 }

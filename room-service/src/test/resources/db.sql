@@ -1,6 +1,6 @@
 CREATE TABLE `category` (
   `id` tinyint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(20) UNIQUE COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -37,3 +37,5 @@ CREATE TABLE `recurring_schedule` (
   KEY `recurring_schedule_FK` (`room_id`),
   CONSTRAINT `recurring_schedule_FK` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO category (id, name) values (1, "Classroom")

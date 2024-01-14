@@ -1,9 +1,8 @@
 package dev.arkaan.schoolapp.roomservice.room;
 
+import org.jdbi.v3.core.JdbiException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getAllRoom() {
+    public ResponseEntity<List<Room>> getAllRooms() {
         List<Room> roomList = roomDao.getAllRooms();
         return ResponseEntity.ok(roomList);
     }
@@ -27,5 +26,17 @@ public class RoomController {
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categoryList = roomDao.getAllCategories();
         return ResponseEntity.ok(categoryList);
+    }
+
+    @PostMapping("/category")
+    public ResponseEntity<String> addRoomCategory(
+            @RequestBody String name
+    ) {
+        try {
+            roomDao.addCategory(name);
+            return ResponseEntity.ok().build();
+        } catch (JdbiException e) {
+            return ResponseEntity.badRequest().body("Category already exists");
+        }
     }
 }
