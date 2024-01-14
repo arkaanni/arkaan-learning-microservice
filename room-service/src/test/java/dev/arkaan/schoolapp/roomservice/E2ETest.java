@@ -1,7 +1,8 @@
 package dev.arkaan.schoolapp.roomservice;
 
 import org.junit.AfterClass;
-import org.junit.ClassRule;
+import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
@@ -22,13 +22,17 @@ import org.testcontainers.utility.DockerImageName;
 @AutoConfigureMockMvc
 public class E2ETest {
 
-    @ClassRule
-    public static MySQLContainer<?> mysql = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.32"))
-            .withInitScript("db.sql")
-            .withUsername("test")
-            .withPassword("test")
-            .withDatabaseName("room")
-            .waitingFor(Wait.forHealthcheck());
+    private static final MySQLContainer<?> mysql = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.32"));
+
+    @BeforeClass
+    public static void setUp() {
+        mysql.withInitScript("db.sql")
+                .withUsername("test")
+                .withPassword("test")
+                .withDatabaseName("room")
+                .waitingFor(Wait.forHealthcheck())
+                .start();
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,8 +48,9 @@ public class E2ETest {
     }
 
     @Test
-    public void dummy() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/room"))
+    public void shouldGetCategoryList() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/room/category"))
+                .andExpect(result -> Assert.assertEquals(200, result.getResponse().getStatus()))
                 .andReturn();
     }
 }

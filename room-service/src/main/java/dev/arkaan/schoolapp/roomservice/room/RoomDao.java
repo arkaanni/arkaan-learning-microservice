@@ -22,4 +22,13 @@ public class RoomDao {
                     return new Room(id, code, categoryId);
                 }).list());
     }
+
+    public List<Category> getAllCategories() {
+        return jdbi.withHandle(handle -> handle.createQuery("SELECT id, name FROM category")
+                .map((rs, ctx) -> {
+                    var id = rs.getShort(1);
+                    var name = rs.getString(2);
+                    return new Category(id, name);
+                }).list());
+    }
 }

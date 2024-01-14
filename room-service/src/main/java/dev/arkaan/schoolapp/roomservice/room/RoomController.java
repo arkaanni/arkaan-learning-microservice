@@ -18,8 +18,14 @@ public class RoomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getAllRooms() {
+    public ResponseEntity<List<Room>> getAllRoom() {
         List<Room> roomList = roomDao.getAllRooms();
         return ResponseEntity.ok(roomList);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<Category>> getAllCategories() {
+        List<Category> categoryList = roomDao.getAllCategories();
+        return ResponseEntity.ok(categoryList);
     }
 }
