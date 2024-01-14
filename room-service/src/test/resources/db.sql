@@ -38,4 +38,5 @@ CREATE TABLE `recurring_schedule` (
   CONSTRAINT `recurring_schedule_FK` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO category (id, name) values (1, "Classroom")
+INSERT INTO category (id, name) values (1, 'Classroom');
+INSERT INTO room (code, category_id) values ('A2', 1);

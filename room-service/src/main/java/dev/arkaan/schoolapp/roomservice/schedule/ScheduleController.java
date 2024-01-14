@@ -1,9 +1,7 @@
 package dev.arkaan.schoolapp.roomservice.schedule;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,13 @@ public class ScheduleController {
     public ResponseEntity<List<Schedule>> getAll() {
         List<Schedule> scheduleList = scheduleDao.getAll();
         return ResponseEntity.ok(scheduleList);
+    }
+
+    @PostMapping("/recurring")
+    public ResponseEntity<String> addRecurringSchedule(
+            @RequestBody RecurringSchedule schedule
+    ) {
+        scheduleDao.addRecurringSchedule(schedule);
+        return ResponseEntity.ok().build();
     }
 }

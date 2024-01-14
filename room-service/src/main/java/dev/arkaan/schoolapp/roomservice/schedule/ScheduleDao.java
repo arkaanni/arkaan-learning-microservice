@@ -27,4 +27,22 @@ public class ScheduleDao {
                 .list()
         );
     }
+
+    public void addRecurringSchedule(RecurringSchedule schedule) {
+        jdbi.useTransaction(handle -> {
+            handle.createUpdate("""
+                    INSERT INTO recurring_schedule (day, hour_start, hour_end, room_id, minute_start, minute_end, `from`, until)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """)
+                    .bind(0, schedule.day())
+                    .bind(1, schedule.hourStart())
+                    .bind(2, schedule.hourEnd())
+                    .bind(3, schedule.roomId())
+                    .bind(4, schedule.minuteStart())
+                    .bind(5, schedule.minuteEnd())
+                    .bind(6, schedule.from())
+                    .bind(7, schedule.until())
+                    .execute();
+        });
+    }
 }

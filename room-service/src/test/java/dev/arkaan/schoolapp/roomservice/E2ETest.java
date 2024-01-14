@@ -1,5 +1,8 @@
 package dev.arkaan.schoolapp.roomservice;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.arkaan.schoolapp.roomservice.schedule.RecurringSchedule;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -69,6 +75,19 @@ public class E2ETest {
     public void shouldAddCategory() throws Exception {
         mockMvc.perform(post("/room/category")
                         .content("Meeting Room"))
+                .andExpect(result -> {
+                    assertEquals(200, result.getResponse().getStatus());
+                });
+    }
+
+    @Test
+    public void shouldAddRecurringSchedule() throws Exception {
+        var mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        var body = mapper.writeValueAsString(new RecurringSchedule(null, (short) 1, (short) 1, (short) 7, (short) 9, (short) 0, (short) 0, LocalDate.now(), LocalDate.now().plusWeeks(4)));
+        mockMvc.perform(post("/schedule/recurring")
+                .contentType("application/json")
+                .content(body))
                 .andExpect(result -> {
                     assertEquals(200, result.getResponse().getStatus());
                 });
