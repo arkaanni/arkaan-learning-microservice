@@ -24,7 +24,7 @@ CREATE TABLE `schedule` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `recurring_schedule` (
-  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
+  `id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT (uuid()),
   `day` tinyint unsigned NOT NULL,
   `hour_start` tinyint unsigned NOT NULL,
   `hour_end` tinyint unsigned NOT NULL,

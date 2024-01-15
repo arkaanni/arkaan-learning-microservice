@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Subject(
     @JsonProperty("subject_code")
-    val code: String?,
+    val code: String,
     @JsonProperty("name")
-    val name: String?
+    val name: String
 )

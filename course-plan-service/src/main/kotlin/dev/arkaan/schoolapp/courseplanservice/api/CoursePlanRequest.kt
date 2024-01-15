@@ -3,12 +3,14 @@ package dev.arkaan.schoolapp.courseplanservice.api
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class CoursePlanRequest(
-    @JsonProperty("studentId")
-    var studentId: String,
-    @JsonProperty("subjectCode")
-    var subjectCode: String,
+    @JsonProperty("student_id")
+    val studentId: String,
+    @JsonProperty("subject_code")
+    val subjectCode: String,
     @JsonProperty("semester")
-    var semester: Short,
+    val semester: Byte,
     @JsonProperty("year")
-    var year: Short
+    val year: Short,
+    @JsonProperty("schedule_id")
+    val scheduleId: String
 )

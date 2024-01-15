@@ -7,5 +7,7 @@ data class CoursePlan(
     @JsonProperty("student_id")
     val studentId: String,
     @JsonProperty("subject_code")
-    val subjectCode: String
+    val subjectCode: String,
+    @JsonProperty("schedule_id")
+    val scheduleId: String
 )

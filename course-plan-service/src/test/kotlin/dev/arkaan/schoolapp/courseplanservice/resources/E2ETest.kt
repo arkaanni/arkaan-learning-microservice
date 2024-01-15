@@ -1,10 +1,12 @@
 package dev.arkaan.schoolapp.courseplanservice.resources
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import dev.arkaan.schoolapp.courseplanservice.CoursePlanServiceApp
 import dev.arkaan.schoolapp.courseplanservice.api.CoursePlanRequest
+import dev.arkaan.schoolapp.courseplanservice.api.Schedule
 import dev.arkaan.schoolapp.courseplanservice.api.Student
 import dev.arkaan.schoolapp.courseplanservice.api.Subject
 import io.dropwizard.testing.ConfigOverride
@@ -26,7 +28,7 @@ import kotlin.test.assertEquals
 
 class E2ETest {
     companion object {
-        private val mapper = ObjectMapper()
+        private val mapper = ObjectMapper().registerKotlinModule()
 
         @JvmStatic
         @Container
@@ -56,7 +58,8 @@ class E2ETest {
                 "db.url", "jdbc:mysql://${mysql.host}:${mysql.getMappedPort(3306)}/test",
             ),
             ConfigOverride.config("client.student", "localhost:${wireMock.port()}"),
-            ConfigOverride.config("client.subject", "localhost:${wireMock.port()}")
+            ConfigOverride.config("client.subject", "localhost:${wireMock.port()}"),
+            ConfigOverride.config("client.schedule", "localhost:${wireMock.port()}")
         )
 
         @JvmStatic
@@ -90,7 +93,9 @@ class E2ETest {
             .request()
             .post(
                 Entity.entity(
-                    CoursePlanRequest("13123", "MK01", 1, 2023),
+                    mapper.writeValueAsString(
+                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
+                    ),
                     MediaType.APPLICATION_JSON
                 )
             )
@@ -105,7 +110,9 @@ class E2ETest {
             .request()
             .post(
                 Entity.entity(
-                    CoursePlanRequest("13123", "MK01", 1, 2023),
+                    mapper.writeValueAsString(
+                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
+                    ),
                     MediaType.APPLICATION_JSON
                 )
             )
@@ -114,18 +121,34 @@ class E2ETest {
     }
 
     @Test
-    fun `should add new course plan if student and subject are valid`() {
+    fun `should add new course plan if student, schedule, and subject are valid`() {
         mockStudentClient()
         mockSubjectCLient()
+        mockScheduleClient()
         val response = server.client().target(endpoint)
             .request()
             .post(
                 Entity.entity(
-                    CoursePlanRequest("13123", "MK01", 1, 2023),
+                    mapper.writeValueAsString(
+                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
+                    ),
                     MediaType.APPLICATION_JSON
                 )
             )
         assertEquals(HttpStatus.OK_200, response.status)
+    }
+
+    private fun mockScheduleClient() {
+        wireMock.stubFor(
+            get(urlEqualTo("/schedule/recurring/123123")).willReturn(
+                ok(
+                    mapper.writeValueAsString(Response.ok(Schedule(
+                        "12313",
+                        1
+                    )).build())
+                ).withHeader("Content-Type", MediaType.APPLICATION_JSON)
+            )
+        )
     }
 
     private fun mockStudentClient() {

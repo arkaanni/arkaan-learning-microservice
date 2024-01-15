@@ -43,6 +43,12 @@ class AppModule(
     }
 
     @Provides
+    @Named("ScheduleClient")
+    fun provideScheduleClientTarget(client: Client): WebTarget {
+        return client.target("http://${configuration.client.schedule}")
+    }
+
+    @Provides
     fun provideDataSource(): DataSource {
         return HikariDataSource().apply {
             configuration.db.let {

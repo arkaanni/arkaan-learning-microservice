@@ -1,6 +1,7 @@
 package dev.arkaan.schoolapp.courseplanservice.resources
 
 import dev.arkaan.schoolapp.courseplanservice.api.CoursePlanRequest
+import dev.arkaan.schoolapp.courseplanservice.client.ScheduleClient
 import dev.arkaan.schoolapp.courseplanservice.client.StudentClient
 import dev.arkaan.schoolapp.courseplanservice.client.SubjectClient
 import dev.arkaan.schoolapp.courseplanservice.db.CoursePlanDao
@@ -17,6 +18,7 @@ import kotlinx.coroutines.*
 class CoursePlanResource @Inject constructor(
     private val studentClient: StudentClient,
     private val subjectClient: SubjectClient,
+    private val scheduleClient: ScheduleClient,
     private val coroutineScope: CoroutineScope,
     private val coursePlanDao: CoursePlanDao
 ) {
@@ -32,12 +34,13 @@ class CoursePlanResource @Inject constructor(
                 try {
                     studentClient.checkStudentExist(studentId)
                     subjectClient.checkSubjectExist(subjectCode)
+                    scheduleClient.checkScheduleExist(scheduleId)
                 } catch (e: WebApplicationException) {
                     response.resume(e)
                     cancel()
                     return@launch
                 }
-                coursePlanDao.addOne(studentId, subjectCode, semester, year)
+                coursePlanDao.addOne(studentId, subjectCode, semester, year, scheduleId)
             }
             response.resume(Response.ok().build())
             yield()
