@@ -10,6 +10,7 @@ server:
 client:
   student: ${student.api}
   subject: ${subject.api}
+  schedule: ${schedule.api}
 db:
   driverClass: com.mysql.cj.jdbc.Driver
   url: jdbc:mysql://${db_host}:${db_port}/course_plan
