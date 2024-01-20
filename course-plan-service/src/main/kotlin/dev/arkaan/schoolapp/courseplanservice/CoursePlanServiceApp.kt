@@ -8,6 +8,7 @@ import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.core.Application
 import io.dropwizard.core.setup.Bootstrap
 import io.dropwizard.core.setup.Environment
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource
 
 class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
 
@@ -29,6 +30,7 @@ class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
         environment.healthChecks().register("mysql8", dbHealthCheck)
         environment.jersey().apply {
             register(coursePlanResource)
+            register(OpenApiResource())
         }
     }
 
