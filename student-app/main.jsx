@@ -1,16 +1,14 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-
-function App() {
-  return (
-    <h1>App</h1>
-  )
-}
+import { RouterProvider } from "react-router-dom"
+import router from "./src/routes"
+import { CssBaseline } from "@mui/material"
 
 const domNode = document.getElementById("app")
 const root = createRoot(domNode)
 root.render(
   <React.StrictMode>
-    <App />
+    <CssBaseline />
+    <RouterProvider router={router} />
   </React.StrictMode>
 )
