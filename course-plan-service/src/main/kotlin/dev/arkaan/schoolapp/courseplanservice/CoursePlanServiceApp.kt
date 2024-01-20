@@ -30,7 +30,7 @@ class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
         environment.healthChecks().register("mysql8", dbHealthCheck)
         environment.jersey().apply {
             register(coursePlanResource)
-            register(OpenApiResource())
+            register(OpenApiResource().resourcePackages(setOf("dev.arkaan.schoolapp.courseplanservice.resources")))
         }
     }
 
