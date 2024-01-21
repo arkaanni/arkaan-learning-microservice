@@ -22,6 +22,17 @@ public class RoomController {
         return ResponseEntity.ok(roomList);
     }
 
+    @PostMapping
+    public ResponseEntity<String> addRoom(@RequestBody Room room) {
+        try {
+            roomDao.addRoom(room.code(), room.categoryId());
+            return ResponseEntity.ok().build();
+        } catch (JdbiException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Room with code " + room.code() + " already exists");
+        }
+    }
+
     @GetMapping("/category")
     public ResponseEntity<List<Category>> getAllCategories() {
         List<Category> categoryList = roomDao.getAllCategories();

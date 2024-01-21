@@ -92,4 +92,15 @@ public class E2ETest {
                     assertEquals(200, result.getResponse().getStatus());
                 });
     }
+
+    @Test
+    public void shouldAddRoom() throws Exception {
+        var body = "{\"code\": \"A21\", \"category_id\": 1}";
+        mockMvc.perform(post("/room")
+                .contentType("application/json")
+                .content(body))
+                .andExpect(result -> {
+                    assertEquals(200, result.getResponse().getStatus());
+                });
+    }
 }

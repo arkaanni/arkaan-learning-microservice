@@ -23,6 +23,13 @@ public class RoomDao {
                 }).list());
     }
 
+    public void addRoom(String code, short categoryId) {
+        jdbi.useTransaction(handle -> handle.createUpdate("INSERT INTO room (code, category_id) VALUES (?, ?)")
+                .bind(0, code)
+                .bind(1, categoryId)
+                .execute());
+    }
+
     public List<Category> getAllCategories() {
         return jdbi.withHandle(handle -> handle.createQuery("SELECT id, name FROM category")
                 .map((rs, ctx) -> {
@@ -33,7 +40,7 @@ public class RoomDao {
     }
 
     public void addCategory(String name) {
-        jdbi.useTransaction(handle -> handle.createUpdate("INSERT INTO category (name) values (?)")
+        jdbi.useTransaction(handle -> handle.createUpdate("INSERT INTO category (name) VALUES (?)")
                 .bind(0, name)
                 .execute());
     }
