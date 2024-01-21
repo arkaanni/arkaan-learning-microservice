@@ -103,4 +103,13 @@ public class E2ETest {
                     assertEquals(200, result.getResponse().getStatus());
                 });
     }
+
+    @Test
+    public void shouldGetRecurringSchedule() throws Exception {
+        mockMvc.perform(get("/schedule/recurring")
+                .accept("application/json"))
+                .andExpect(result -> {
+                    assertEquals(200, result.getResponse().getStatus());
+                });
+    }
 }

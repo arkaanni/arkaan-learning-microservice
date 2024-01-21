@@ -3,6 +3,7 @@ package dev.arkaan.schoolapp.roomservice.schedule;
 import org.jdbi.v3.core.Jdbi;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,5 +43,24 @@ public class ScheduleDao {
                 .bind(6, schedule.from())
                 .bind(7, schedule.until())
                 .execute());
+    }
+
+    public List<RecurringSchedule> getRecurringSchedule() {
+        return jdbi.withHandle(handle -> handle.createQuery("""
+                        SELECT id, `day`, hour_start, hour_end, room_id, minute_start, minute_end, `from`, until
+                        FROM room.recurring_schedule
+                        """)
+                .map((rs, ctx) -> {
+                    String id = rs.getString(1);
+                    short day = rs.getShort(2);
+                    short hourStart = rs.getShort(3);
+                    short hourEnd = rs.getShort(4);
+                    short roomId = rs.getShort(5);
+                    short minuteStart = rs.getShort(6);
+                    short minuteEnd = rs.getShort(7);
+                    LocalDate from = rs.getDate(8).toLocalDate();
+                    LocalDate until = rs.getDate(9).toLocalDate();
+                    return new RecurringSchedule(id, roomId, day, hourStart, hourEnd, minuteStart, minuteEnd, from, until);
+                }).list());
     }
 }

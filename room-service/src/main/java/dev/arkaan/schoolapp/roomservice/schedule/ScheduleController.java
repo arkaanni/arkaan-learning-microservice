@@ -28,4 +28,10 @@ public class ScheduleController {
         scheduleDao.addRecurringSchedule(schedule);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/recurring")
+    public ResponseEntity<List<RecurringSchedule>> getRecurringSchedule() {
+        var recurringScheduleList = scheduleDao.getRecurringSchedule();
+        return ResponseEntity.ok(recurringScheduleList);
+    }
 }
