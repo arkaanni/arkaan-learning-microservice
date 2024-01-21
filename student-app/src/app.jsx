@@ -8,7 +8,7 @@ function App() {
   const location = useLocation()
   return (
     <Grid container>
-      <Grid item>
+      <Grid item flex={1}>
         <List>
           {menu.map(it => (
             <ListItem key={it}>
@@ -23,7 +23,7 @@ function App() {
           ))}
         </List>
       </Grid>
-      <Grid item>
+      <Grid item flex={4}>
         <Outlet />
       </Grid>
     </Grid>

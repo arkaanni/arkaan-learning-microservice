@@ -4,6 +4,7 @@ import App from "./app"
 import SchedulePage from "./schedule"
 import CoursePlanPage from "./courseplan"
 import ProfilePage from "./profile"
+import SubmitCoursePlanComponent from "./courseplan/submit_course_plan"
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       {
         path: "course-plan",
         element: <CoursePlanPage />
+      },
+      {
+        path: "course-plan/create",
+        element: <SubmitCoursePlanComponent />
       },
       {
         path: "profile",
