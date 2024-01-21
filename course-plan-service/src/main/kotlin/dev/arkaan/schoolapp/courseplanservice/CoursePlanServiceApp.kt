@@ -3,12 +3,12 @@ package dev.arkaan.schoolapp.courseplanservice
 import com.google.inject.Guice
 import dev.arkaan.schoolapp.courseplanservice.db.DBHealthCheck
 import dev.arkaan.schoolapp.courseplanservice.resources.CoursePlanResource
+import dev.arkaan.schoolapp.courseplanservice.resources.OpenApiResource
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor
 import io.dropwizard.configuration.SubstitutingSourceProvider
 import io.dropwizard.core.Application
 import io.dropwizard.core.setup.Bootstrap
 import io.dropwizard.core.setup.Environment
-import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource
 
 class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
 
@@ -30,7 +30,7 @@ class CoursePlanServiceApp : Application<CoursePlanServiceConfiguration>() {
         environment.healthChecks().register("mysql8", dbHealthCheck)
         environment.jersey().apply {
             register(coursePlanResource)
-            register(OpenApiResource().resourcePackages(setOf("dev.arkaan.schoolapp.courseplanservice.resources")))
+            register(OpenApiResource::class.java)
         }
     }
 
