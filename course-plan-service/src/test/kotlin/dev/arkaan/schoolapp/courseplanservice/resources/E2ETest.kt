@@ -87,23 +87,6 @@ class E2ETest {
     }
 
     @Test
-    fun `should not add new course plan if student not exists`() {
-        mockSubjectCLient()
-        val response = server.client().target(endpoint)
-            .request()
-            .post(
-                Entity.entity(
-                    mapper.writeValueAsString(
-                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
-                    ),
-                    MediaType.APPLICATION_JSON
-                )
-            )
-        assertEquals(HttpStatus.NOT_FOUND_404, response.status)
-        assertEquals("{\"code\":404,\"message\":\"Student does not exists.\"}", response.readEntity(String::class.java))
-    }
-
-    @Test
     fun `should not add new course plan if subject not exists`() {
         mockStudentClient()
         val response = server.client().target(endpoint)
@@ -111,7 +94,7 @@ class E2ETest {
             .post(
                 Entity.entity(
                     mapper.writeValueAsString(
-                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
+                        CoursePlanRequest("MK01", 1, 2023, "123123")
                     ),
                     MediaType.APPLICATION_JSON
                 )
@@ -121,7 +104,7 @@ class E2ETest {
     }
 
     @Test
-    fun `should add new course plan if student, schedule, and subject are valid`() {
+    fun `should add new course plan if schedule and subject are valid`() {
         mockStudentClient()
         mockSubjectCLient()
         mockScheduleClient()
@@ -130,7 +113,7 @@ class E2ETest {
             .post(
                 Entity.entity(
                     mapper.writeValueAsString(
-                        CoursePlanRequest("13123", "MK01", 1, 2023, "123123")
+                        CoursePlanRequest("MK01", 1, 2023, "123123")
                     ),
                     MediaType.APPLICATION_JSON
                 )
