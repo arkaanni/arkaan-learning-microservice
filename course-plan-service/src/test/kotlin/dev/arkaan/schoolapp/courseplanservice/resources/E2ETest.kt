@@ -121,6 +121,11 @@ class E2ETest {
         assertEquals(HttpStatus.OK_200, response.status)
     }
 
+    @Test
+    fun `should add enrollment`() {
+        // TODO
+    }
+
     private fun mockScheduleClient() {
         wireMock.stubFor(
             get(urlEqualTo("/schedule/recurring/123123")).willReturn(
