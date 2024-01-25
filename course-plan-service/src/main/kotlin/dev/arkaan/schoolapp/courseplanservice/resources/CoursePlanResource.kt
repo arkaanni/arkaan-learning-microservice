@@ -23,6 +23,7 @@ class CoursePlanResource @Inject constructor(
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     fun createCoursePlan(
         @Suspended response: AsyncResponse,
         @NotNull coursePlan: CoursePlanRequest
@@ -32,15 +33,12 @@ class CoursePlanResource @Inject constructor(
                 try {
                     subjectClient.checkSubjectExist(subjectCode)
                     scheduleClient.checkScheduleExist(scheduleId)
+                    coursePlanDao.addOne(subjectCode, semester, year, scheduleId)
+                    response.resume(Response.ok().build())
                 } catch (e: WebApplicationException) {
                     response.resume(e)
-                    cancel()
-                    return@launch
                 }
-                coursePlanDao.addOne(subjectCode, semester, year, scheduleId)
             }
-            response.resume(Response.ok().build())
-            yield()
         }
     }
 
@@ -50,9 +48,7 @@ class CoursePlanResource @Inject constructor(
         @Suspended response: AsyncResponse
     ) {
         coroutineScope.launch {
-            val q = async { coursePlanDao.getAll() }
-            val res = q.await()
-            yield()
+            val res = coursePlanDao.getAll()
             response.resume(Response.ok(res).build())
         }
     }
