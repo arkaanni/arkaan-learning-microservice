@@ -7,6 +7,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/schedule")
+@CrossOrigin(origins = "*")
 public class ScheduleController {
 
     private final ScheduleDao scheduleDao;

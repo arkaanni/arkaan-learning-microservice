@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/room")
+@CrossOrigin(origins = "*")
 public class RoomController {
 
     private final RoomDao roomDao;
@@ -28,7 +29,6 @@ public class RoomController {
             roomDao.addRoom(room.code(), room.categoryId());
             return ResponseEntity.ok().build();
         } catch (JdbiException e) {
-            e.printStackTrace();
             return ResponseEntity.badRequest().body("Room with code " + room.code() + " already exists");
         }
     }
