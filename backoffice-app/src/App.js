@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, List, ListItem, ListItemButton, ListItemText } from '@mui/material'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
-const mainMenu = [ "student", "subject", "course-plan", "schedule"]
+const mainMenu = [ "student", "subject", "course-plan", "room", "schedule"]
 
 function Sidebar() {
   const location = useLocation()

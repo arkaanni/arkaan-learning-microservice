@@ -18,8 +18,8 @@ function SubjectComponent() {
   }, []);
   
   const columns = [
-    { field: 'no', headerName: 'No.'},
-    { field: 'subjectCode', headerName: 'Code', flex: 0.5, sortable: false },
+    { field: 'no', headerName: '#'},
+    { field: 'subject_code', headerName: 'Code', flex: 0.5, sortable: false },
     {
       field: 'name',
       headerName: 'Name',
@@ -33,7 +33,7 @@ function SubjectComponent() {
       <DataGrid
         rows={subjects}
         columns={columns}
-        getRowId={row => row.subjectCode}
+        getRowId={row => row.subject_code}
         />
     </Container>
   );

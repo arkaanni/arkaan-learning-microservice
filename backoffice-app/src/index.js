@@ -11,6 +11,11 @@ import SubjectComponent from './subject';
 import CoursePlanComponent from './courseplan';
 import ScheduleComponent from './schedule';
 import AddStudentForm from './student/add_form';
+import RoomPage from './room';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: 'course-plan',
         Component: CoursePlanComponent
+      },
+      {
+        path: 'room',
+        Component: RoomPage
       },
       {
         path: 'schedule',
