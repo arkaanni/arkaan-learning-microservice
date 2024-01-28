@@ -7,3 +7,7 @@ spring:
     driverClass: com.mysql.cj.jdbc.Driver
     username: ${db_user}
     password: ${db_password}
+
+springdoc:
+  api-docs:
+    path: apidocs/room-service

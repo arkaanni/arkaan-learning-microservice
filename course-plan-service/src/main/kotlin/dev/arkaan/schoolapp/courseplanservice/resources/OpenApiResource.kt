@@ -11,7 +11,7 @@ import jakarta.ws.rs.core.HttpHeaders
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.UriInfo
 
-@Path("/course-plan-service.{type:json|yaml}")
+@Path("/apidocs/course-plan-service")
 class OpenApiResource : BaseOpenApiResource() {
 
     init {
@@ -19,13 +19,12 @@ class OpenApiResource : BaseOpenApiResource() {
     }
 
     @GET
-    @Produces("application/json", "application/yaml")
+    @Produces("application/json")
     @Operation(hidden = true)
     fun get(
         @Context headers: HttpHeaders,
         @Context uriInfo: UriInfo,
-        @PathParam("type") type: String
     ): Response {
-        return getOpenApi(headers, null, null, uriInfo, type)
+        return getOpenApi(headers, null, null, uriInfo, "json")
     }
 }
