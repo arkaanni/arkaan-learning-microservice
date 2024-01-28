@@ -5,7 +5,6 @@ import dev.arkaan.schoolapp.studentservice.db.StudentDao;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
 
 import java.util.List;
 

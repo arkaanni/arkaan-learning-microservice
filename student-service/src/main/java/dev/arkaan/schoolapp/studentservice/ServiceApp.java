@@ -2,6 +2,7 @@ package dev.arkaan.schoolapp.studentservice;
 
 import dev.arkaan.schoolapp.studentservice.db.StudentDao;
 import dev.arkaan.schoolapp.studentservice.resources.CorsFilter;
+import dev.arkaan.schoolapp.studentservice.resources.OpenApiResource;
 import dev.arkaan.schoolapp.studentservice.resources.StudentResource;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
@@ -33,6 +34,8 @@ public class ServiceApp extends Application<ServiceConfiguration> {
         environment.jersey().register(studentResource);
         CorsFilter corsFilter = new CorsFilter();
         environment.jersey().register(corsFilter);
+        OpenApiResource openApiResource = new OpenApiResource();
+        environment.jersey().register(openApiResource);
     }
 
     public static void main(String[] args) throws Exception {
