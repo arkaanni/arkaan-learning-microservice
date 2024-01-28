@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice.schedule;
+package dev.arkaan.schl.roomservice.schedule;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

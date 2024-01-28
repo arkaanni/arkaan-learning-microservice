@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice.room;
+package dev.arkaan.schl.roomservice.room;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

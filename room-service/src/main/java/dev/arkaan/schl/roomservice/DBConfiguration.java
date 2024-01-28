@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice;
+package dev.arkaan.schl.roomservice;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.jdbi.v3.core.Jdbi;

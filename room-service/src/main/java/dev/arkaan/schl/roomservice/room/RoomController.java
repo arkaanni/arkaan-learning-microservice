@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.roomservice.room;
+package dev.arkaan.schl.roomservice.room;
 
 import org.jdbi.v3.core.JdbiException;
 import org.springframework.http.ResponseEntity;

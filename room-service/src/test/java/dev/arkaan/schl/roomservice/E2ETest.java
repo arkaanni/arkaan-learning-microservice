@@ -1,8 +1,8 @@
-package dev.arkaan.schoolapp.roomservice;
+package dev.arkaan.schl.roomservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import dev.arkaan.schoolapp.roomservice.schedule.RecurringSchedule;
+import dev.arkaan.schl.roomservice.schedule.RecurringSchedule;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,7 +19,6 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
