@@ -1,7 +1,9 @@
 package dev.arkaan.schoolapp.courseplanservice.resources
 
 import io.swagger.v3.jaxrs2.integration.resources.BaseOpenApiResource
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.info.Info
 import jakarta.ws.rs.GET
 import jakarta.ws.rs.Path
 import jakarta.ws.rs.PathParam
@@ -12,6 +14,11 @@ import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.UriInfo
 
 @Path("/apidocs/course-plan-service")
+@OpenAPIDefinition(
+    info = Info(
+        title = "course-plan-service",
+    )
+)
 class OpenApiResource : BaseOpenApiResource() {
 
     init {
