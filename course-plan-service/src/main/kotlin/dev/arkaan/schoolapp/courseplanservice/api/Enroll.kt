@@ -1,10 +1,11 @@
 package dev.arkaan.schoolapp.courseplanservice.api
 
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class Enroll(
-    @JsonProperty("course_plan_id")
+data class Enroll @JsonCreator constructor(
+    @JsonProperty("coursePlanId")
     val coursePlanId: String,
-    @JsonProperty("student_id")
+    @JsonProperty("studentId")
     val studentId: String,
 )

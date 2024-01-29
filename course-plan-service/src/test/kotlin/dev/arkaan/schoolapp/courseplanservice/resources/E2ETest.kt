@@ -1,7 +1,6 @@
 package dev.arkaan.schoolapp.courseplanservice.resources
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import dev.arkaan.schoolapp.courseplanservice.CoursePlanServiceApp
@@ -28,7 +27,7 @@ import kotlin.test.assertEquals
 
 class E2ETest {
     companion object {
-        private val mapper = ObjectMapper().registerKotlinModule()
+        private val mapper = ObjectMapper()
 
         @JvmStatic
         @Container

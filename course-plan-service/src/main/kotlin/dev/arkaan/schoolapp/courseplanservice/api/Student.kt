@@ -3,10 +3,10 @@ package dev.arkaan.schoolapp.courseplanservice.api
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class Student {
-    @JsonProperty("student_id")
+    @JsonProperty("studentId")
     lateinit var studentId: String
-    @JsonProperty("first_name")
+    @JsonProperty("firstName")
     lateinit var firstName: String
-    @JsonProperty("last_name")
+    @JsonProperty("lastName")
     lateinit var lastName: String
 }

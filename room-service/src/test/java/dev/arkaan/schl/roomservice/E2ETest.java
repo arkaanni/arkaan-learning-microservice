@@ -94,7 +94,7 @@ public class E2ETest {
 
     @Test
     public void shouldAddRoom() throws Exception {
-        var body = "{\"code\": \"A21\", \"category_id\": 1}";
+        var body = "{\"code\": \"A21\", \"categoryId\": 1}";
         mockMvc.perform(post("/room")
                 .contentType("application/json")
                 .content(body))

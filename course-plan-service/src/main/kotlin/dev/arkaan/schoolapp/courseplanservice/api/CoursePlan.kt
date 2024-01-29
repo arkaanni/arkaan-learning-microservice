@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class CoursePlan(
     val studentId: String,
-    @JsonProperty("subject_code")
+    @JsonProperty("subjectCode")
     val subjectCode: String,
-    @JsonProperty("schedule_id")
+    @JsonProperty("scheduleId")
     val scheduleId: String
 )

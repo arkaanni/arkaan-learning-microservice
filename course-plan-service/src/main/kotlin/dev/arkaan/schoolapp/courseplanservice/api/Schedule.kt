@@ -4,6 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Schedule(
     val id: String,
-    @JsonProperty("room_id")
+    @JsonProperty("roomId")
     val roomId: Short
 )
