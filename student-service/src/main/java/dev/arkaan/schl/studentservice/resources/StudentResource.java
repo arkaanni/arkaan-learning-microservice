@@ -1,7 +1,7 @@
-package dev.arkaan.schoolapp.studentservice.resources;
+package dev.arkaan.schl.studentservice.resources;
 
-import dev.arkaan.schoolapp.studentservice.api.Student;
-import dev.arkaan.schoolapp.studentservice.db.StudentDao;
+import dev.arkaan.schl.studentservice.api.Student;
+import dev.arkaan.schl.studentservice.db.StudentDao;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;

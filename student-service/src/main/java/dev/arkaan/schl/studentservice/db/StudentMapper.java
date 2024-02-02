@@ -1,6 +1,6 @@
-package dev.arkaan.schoolapp.studentservice.db;
+package dev.arkaan.schl.studentservice.db;
 
-import dev.arkaan.schoolapp.studentservice.api.Student;
+import dev.arkaan.schl.studentservice.api.Student;
 import org.jdbi.v3.core.mapper.RowMapper;
 import org.jdbi.v3.core.statement.StatementContext;
 

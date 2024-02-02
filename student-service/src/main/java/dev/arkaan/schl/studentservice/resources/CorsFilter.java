@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.studentservice.resources;
+package dev.arkaan.schl.studentservice.resources;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;

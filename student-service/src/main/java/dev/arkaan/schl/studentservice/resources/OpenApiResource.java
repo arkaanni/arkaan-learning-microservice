@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.studentservice.resources;
+package dev.arkaan.schl.studentservice.resources;
 
 import io.swagger.v3.jaxrs2.integration.resources.BaseOpenApiResource;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;

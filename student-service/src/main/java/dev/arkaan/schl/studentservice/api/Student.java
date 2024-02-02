@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.studentservice.api;
+package dev.arkaan.schl.studentservice.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

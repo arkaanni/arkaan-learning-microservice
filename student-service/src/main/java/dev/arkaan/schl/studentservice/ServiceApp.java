@@ -1,9 +1,9 @@
-package dev.arkaan.schoolapp.studentservice;
+package dev.arkaan.schl.studentservice;
 
-import dev.arkaan.schoolapp.studentservice.db.StudentDao;
-import dev.arkaan.schoolapp.studentservice.resources.CorsFilter;
-import dev.arkaan.schoolapp.studentservice.resources.OpenApiResource;
-import dev.arkaan.schoolapp.studentservice.resources.StudentResource;
+import dev.arkaan.schl.studentservice.db.StudentDao;
+import dev.arkaan.schl.studentservice.resources.CorsFilter;
+import dev.arkaan.schl.studentservice.resources.OpenApiResource;
+import dev.arkaan.schl.studentservice.resources.StudentResource;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.core.Application;

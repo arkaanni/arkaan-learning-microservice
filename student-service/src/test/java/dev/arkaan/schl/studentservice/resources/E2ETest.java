@@ -1,8 +1,8 @@
-package dev.arkaan.schoolapp.studentservice.resources;
+package dev.arkaan.schl.studentservice.resources;
 
-import dev.arkaan.schoolapp.studentservice.ServiceApp;
-import dev.arkaan.schoolapp.studentservice.ServiceConfiguration;
-import dev.arkaan.schoolapp.studentservice.api.Student;
+import dev.arkaan.schl.studentservice.ServiceApp;
+import dev.arkaan.schl.studentservice.ServiceConfiguration;
+import dev.arkaan.schl.studentservice.api.Student;
 import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit5.DropwizardAppExtension;

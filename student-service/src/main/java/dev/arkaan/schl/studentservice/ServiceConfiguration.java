@@ -1,4 +1,4 @@
-package dev.arkaan.schoolapp.studentservice;
+package dev.arkaan.schl.studentservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.core.Configuration;
