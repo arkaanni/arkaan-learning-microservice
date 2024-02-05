@@ -25,7 +25,7 @@ node('node1') {
 }
 
 def runMaven() {
-    withMaven(maven: 'maven-3', options: [artifactsPublisher(disabled: true)]) {
+    withMaven(maven: 'maven-3', options: [artifactsPublisher(disabled: true)], mavenLocalRepo: '/var/jenkins_home/.m2/repository') {
         sh 'mvn clean verify'
     }
 }
