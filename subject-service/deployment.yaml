@@ -35,7 +35,7 @@ spec:
               value: subject_service
             - name: DB_PASSWORD
               value: subject_service
-          image: docker.local/subject-service:latest
+          image: docker.local:5000/subject-service:latest
           imagePullPolicy: Always
           name: subject-service
           resources:

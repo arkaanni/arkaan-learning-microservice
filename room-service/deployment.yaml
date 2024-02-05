@@ -35,7 +35,7 @@ spec:
               value: room_service
             - name: db_password
               value: room_service
-          image: docker.local/room-service:latest
+          image: docker.local:5000/room-service:latest
           imagePullPolicy: Always
           name: room-service
           resources:

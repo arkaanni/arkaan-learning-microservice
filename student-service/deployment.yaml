@@ -35,7 +35,7 @@ spec:
               value: student_service
             - name: db_password
               value: student_service
-          image: docker.local/student-service:latest
+          image: docker.local:5000/student-service:latest
           imagePullPolicy: Always
           name: student-service
           resources:

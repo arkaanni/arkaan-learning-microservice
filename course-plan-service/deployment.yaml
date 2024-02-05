@@ -50,7 +50,7 @@ spec:
                 configMapKeyRef:
                   key: schedule_api
                   name: api
-          image: docker.local/course-plan-service:latest
+          image: docker.local:5000/course-plan-service:latest
           imagePullPolicy: Always
           name: course-plan-service
           resources:
