@@ -10,12 +10,12 @@ import io.ktor.server.config.*
 import io.ktor.server.testing.*
 import io.ktor.test.dispatcher.*
 import org.junit.AfterClass
+import org.junit.Assert.assertEquals
 import org.junit.BeforeClass
 import org.junit.ClassRule
 import org.junit.Test
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
-import org.junit.Assert.assertEquals
 
 /**
  * Reference: https://gist.github.com/Stexxe/87b6a4985ceda80e1444208cb64826c4
