@@ -46,7 +46,8 @@ public class E2ETest {
 
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.jdbcUrl", () -> "jdbc:mysql://localhost:" + mysql.getFirstMappedPort() + "/room");
+
+        registry.add("spring.datasource.jdbcUrl", () -> "jdbc:mysql://" + mysql.getHost() + ":" + mysql.getFirstMappedPort() + "/room");
     }
 
     @AfterClass
