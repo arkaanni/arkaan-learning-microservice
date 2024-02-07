@@ -29,11 +29,13 @@ spec:
               mountPath: "/usr/bin/docker"
             - name: docker-sock
               mountPath: "/var/run/docker.sock"
+            - name: gradle-home
+              mountPath: "/root/.gradle"
           resources:
             limits:
-              memory: 1536M
+              memory: 2Gi
             requests:
-              memory: 512M
+              memory: 1Gi
       volumes:
         - name: jenkins-data
           persistentVolumeClaim:
@@ -44,6 +46,9 @@ spec:
         - name: docker-sock
           hostPath:
             path: "/var/run/docker.sock"
+        - name: gradle-home
+          hostPath:
+            path: "/mnt/data/jenkins/.gradle"
 ---
 
 apiVersion: v1
