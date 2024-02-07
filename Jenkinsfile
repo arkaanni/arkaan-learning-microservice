@@ -1,24 +1,29 @@
 node('node1') {
     checkout scm
     stage('Test and package') {
-        def repos = sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]
-        for (repo in repos) {
-            dir(repo) {
-                def path = "${pwd()}/buildtool"
-                if (fileExists(path)) {
-                    def buildTool = readFile path
-                    switch (buildTool) {
-                        case "maven":
-                            runMaven()
-                            break
-                        case "gradle":
-                            runGradle()
-                            break
-                        default:
-                            println("No-op, skipping...")
-                    }
-                    buildAndPushImage(repo)
+        def repos = params.buildAll ? ['student-service', 'subject-service', 'room-service', 'course-plan-service'] as String[]
+            : sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]
+        startBuild(repos)
+    }
+}
+
+def startBuild(repos) {
+    for (repo in repos) {
+        dir(repo) {
+            def path = "${pwd()}/buildtool" as String
+            if (fileExists(path)) {
+                def buildTool = readFile path
+                switch (buildTool) {
+                    case "maven":
+                        runMaven()
+                        break
+                    case "gradle":
+                        runGradle()
+                        break
+                    default:
+                        println("No-op, skipping...")
                 }
+                buildAndPushImage(repo)
             }
         }
     }
@@ -33,7 +38,7 @@ def runMaven() {
 def runGradle() {
     withGradle {
         sh 'chmod +x gradlew'
-        sh './gradlew clean build -Dgradle.user.home=/var/jenkins_home/.gradle'
+        sh './gradlew clean build -Dgradle.user.home=/var/jenkins_home/.gradle --no-daemon'
     }
     junit 'build/test-reports/test/*.xml'
 }
