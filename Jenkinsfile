@@ -33,7 +33,7 @@ def runMaven() {
 def runGradle() {
     withGradle {
         sh 'chmod +x gradlew'
-        sh './gradlew clean build'
+        sh './gradlew clean build -Dgradle.user.home=/var/jenkins_home/.gradle'
     }
     junit 'build/test-reports/test/*.xml'
 }
