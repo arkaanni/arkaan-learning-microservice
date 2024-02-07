@@ -25,11 +25,25 @@ spec:
           volumeMounts:
             - name: jenkins-data
               mountPath: "/var/jenkins_home"
+            - name: docker-bin
+              mountPath: "/usr/bin/docker"
+            - name: docker-sock
+              mountPath: "/var/run/docker.sock"
+          resources:
+            limits:
+              memory: 1536M
+            requests:
+              memory: 512M
       volumes:
         - name: jenkins-data
           persistentVolumeClaim:
             claimName: jenkins-pv-claim
-
+        - name: docker-bin
+          hostPath:
+            path: "/usr/bin/docker"
+        - name: docker-sock
+          hostPath:
+            path: "/var/run/docker.sock"
 ---
 
 apiVersion: v1
