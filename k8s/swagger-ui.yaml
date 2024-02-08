@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger-ui
+  namespace: schl
+spec:
+  selector:
+    matchLabels:
+      app: swagger-ui
+  template:
+    metadata:
+      labels:
+        app: swagger-ui
+    spec:
+      containers:
+        - name: swagger-ui
+          image: docker.local:5000/swagger-ui:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger-ui-service
+  namespace: schl
+spec:
+  selector:
+    app: swagger-ui
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
