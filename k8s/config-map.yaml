@@ -7,3 +7,14 @@ data:
   db_host: "mysql.default"
   db_port: "3306"
 
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api
+  namespace: schl
+data:
+  student_api: "student-service.schl"
+  subject_api: "subject-service.schl"
+  schedule_api: "room-service.schl"
