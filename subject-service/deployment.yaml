@@ -5,15 +5,9 @@ metadata:
   namespace: schl
 spec:
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: subject-service
-  strategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 100%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -43,12 +37,7 @@ spec:
               memory: 256M
             requests:
               memory: 256M
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
 ---
 apiVersion: v1
 kind: Service
@@ -67,5 +56,4 @@ spec:
       targetPort: 8008
   selector:
     app: subject-service
-  sessionAffinity: None
   type: ClusterIP

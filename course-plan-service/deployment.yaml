@@ -5,15 +5,9 @@ metadata:
   namespace: schl
 spec:
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: course-plan-service
-  strategy:
-    rollingUpdate:
-      maxSurge: 0
-      maxUnavailable: 100%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -58,12 +52,7 @@ spec:
               memory: 256M
             requests:
               memory: 256M
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
       restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
 ---
 apiVersion: v1
 kind: Service
@@ -82,5 +71,4 @@ spec:
       targetPort: 8443
   selector:
     app: course-plan-service
-  sessionAffinity: None
   type: ClusterIP
