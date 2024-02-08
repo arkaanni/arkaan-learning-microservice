@@ -23,7 +23,7 @@ import java.util.Set;
 public class OpenApiResource extends BaseOpenApiResource {
 
     public OpenApiResource() {
-        resourcePackages = Set.of("dev.arkaan.schoolapp.studentservice.resources");
+        resourcePackages = Set.of("dev.arkaan.schl.studentservice.resources");
     }
 
     @GET

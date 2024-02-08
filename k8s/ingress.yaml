@@ -1,0 +1,67 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: schl-ingress
+  namespace: schl
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: local.dev
+      http:
+        paths:
+          - path: /students
+            pathType: Prefix
+            backend:
+              service:
+                name: student-service
+                port:
+                  number: 8443
+          - path: /subject
+            pathType: Prefix
+            backend:
+              service:
+                name: subject-service
+                port:
+                  number: 8008
+          - path: /room
+            pathType: Prefix
+            backend:
+              service:
+                name: room-service
+                port:
+                  number: 8080
+          - path: /schedule
+            pathType: Prefix
+            backend:
+              service:
+                name: room-service
+                port:
+                  number: 8080
+          - path: /course-plan
+            pathType: Prefix
+            backend:
+              service:
+                name: course-plan-service
+                port:
+                  number: 8443
+          - path: /apidocs/student-service
+            pathType: Exact
+            backend:
+              service:
+                name: student-service
+                port:
+                  number: 8443
+          - path: /apidocs/course-plan-service
+            pathType: Exact
+            backend:
+              service:
+                name: course-plan-service
+                port:
+                  number: 8443
+          - path: /apidocs/room-service
+            pathType: Exact
+            backend:
+              service:
+                name: room-service
+                port:
+                  number: 8080
