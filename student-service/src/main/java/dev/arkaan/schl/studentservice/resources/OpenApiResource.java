@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Set;
 
-@Path("/apidocs/student-service")
+@Path("/students/api-doc")
 @OpenAPIDefinition(
     info = @Info(
         title = "student-service"

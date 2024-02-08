@@ -44,24 +44,3 @@ spec:
                 name: course-plan-service
                 port:
                   number: 8443
-          - path: /apidocs/student-service
-            pathType: Exact
-            backend:
-              service:
-                name: student-service
-                port:
-                  number: 8443
-          - path: /apidocs/course-plan-service
-            pathType: Exact
-            backend:
-              service:
-                name: course-plan-service
-                port:
-                  number: 8443
-          - path: /apidocs/room-service
-            pathType: Exact
-            backend:
-              service:
-                name: room-service
-                port:
-                  number: 8080

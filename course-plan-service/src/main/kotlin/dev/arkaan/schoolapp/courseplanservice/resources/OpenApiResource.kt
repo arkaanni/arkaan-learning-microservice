@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.HttpHeaders
 import jakarta.ws.rs.core.Response
 import jakarta.ws.rs.core.UriInfo
 
-@Path("/apidocs/course-plan-service")
+@Path("/course-plan/api-doc")
 @OpenAPIDefinition(
     info = Info(
         title = "course-plan-service",

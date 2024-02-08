@@ -10,4 +10,4 @@ spring:
 
 springdoc:
   api-docs:
-    path: apidocs/room-service
+    path: /room/api-doc
