@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api";
 import { Container } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -29,11 +29,12 @@ function SubjectComponent() {
   ]
   
   return (
-    <Container>
+    <Container maxWidth="800px">
       <DataGrid
         rows={subjects}
         columns={columns}
         getRowId={row => row.subject_code}
+        autoHeight="false"
         />
     </Container>
   );

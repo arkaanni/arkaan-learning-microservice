@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import App from './src/app';
 import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
 import { CssBaseline } from '@mui/material';
-import StudentComponent from './student';
-import SubjectComponent from './subject';
-import CoursePlanComponent from './courseplan';
-import ScheduleComponent from './schedule';
-import AddStudentForm from './student/add_form';
-import RoomPage from './room';
+import StudentComponent from './src/student';
+import SubjectComponent from './src/subject';
+import CoursePlanComponent from './src/courseplan';
+import ScheduleComponent from './src/schedule';
+import AddStudentForm from './src/student/add_form';
+import RoomPage from './src/room';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -50,8 +50,8 @@ const router = createBrowserRouter([
   }
 ]);
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+const domNode = ReactDOM.createRoot(document.getElementById('app'));
+domNode.render(
   <React.StrictMode>
       <CssBaseline />
       <RouterProvider router={router} />

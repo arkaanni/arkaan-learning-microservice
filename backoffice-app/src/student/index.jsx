@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import api from "../api";
 import { Button, Container, Grid } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -41,6 +41,7 @@ function StudentComponent() {
             rows={students}
             columns={columns}
             getRowId={row => row.student_id}
+            autoHeight="false"
           />
         </Grid>
       </Grid>

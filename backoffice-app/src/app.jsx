@@ -27,7 +27,7 @@ function Sidebar() {
 function App() {
   return (
     <Grid container direction="row">
-      <Grid item flex={0.5}>
+      <Grid item flex={1}>
         <Sidebar />
       </Grid>
       <Grid item flex={4} paddingTop={2}>
