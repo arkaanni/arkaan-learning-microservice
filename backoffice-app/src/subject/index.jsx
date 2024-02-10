@@ -29,7 +29,7 @@ function SubjectComponent() {
   ]
   
   return (
-    <Container maxWidth="800px">
+    <Container>
       <DataGrid
         rows={subjects}
         columns={columns}
