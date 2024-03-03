@@ -98,8 +98,8 @@ class E2ETest {
                     MediaType.APPLICATION_JSON
                 )
             )
-        assertEquals(HttpStatus.NOT_FOUND_404, response.status)
-        assertEquals("{\"code\":404,\"message\":\"Subject does not exists.\"}", response.readEntity(String::class.java))
+        assertEquals(HttpStatus.BAD_REQUEST_400, response.status)
+        assertEquals("{\"code\":400,\"message\":\"Subject does not exists.\"}", response.readEntity(String::class.java))
     }
 
     @Test
