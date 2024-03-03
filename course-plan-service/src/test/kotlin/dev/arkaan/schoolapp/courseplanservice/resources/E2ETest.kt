@@ -56,9 +56,9 @@ class E2ETest {
             ConfigOverride.config(
                 "db.url", "jdbc:mysql://${mysql.host}:${mysql.getMappedPort(3306)}/test",
             ),
-            ConfigOverride.config("client.student", "localhost:${wireMock.port()}"),
-            ConfigOverride.config("client.subject", "localhost:${wireMock.port()}"),
-            ConfigOverride.config("client.schedule", "localhost:${wireMock.port()}")
+            ConfigOverride.config("client.student", "http://localhost:${wireMock.port()}"),
+            ConfigOverride.config("client.subject", "http://localhost:${wireMock.port()}"),
+            ConfigOverride.config("client.schedule", "http://localhost:${wireMock.port()}")
         )
 
         @JvmStatic
