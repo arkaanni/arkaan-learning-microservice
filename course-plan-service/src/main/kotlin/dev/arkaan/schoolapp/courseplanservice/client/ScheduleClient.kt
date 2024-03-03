@@ -4,5 +4,5 @@ import com.google.inject.ImplementedBy
 
 @ImplementedBy(ScheduleHttpClient::class)
 interface ScheduleClient {
-    suspend fun checkScheduleExist(id: String)
+    suspend fun checkScheduleExist(id: String): Boolean
 }

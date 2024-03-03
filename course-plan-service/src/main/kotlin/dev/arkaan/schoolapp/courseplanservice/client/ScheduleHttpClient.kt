@@ -1,6 +1,5 @@
 package dev.arkaan.schoolapp.courseplanservice.client
 
-import dev.arkaan.schoolapp.courseplanservice.db.NotFoundException
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import jakarta.ws.rs.client.WebTarget
@@ -24,11 +23,12 @@ class ScheduleHttpClient @Inject constructor(
             .get()
     }
 
-    override suspend fun checkScheduleExist(id: String) {
+    override suspend fun checkScheduleExist(id: String): Boolean {
         if (getSchedule(id).status == HttpStatus.NOT_FOUND_404) {
             if (getRecurringSchedule(id).status == HttpStatus.NOT_FOUND_404) {
-                throw NotFoundException("Schedule does not exists.")
+                return false
             }
         }
+        return true
     }
 }

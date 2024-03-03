@@ -30,16 +30,28 @@ class CoursePlanResource @Inject constructor(
     ) {
         coroutineScope.launch(Dispatchers.IO) {
             with(coursePlan) {
-                try {
-                    subjectClient.checkSubjectExist(subjectCode)
-                    scheduleClient.checkScheduleExist(scheduleId)
-                    coursePlanDao.addOne(subjectCode, semester, year, scheduleId)
-                    response.resume(Response.ok().build())
-                } catch (e: WebApplicationException) {
-                    response.resume(e)
+                val checkSubjectSchedule = checkSubjectAndSchedule(this@launch, subjectCode, scheduleId)
+                if (!checkSubjectSchedule.first) {
+                    response.resume(WebApplicationException(checkSubjectSchedule.second, 400))
+                    return@launch
                 }
+                coursePlanDao.addOne(subjectCode, semester, year, scheduleId)
+                response.resume(Response.ok().build())
             }
         }
+    }
+
+    private suspend fun checkSubjectAndSchedule(scope: CoroutineScope, subjectCode: String, scheduleId: String): Pair<Boolean, String> {
+        val subjectExists =  scope.async { subjectClient.checkSubjectExist(subjectCode) }
+        val scheduleExists = scope.async { scheduleClient.checkScheduleExist(scheduleId) }
+        val awaitAll = awaitAll(subjectExists, scheduleExists)
+        if (!awaitAll[0]) {
+            return Pair(false, "Subject does not exists.")
+        }
+        if (!awaitAll[1]) {
+            return Pair(false, "Schedule does not exists.")
+        }
+        return Pair(true, "Ok")
     }
 
     @GET
@@ -48,8 +60,12 @@ class CoursePlanResource @Inject constructor(
         @Suspended response: AsyncResponse
     ) {
         coroutineScope.launch {
-            val res = coursePlanDao.getAll()
-            response.resume(Response.ok(res).build())
+            try {
+                val res = coursePlanDao.getAll()
+                response.resume(Response.ok(res).build())
+            } catch (e: Exception) {
+                response.resume(WebApplicationException(e.message))
+            }
         }
     }
 }

@@ -4,5 +4,5 @@ import com.google.inject.ImplementedBy
 
 @ImplementedBy(StudentHttpClient::class)
 interface StudentClient {
-    suspend fun checkStudentExist(id: String)
+    suspend fun checkStudentExist(id: String): Boolean
 }

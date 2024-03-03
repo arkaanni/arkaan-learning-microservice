@@ -33,19 +33,19 @@ class AppModule(
     @Provides
     @Named("StudentClient")
     fun provideStudentClientTarget(client: Client): WebTarget {
-        return client.target("http://${configuration.client.student}")
+        return client.target(configuration.client.student)
     }
 
     @Provides
     @Named("SubjectClient")
     fun provideSubjectClientTarget(client: Client): WebTarget {
-        return client.target("http://${configuration.client.subject}")
+        return client.target(configuration.client.subject)
     }
 
     @Provides
     @Named("ScheduleClient")
     fun provideScheduleClientTarget(client: Client): WebTarget {
-        return client.target("http://${configuration.client.schedule}")
+        return client.target(configuration.client.schedule)
     }
 
     @Provides

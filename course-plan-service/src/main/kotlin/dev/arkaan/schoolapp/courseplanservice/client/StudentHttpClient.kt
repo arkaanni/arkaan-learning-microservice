@@ -1,6 +1,5 @@
 package dev.arkaan.schoolapp.courseplanservice.client
 
-import dev.arkaan.schoolapp.courseplanservice.db.NotFoundException
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import jakarta.ws.rs.client.WebTarget
@@ -19,11 +18,7 @@ class StudentHttpClient @Inject constructor(
             .get()
         }
 
-    override suspend fun checkStudentExist(id: String) {
-        getStudent(id)
-            .run {
-                if (status == HttpStatus.NOT_FOUND_404)
-                    throw NotFoundException("Student does not exists.")
-            }
+    override suspend fun checkStudentExist(id: String): Boolean {
+        return getStudent(id).status != HttpStatus.NOT_FOUND_404
     }
 }
