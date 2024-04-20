@@ -26,10 +26,6 @@ ktor {
     }
 }
 
-jar {
-    enabled false
-}
-
 setTestResultsDirName "test-reports"
 
 dependencies {
@@ -91,6 +87,6 @@ micronaut {
         optimizeClassLoading = true
         deduceEnvironment = true
         optimizeNetty = true
-        replaceLogbackXml = true
+        replaceLogbackXml = false
     }
 }
