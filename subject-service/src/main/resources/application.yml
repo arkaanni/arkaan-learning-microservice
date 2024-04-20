@@ -1,3 +1,16 @@
+micronaut:
+    application:
+        name: subject-service
+
+datasource:
+#    name: hikari
+    subject:
+        jdbcUrl: jdbc:mysql://${db_host}:${db_port}/subject
+        username: ${db_user}
+        password: ${db_password}
+        dialect: mysql
+        driverClassName: com.mysql.cj.jdbc.Driver
+
 ktor:
     application:
         modules:

@@ -1,31 +1,12 @@
 package dev.arkaan.schoolapp.subjectservice
 
-import dev.arkaan.schoolapp.subjectservice.db.DB
-import io.ktor.http.*
-import io.ktor.serialization.jackson.*
-import io.ktor.server.application.*
-import io.ktor.server.plugins.contentnegotiation.*
-import io.ktor.server.plugins.cors.routing.*
-import io.ktor.server.routing.*
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
+import io.micronaut.runtime.Micronaut
+import jakarta.inject.Singleton
+import javax.sql.DataSource
 
-fun main(args: Array<String>): Unit =
-    io.ktor.server.netty.EngineMain.main(args)
-
-fun Application.setUp() {
-    DB.init(environment)
-    install(ContentNegotiation) {
-        jackson()
-    }
-    install(CORS){
-        allowHost("0.0.0.0:5173")
-        anyHost()
-        allowHeader(HttpHeaders.ContentType)
-        allowMethod(HttpMethod.Get)
-        allowMethod(HttpMethod.Post)
-    }
-
-    routing {
-        getRoute()
-        postRoute()
-    }
+fun main(args: Array<String>) {
+    Micronaut.run(*args)
 }
+
