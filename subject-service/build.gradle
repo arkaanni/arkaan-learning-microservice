@@ -11,22 +11,16 @@ plugins {
 
 group "dev.arkaan.schl"
 version "0.0.1"
-mainClassName = "io.ktor.server.netty.EngineMain"
-
-def isDevelopment = project.ext.has("development")
-applicationDefaultJvmArgs = ["-Dio.ktor.development=$isDevelopment"]
 
 repositories {
     mavenCentral()
 }
 
-ktor {
-    fatJar {
-        archiveFileName.set("subject-service.jar")
-    }
-}
-
 setTestResultsDirName "test-reports"
+
+application {
+    setMainClass("dev.arkaan.schoolapp.subjectservice.SubjectServiceApp")
+}
 
 dependencies {
     implementation platform("org.jdbi:jdbi3-bom:3.38.2")
