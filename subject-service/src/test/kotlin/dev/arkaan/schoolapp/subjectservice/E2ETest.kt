@@ -1,23 +1,22 @@
 package dev.arkaan.schoolapp.subjectservice
 
-import dev.arkaan.schoolapp.subjectservice.domain.Subject
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.PropertySource
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.MediaType
 import io.micronaut.runtime.server.EmbeddedServer
+import io.restassured.RestAssured.given
 import io.restassured.specification.RequestSpecification
+import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
-import io.restassured.RestAssured.*
-import org.hamcrest.Matchers.*
 
 @Testcontainers
 class E2ETest {

@@ -10,7 +10,6 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.sql.SQLIntegrityConstraintViolationException
 import java.util.stream.Collectors
-import kotlin.jvm.Throws
 
 @Singleton
 class SubjectService @Inject constructor(

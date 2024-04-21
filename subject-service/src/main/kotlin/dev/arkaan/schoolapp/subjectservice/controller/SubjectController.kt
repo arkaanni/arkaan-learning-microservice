@@ -3,19 +3,11 @@ package dev.arkaan.schoolapp.subjectservice.controller
 import dev.arkaan.schoolapp.subjectservice.api.DuplicateException
 import dev.arkaan.schoolapp.subjectservice.api.request.SubjectRequest
 import dev.arkaan.schoolapp.subjectservice.api.response.SubjectResponse
-import dev.arkaan.schoolapp.subjectservice.domain.Subject
 import dev.arkaan.schoolapp.subjectservice.service.SubjectService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Body
-import io.micronaut.http.annotation.Consumes
-import io.micronaut.http.annotation.Controller
-import io.micronaut.http.annotation.Get
-import io.micronaut.http.annotation.PathVariable
-import io.micronaut.http.annotation.Post
-import io.micronaut.http.annotation.Produces
+import io.micronaut.http.annotation.*
 import jakarta.inject.Inject
-import java.sql.SQLIntegrityConstraintViolationException
 
 @Controller("/subject")
 class SubjectController @Inject constructor(

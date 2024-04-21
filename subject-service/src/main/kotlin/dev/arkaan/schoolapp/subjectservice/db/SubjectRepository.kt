@@ -1,15 +1,12 @@
 package dev.arkaan.schoolapp.subjectservice.db
 
-import dev.arkaan.schoolapp.subjectservice.api.DuplicateException
 import dev.arkaan.schoolapp.subjectservice.api.request.SubjectRequest
 import dev.arkaan.schoolapp.subjectservice.domain.Subject
-import io.ktor.http.*
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import jakarta.inject.Singleton
 import org.jdbi.v3.core.Jdbi
 import java.sql.SQLException
-import java.sql.SQLIntegrityConstraintViolationException
 import kotlin.jvm.optionals.getOrNull
 
 @Singleton
