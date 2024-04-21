@@ -42,6 +42,7 @@ dependencies {
     testImplementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.testcontainers:mysql'
+    testImplementation "org.testcontainers:junit-jupiter"
 
     ksp("io.micronaut:micronaut-http-validation")
     ksp("io.micronaut.serde:micronaut-serde-processor")
@@ -66,7 +67,7 @@ java {
 graalvmNative.toolchainDetection = false
 micronaut {
     runtime("netty")
-    testRuntime("junit4")
+    testRuntime("junit5")
     processing {
         incremental(true)
         annotations("subject.service.*")
