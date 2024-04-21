@@ -14,7 +14,7 @@ repositories {
     mavenCentral()
 }
 
-//setTestResultsDirName "test-reports"
+setTestResultsDirName "test-reports"
 
 application {
     setMainClass("dev.arkaan.schoolapp.subjectservice.SubjectServiceApp")
