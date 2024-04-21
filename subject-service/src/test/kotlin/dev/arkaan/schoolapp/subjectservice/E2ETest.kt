@@ -4,6 +4,7 @@ import dev.arkaan.schoolapp.subjectservice.domain.Subject
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.PropertySource
 import io.micronaut.http.HttpStatus
+import io.micronaut.http.MediaType
 import io.micronaut.runtime.server.EmbeddedServer
 import io.restassured.specification.RequestSpecification
 import org.junit.jupiter.api.AfterAll
@@ -74,7 +75,8 @@ class E2ETest {
 
     @Test
     fun `insert subject should success`() {
-        client.body(Subject("MP01", "Physics", "Physics"))
+        client.body("{\"subjectCode\":\"MP01\",\"name\":\"Physics\",\"description\":\"Physics\"}")
+            .contentType(MediaType.APPLICATION_JSON)
             .post("/subject")
             .then()
             .statusCode(HttpStatus.OK.code)
@@ -82,7 +84,8 @@ class E2ETest {
 
     @Test
     fun `insert subject should fail if already exists`() {
-        client.body(Subject("MP01", "Physics", "Physics"))
+        client.body("{\"subjectCode\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}")
+            .contentType(MediaType.APPLICATION_JSON)
             .post("/subject")
             .then()
             .statusCode(HttpStatus.BAD_REQUEST.code)
