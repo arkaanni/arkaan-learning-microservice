@@ -1,14 +1,11 @@
 package dev.arkaan.schoolapp.subjectservice
 
+import dev.arkaan.schoolapp.subjectservice.domain.Subject
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.PropertySource
-import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.annotation.Client
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import jakarta.inject.Inject
+import io.restassured.specification.RequestSpecification
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Assertions
@@ -18,20 +15,15 @@ import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
+import io.restassured.RestAssured.*
+import org.hamcrest.Matchers.*
 
-@MicronautTest(application = SubjectServiceApp::class)
 @Testcontainers
 class E2ETest {
 
-    @Inject
-    @Client("/")
-    lateinit var client: HttpClient
-
-    @Inject
-    lateinit var app: EmbeddedServer
-
     companion object {
         private lateinit var server: EmbeddedServer
+        private lateinit var client: RequestSpecification
 
         @Container
         @JvmField
@@ -50,6 +42,7 @@ class E2ETest {
                 "datasource.subject.driver-class-name" to mysql.driverClassName
             )), "test")
             server.start()
+            client = given().baseUri(server.uri.toString())
         }
 
         @AfterAll
@@ -62,61 +55,37 @@ class E2ETest {
 
     @Test
     fun `should running`() {
-        Assertions.assertTrue(app.isRunning)
-        Assertions.assertTrue(client.isRunning)
+        Assertions.assertTrue(server.isRunning)
     }
 
     @Test
-    fun `get by code`() {
-        val code = "MK01"
-        val response = client.toBlocking().retrieve("/subject/$code", HttpResponse::class.java)
-        Assertions.assertEquals(HttpStatus.OK, response.status)
-        Assertions.assertEquals(
-            "{\"subject_code\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}",
-            response.body().toString()
-        )
+    fun `get all subjects`() {
+         // TODO :( ssdsddd
     }
 
-//    @Test
-//    fun `get all subjects`() = testSuspend {
-//        val response = server.client.get("/subject")
-//        assertEquals(HttpStatusCode.OK, response.status)
-        // TODO :( ssdsddd
-//    }
+    @Test
+    fun `get subject by code`() {
+        val code = "MK01"
+        client.get("/subject/$code")
+            .then()
+            .statusCode(HttpStatus.OK.code)
+            .body(`is`("{\"subjectCode\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}"))
+    }
 
-//    @Test
-//    fun `get subject by code`() = testSuspend {
-//        val code = "MK01"
-//        val response = client.toBlocking().retrieve("/subject/$code", HttpResponse::class.java)
-//        assertEquals(HttpStatus.OK, response.status)
-//        assertEquals(
-//            "{\"subject_code\":\"MK01\",\"name\":\"Mathematics\",\"description\":\"Mathematics for first year.\"}",
-//            response.body().toString()
-//        )
-//    }
+    @Test
+    fun `insert subject should success`() {
+        client.body(Subject("MP01", "Physics", "Physics"))
+            .post("/subject")
+            .then()
+            .statusCode(HttpStatus.OK.code)
+    }
 
-//    @Test
-//    fun `insert subject should success`() = testSuspend {
-//        val response = server.client
-//            .config {
-//                install(ContentNegotiation) { jackson() }
-//            }.post("/subject") {
-//                header("Content-Type", "application/json")
-//                setBody(Subject("MP01", "Physics", "Physics"))
-//            }
-//        assertEquals(HttpStatusCode.OK, response.status)
-//    }
-//
-//    @Test
-//    fun `insert subject should fail if already exists`() = testSuspend {
-//        val response = server.client
-//            .config {
-//                install(ContentNegotiation) { jackson() }
-//            }.post("/subject") {
-//                header("Content-Type", "application/json")
-//                setBody(Subject("MK01", "Physics", "Physics"))
-//            }
-//        assertEquals(HttpStatusCode.BadRequest, response.status)
-//        assertEquals("Subject already exists.", response.bodyAsText())
-//    }
+    @Test
+    fun `insert subject should fail if already exists`() {
+        client.body(Subject("MP01", "Physics", "Physics"))
+            .post("/subject")
+            .then()
+            .statusCode(HttpStatus.BAD_REQUEST.code)
+            .body(`is`("Subject already exists."))
+    }
 }

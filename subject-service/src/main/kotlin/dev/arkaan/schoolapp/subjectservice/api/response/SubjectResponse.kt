@@ -2,8 +2,9 @@ package dev.arkaan.schoolapp.subjectservice.api.response
 
 import dev.arkaan.schoolapp.subjectservice.domain.Subject
 import io.micronaut.core.annotation.Introspected
+import io.micronaut.serde.annotation.Serdeable
 
-@Introspected
+@Serdeable
 data class SubjectResponse(
     val subjectCode: String,
     val name: String,
