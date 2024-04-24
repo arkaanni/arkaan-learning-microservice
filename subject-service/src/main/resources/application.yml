@@ -3,25 +3,9 @@ micronaut:
         name: subject-service
 
 datasource:
-#    name: hikari
     subject:
         jdbcUrl: jdbc:mysql://${db_host}:${db_port}/subject
         username: ${db_user}
         password: ${db_password}
         dialect: mysql
         driverClassName: com.mysql.cj.jdbc.Driver
-
-ktor:
-    application:
-        modules:
-            - dev.arkaan.schoolapp.subjectservice.SubjectServiceAppKt.setUp
-    deployment:
-        port: 8008
-
-db:
-    driver: com.mysql.cj.jdbc.Driver
-    host: $DB_HOST
-    port: $DB_PORT
-    user: $DB_USER
-    password: $DB_PASSWORD
-    database: subject

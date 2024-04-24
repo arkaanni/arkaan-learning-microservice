@@ -1,6 +1,6 @@
 package dev.arkaan.schoolapp.subjectservice.api.response
 
-import dev.arkaan.schoolapp.subjectservice.domain.Subject
+import dev.arkaan.schoolapp.subjectservice.domain.SubjectDto
 import io.micronaut.serde.annotation.Serdeable
 
 @Serdeable
@@ -10,7 +10,7 @@ data class SubjectResponse(
     val description: String
 )
 
-fun Subject.asResponse(): SubjectResponse {
+fun SubjectDto.asResponse(): SubjectResponse {
     return SubjectResponse(
         subjectCode,
         name,

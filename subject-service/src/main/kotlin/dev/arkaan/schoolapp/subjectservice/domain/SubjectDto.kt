@@ -1,9 +1,6 @@
 package dev.arkaan.schoolapp.subjectservice.domain
 
-import com.fasterxml.jackson.annotation.JsonProperty
-
-data class Subject(
-    @JsonProperty("subject_code")
+data class SubjectDto(
     val subjectCode: String,
     val name: String,
     val description: String

@@ -1,50 +1,57 @@
 package dev.arkaan.schoolapp.subjectservice.db
 
+import dev.arkaan.schoolapp.subjectservice.api.DuplicateException
 import dev.arkaan.schoolapp.subjectservice.api.request.SubjectRequest
-import dev.arkaan.schoolapp.subjectservice.domain.Subject
+import dev.arkaan.schoolapp.subjectservice.db.entity.Subject
+import dev.arkaan.schoolapp.subjectservice.domain.SubjectDto
 import jakarta.inject.Inject
 import jakarta.inject.Named
 import jakarta.inject.Singleton
-import org.jdbi.v3.core.Jdbi
-import java.sql.SQLException
-import kotlin.jvm.optionals.getOrNull
+import org.jetbrains.exposed.exceptions.ExposedSQLException
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.SQLIntegrityConstraintViolationException
 
 @Singleton
 class SubjectRepository @Inject constructor(
-    @Named("subject") private val jdbi: Jdbi
+    @Named("subject") private val db: Database
 ) {
 
-    fun getAll(): List<Subject> {
-        return jdbi.withHandle<List<Subject>, SQLException> {
-            it.createQuery("SELECT * FROM subject")
-                .map { r, _, _ ->
-                    Subject(
-                        r.getString("subject_code"),
-                        r.getString("name"),
-                        r.getString("description")
-                    )
+    fun findAll(): List<SubjectDto> = with(Subject) {
+        transaction(db) {
+            selectAll().map {
+                SubjectDto(it[subjectCode], it[name], it[description])
+            }
+        }
+    }
+
+    fun findBySubjectCode(code: String): SubjectDto? = with(Subject) {
+        transaction(db) {
+            select(subjectCode, name, description)
+                .where { subjectCode.eq(code) }
+                .singleOrNull()?.let {
+                    SubjectDto(it[subjectCode], it[name], it[description])
                 }
-                .toList()
         }
     }
 
-    fun getByCode(code: String): Subject? {
-        return jdbi.withHandle<Subject?, SQLException> {
-            it.createQuery("SELECT id, subject_code, name, description FROM subject WHERE subject_code=?")
-                .bind(0, code)
-                .map { rs, _ -> Subject(rs.getString(2), rs.getString(3), rs.getString(4)) }
-                .findFirst()
-                .getOrNull()
-        }
-    }
-
-    fun insertOne(subject: SubjectRequest) {
-        jdbi.inTransaction<Unit, SQLException> {
-                it.createUpdate("INSERT INTO subject (subject_code, name, description) VALUES(?, ?, ?)")
-                    .bind(0, subject.subjectCode)
-                    .bind(1, subject.name)
-                    .bind(2, subject.description)
-                    .execute()
+    fun insertOne(subject: SubjectRequest) = with(Subject) {
+        transaction(db) {
+            try {
+                insert {
+                    it[subjectCode] = subject.subjectCode
+                    it[name] = subject.name
+                    it[description] = subject.name
+                }
+            } catch (e: ExposedSQLException) {
+                if (e.cause is SQLIntegrityConstraintViolationException) {
+                    throw DuplicateException("Subject")
+                } else {
+                    // Something went wrong?
+                }
+            }
         }
     }
 }

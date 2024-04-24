@@ -21,29 +21,28 @@ application {
 }
 
 dependencies {
-    implementation platform("org.jdbi:jdbi3-bom:3.38.2")
     implementation platform('org.testcontainers:testcontainers-bom:1.18.3')
-
-    implementation 'org.jdbi:jdbi3-core'
-    implementation "com.mysql:mysql-connector-j:$mysql_version"
-    implementation "com.zaxxer:HikariCP:$hikari_version"
-
-    testImplementation 'org.testcontainers:mysql'
-    testImplementation "org.testcontainers:junit-jupiter"
+    implementation "com.zaxxer:HikariCP"
 
     ksp("io.micronaut:micronaut-http-validation")
     ksp("io.micronaut.serde:micronaut-serde-processor")
-    implementation('org.yaml:snakeyaml:2.2')
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation("io.micronaut.sql:micronaut-jdbi")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    compileOnly("io.micronaut:micronaut-http-client")
-    runtimeOnly("io.micronaut.sql:micronaut-jdbc-hikari")
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    testImplementation("io.micronaut:micronaut-http-client")
+    ksp("io.micronaut.data:micronaut-data-processor")
+
+    implementation'org.yaml:snakeyaml:2.2'
+    implementation "io.micronaut.kotlin:micronaut-kotlin-runtime"
+    implementation "io.micronaut.serde:micronaut-serde-jackson"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
+    implementation "org.jetbrains.exposed:exposed-core:0.49.0"
+    runtimeOnly "org.jetbrains.exposed:exposed-jdbc:0.49.0"
+
+    runtimeOnly "com.mysql:mysql-connector-j"
+    runtimeOnly "com.h2database:h2"
+    runtimeOnly"ch.qos.logback:logback-classic"
+    runtimeOnly "com.fasterxml.jackson.module:jackson-module-kotlin"
+
+    testImplementation 'org.testcontainers:mysql'
+    testImplementation "org.testcontainers:junit-jupiter"
     testImplementation("io.micronaut.test:micronaut-test-rest-assured")
 }
 
