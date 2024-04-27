@@ -1,6 +1,6 @@
 package dev.arkaan.schl.roomservice.room;
 
-import org.jdbi.v3.core.JdbiException;
+import dev.arkaan.schl.roomservice.exception.DuplicateException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ public class RoomController {
         try {
             roomDao.addRoom(room.code(), room.categoryId());
             return ResponseEntity.ok().build();
-        } catch (JdbiException e) {
+        } catch (DuplicateException e) {
             return ResponseEntity.badRequest().body("Room with code " + room.code() + " already exists");
         }
     }
@@ -46,8 +46,8 @@ public class RoomController {
         try {
             roomDao.addCategory(name);
             return ResponseEntity.ok().build();
-        } catch (JdbiException e) {
-            return ResponseEntity.badRequest().body("Category already exists");
+        } catch (DuplicateException e) {
+            return ResponseEntity.badRequest().body("Category "+ name +" already exists");
         }
     }
 }

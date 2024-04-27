@@ -1,12 +1,18 @@
 server:
   port: 8080
 
-spring:
-  datasource:
-    jdbcUrl: jdbc:mysql://${db_host}:${db_port}/room
-    driverClass: com.mysql.cj.jdbc.Driver
-    username: ${db_user}
-    password: ${db_password}
+#spring:
+#  datasource:
+#    jdbcUrl: jdbc:mysql://${db_host}:${db_port}/room
+#    driverClass: com.mysql.cj.jdbc.Driver
+#    username: ${db_user}
+#    password: ${db_password}
+
+datasource:
+   jdbcUrl: jdbc:mysql://${db_host}:${db_port}/room
+   driverClass: com.mysql.cj.jdbc.Driver
+   username: ${db_user}
+   password: ${db_password}
 
 springdoc:
   api-docs:

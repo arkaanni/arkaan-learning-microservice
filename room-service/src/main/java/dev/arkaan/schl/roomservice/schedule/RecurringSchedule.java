@@ -1,7 +1,5 @@
 package dev.arkaan.schl.roomservice.schedule;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 
 public record RecurringSchedule(
