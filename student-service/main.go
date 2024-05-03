@@ -13,6 +13,7 @@ type Student = domain.Student
 func main() {
 	fiberApp := fiber.New()
 	studentResource := fiberApp.Group("/student")
+
 	studentResource.Get("", func(c *fiber.Ctx) error {
 		students, err := db.GetStudents()
 		if err != nil {
@@ -34,7 +35,7 @@ func main() {
 
 	studentResource.Get(":studentId", func(c *fiber.Ctx) error {
 		studentId := c.Params("studentId")
-		student, err := db.GetByStudentId(studentId)
+		student, err := db.GetByStudentId(&studentId)
 		if err != nil {
 			c.Status(404)
 			return nil

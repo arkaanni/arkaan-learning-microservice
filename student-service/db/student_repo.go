@@ -26,7 +26,7 @@ func GetStudents() (students []Student, err error) {
 
 func AddStudent(newStudent *Student) error {
 	conn := Connect()
-	_, err := conn.Exec("INSERT INTO student (student_id, first_name, last_name, address, phone, semester) VALUES(?, ?, ?, ?, ?, ?)", newStudent.StudentId, newStudent.FirstName, newStudent.LastName, newStudent.Address, newStudent.Phone, newStudent.Semester)
+	_, err := conn.Exec("INSERT INTO student (student_id, first_name, last_name, address, phone, semester) VALUES(?, ?, ?, ?, ?, ?)", &newStudent.StudentId, &newStudent.FirstName, &newStudent.LastName, &newStudent.Address, &newStudent.Phone, &newStudent.Semester)
 	defer conn.Close()
 	if err != nil {
 		return err
@@ -34,9 +34,9 @@ func AddStudent(newStudent *Student) error {
 	return nil
 }
 
-func GetByStudentId(studentId string) (student *Student, err error) {
+func GetByStudentId(studentId *string) (student *Student, err error) {
 	conn := Connect()
-	row := conn.QueryRow("SELECT student_id, first_name, last_name, address, phone, semester FROM student WHERE student_id=?", studentId)
+	row := conn.QueryRow("SELECT student_id, first_name, last_name, address, phone, semester FROM student WHERE student_id=?", &studentId)
 	defer conn.Close()
 	student = &Student{}
 	err = row.Scan(&student.StudentId, &student.FirstName, &student.LastName, &student.Address, &student.Phone, &student.Semester)

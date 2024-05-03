@@ -14,6 +14,7 @@ var user = os.Getenv("db_user")
 var password = os.Getenv("db_password")
 var dbName = os.Getenv("db_name")
 var connectionString = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, dbName)
+
 func Connect() (conn *sql.DB) {
 	conn, err := sql.Open("mysql", connectionString)
 	if err != nil {
