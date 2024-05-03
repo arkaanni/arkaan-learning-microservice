@@ -3,24 +3,46 @@ package main
 import (
 	"apanih-student-service/db"
 	"apanih-student-service/domain"
-	"encoding/json"
 	"fmt"
-	"net/http"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Student = domain.Student
 
 func main() {
-	http.HandleFunc("/student", func(w http.ResponseWriter, r *http.Request) {
+	fiberApp := fiber.New()
+	studentResource := fiberApp.Group("/student")
+	studentResource.Get("", func(c *fiber.Ctx) error {
 		students, err := db.GetStudents()
 		if err != nil {
-			w.Write([]byte(err.Error()))
+			c.Status(500)
+			return err
 		}
-		result, _ := json.Marshal(students)
-		w.Write(result)
+		return c.JSON(students)
+	})
+
+	studentResource.Post("", func(c *fiber.Ctx) error {
+		newStudent := new(Student)
+		c.BodyParser(newStudent)
+		if err := db.AddStudent(newStudent); err != nil {
+			c.Status(400)
+			return c.SendString("Student already exists")
+		}
+		return c.JSON(newStudent)
+	})
+
+	studentResource.Get(":studentId", func(c *fiber.Ctx) error {
+		studentId := c.Params("studentId")
+		student, err := db.GetByStudentId(studentId)
+		if err != nil {
+			c.Status(404)
+			return nil
+		}
+		return c.JSON(student)
 	})
 
 	fmt.Println("Starting server at port 8443")
 
-	http.ListenAndServe(":8443", nil)
+	fiberApp.Listen(":8443")
 }
