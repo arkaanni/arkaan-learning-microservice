@@ -1,6 +1,8 @@
 micronaut:
     application:
         name: subject-service
+    server:
+        port: 8443
 
 datasource:
     subject:

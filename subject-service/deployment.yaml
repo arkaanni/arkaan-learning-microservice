@@ -51,9 +51,9 @@ spec:
   ipFamilyPolicy: SingleStack
   ports:
     - name: app-port
-      port: 8008
+      port: 8443
       protocol: TCP
-      targetPort: 8008
+      targetPort: 8443
   selector:
     app: subject-service
   type: ClusterIP
