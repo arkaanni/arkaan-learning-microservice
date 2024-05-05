@@ -20,6 +20,8 @@ def startBuild(repos) {
                     case "gradle":
                         runGradle()
                         break
+                    case "go":
+                        runGo()
                     default:
                         println("No-op, skipping...")
                 }
@@ -41,6 +43,14 @@ def runGradle() {
         sh './gradlew clean build -Dgradle.user.home=/var/jenkins_home/.gradle --no-daemon'
     }
     junit 'build/test-reports/test/*.xml'
+}
+
+def runGo() {
+    def root = tool type: 'go', name: 'go-1.22.2'
+
+    withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
+        sh 'go test'
+    }
 }
 
 def buildAndPushImage(appName) {
