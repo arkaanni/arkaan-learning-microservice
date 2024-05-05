@@ -15,19 +15,19 @@ spec:
     spec:
       containers:
         - env:
-            - name: DB_HOST
+            - name: db_host
               valueFrom:
                 configMapKeyRef:
                   key: db_host
                   name: mysql
-            - name: DB_PORT
+            - name: db_port
               valueFrom:
                 configMapKeyRef:
                   key: db_port
                   name: mysql
-            - name: DB_USER
+            - name: db_user
               value: subject_service
-            - name: DB_PASSWORD
+            - name: db_password
               value: subject_service
           image: docker.local:5000/subject-service:latest
           imagePullPolicy: Always
