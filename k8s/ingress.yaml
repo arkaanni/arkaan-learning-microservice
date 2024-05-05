@@ -22,7 +22,7 @@ spec:
               service:
                 name: subject-service
                 port:
-                  number: 8008
+                  number: 8443
           - path: /room
             pathType: Prefix
             backend:
