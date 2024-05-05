@@ -22,6 +22,7 @@ def startBuild(repos) {
                         break
                     case "go":
                         runGo()
+                        break
                     default:
                         println("No-op, skipping...")
                 }
