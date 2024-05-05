@@ -9,7 +9,7 @@ spec:
     - host: local.dev
       http:
         paths:
-          - path: /students
+          - path: /student
             pathType: Prefix
             backend:
               service:
