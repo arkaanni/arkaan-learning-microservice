@@ -1,8 +1,8 @@
 node('node1') {
     checkout scm
     stage('Test and package') {
-        def repos = params.buildAll ? ['student-service', 'subject-service', 'room-service', 'course-plan-service'] as String[]
-            : sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]
+        def services = params.servicesToBuild.split(',') as String[]
+        def repos = services.length > 0 ? services : sh(script: 'git diff-tree --no-commit-id --name-only HEAD', returnStdout: true).split('\n') as String[]
         startBuild(repos)
     }
 }
