@@ -26,8 +26,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework:spring-jdbc'
     implementation 'com.zaxxer:HikariCP:5.0.1'
-    implementation 'com.mysql:mysql-connector-j:8.0.32'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.3.0'
+    runtimeOnly 'com.mysql:mysql-connector-j:8.0.32'
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation platform('org.testcontainers:testcontainers-bom:1.18.3')

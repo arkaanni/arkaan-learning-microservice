@@ -1,7 +1,6 @@
 package dev.arkaan.schl.roomservice.room;
 
 import dev.arkaan.schl.roomservice.exception.DuplicateException;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,11 +10,10 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Repository
-@Lazy
 public class RoomDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public RoomDao(@Lazy JdbcTemplate jdbcTemplate) {
+    public RoomDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

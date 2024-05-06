@@ -1,9 +1,8 @@
 server:
   port: 8087
 
-spring:
-  datasource:
-    jdbcUrl: jdbc:mysql://localhost:3307/room
-    driverClass: com.mysql.cj.jdbc.Driver
-    username: test
-    password: test
+datasource:
+  jdbcUrl:
+  driverClass: com.mysql.cj.jdbc.Driver
+  username: test
+  password: test

@@ -20,7 +20,7 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -46,8 +46,7 @@ public class E2ETest {
 
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {
-
-        registry.add("spring.datasource.jdbcUrl", () -> "jdbc:mysql://" + mysql.getHost() + ":" + mysql.getFirstMappedPort() + "/room");
+        registry.add("datasource.jdbcUrl", () -> "jdbc:mysql://" + mysql.getHost() + ":" + mysql.getFirstMappedPort() + "/room");
     }
 
     @AfterClass
@@ -63,11 +62,12 @@ public class E2ETest {
 
     @Test
     public void shouldNotAddCategoryIfAlreadyExists() throws Exception {
+        String room = "Classroom";
         mockMvc.perform(post("/room/category")
-                .content("Classroom"))
+                .content(room))
                 .andExpect(result -> {
                     assertEquals(400, result.getResponse().getStatus());
-                    assertEquals("Category already exists", result.getResponse().getContentAsString());
+                    assertEquals("Category " + room + " already exists", result.getResponse().getContentAsString());
                 });
     }
 
@@ -75,9 +75,7 @@ public class E2ETest {
     public void shouldAddCategory() throws Exception {
         mockMvc.perform(post("/room/category")
                         .content("Meeting Room"))
-                .andExpect(result -> {
-                    assertEquals(200, result.getResponse().getStatus());
-                });
+                .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
     }
 
     @Test
@@ -88,9 +86,7 @@ public class E2ETest {
         mockMvc.perform(post("/schedule/recurring")
                 .contentType("application/json")
                 .content(body))
-                .andExpect(result -> {
-                    assertEquals(200, result.getResponse().getStatus());
-                });
+                .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
     }
 
     @Test
@@ -99,17 +95,13 @@ public class E2ETest {
         mockMvc.perform(post("/room")
                 .contentType("application/json")
                 .content(body))
-                .andExpect(result -> {
-                    assertEquals(200, result.getResponse().getStatus());
-                });
+                .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
     }
 
     @Test
     public void shouldGetRecurringSchedule() throws Exception {
         mockMvc.perform(get("/schedule/recurring")
                 .accept("application/json"))
-                .andExpect(result -> {
-                    assertEquals(200, result.getResponse().getStatus());
-                });
+                .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
     }
 }

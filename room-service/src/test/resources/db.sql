@@ -31,8 +31,8 @@ CREATE TABLE `recurring_schedule` (
   `room_id` tinyint unsigned NOT NULL,
   `minute_start` tinyint unsigned NOT NULL,
   `minute_end` tinyint unsigned NOT NULL,
-  `from` timestamp NOT NULL,
-  `until` timestamp NOT NULL,
+  `from` date NOT NULL,
+  `until` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `recurring_schedule_FK` (`room_id`),
   CONSTRAINT `recurring_schedule_FK` FOREIGN KEY (`room_id`) REFERENCES `room` (`id`)

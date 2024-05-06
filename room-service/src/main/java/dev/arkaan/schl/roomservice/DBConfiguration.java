@@ -5,10 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@Lazy
 @Configuration
 public class DBConfiguration {
 
@@ -27,7 +25,6 @@ public class DBConfiguration {
         hikariConfig.setJdbcUrl(jdbcUrl);
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
-        System.out.println(driverClass);
         hikariConfig.setDriverClassName(driverClass);
         return new JdbcTemplate(new HikariDataSource(hikariConfig));
     }
