@@ -51,24 +51,3 @@ spec:
                 name: swagger-ui-service
                 port:
                   number: 80
-
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: skooner-ingress
-  namespace: kube-system
-spec:
-  ingressClassName: traefik
-  rules:
-    - host: local.dev
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: skooner
-                port:
-                  number: 80
