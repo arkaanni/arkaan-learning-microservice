@@ -12,7 +12,7 @@ class ScheduleHttpClient(
 ) {
     private val logger = LoggerFactory.getLogger(ScheduleHttpClient::class.java)
     private val getSchedule : suspend (id: String) -> Schedule? = {
-        Fuel.get(path = baseUrl + it)
+        Fuel.get(path = "$baseUrl/schedule/$it")
             .timeout(2000)
             .awaitObjectResult(jacksonDeserializerOf<Schedule>())
             .fold(
@@ -22,7 +22,7 @@ class ScheduleHttpClient(
     }
 
     private val getRecurringSchedule: suspend (id: String) -> Schedule? = {
-        Fuel.get(path = "$baseUrl/recurring/$it")
+        Fuel.get(path = "$baseUrl/schedule/recurring/$it")
             .timeout(2000)
             .awaitObjectResult(jacksonDeserializerOf<Schedule>())
             .fold(
