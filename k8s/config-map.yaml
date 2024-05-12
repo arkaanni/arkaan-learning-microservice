@@ -16,5 +16,5 @@ metadata:
   namespace: schl
 data:
   student_api: "student-service.schl:8443"
-  subject_api: "subject-service.schl:8008"
+  subject_api: "subject-service.schl:8443"
   schedule_api: "room-service.schl:8080"

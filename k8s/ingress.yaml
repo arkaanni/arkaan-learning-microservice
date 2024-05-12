@@ -37,7 +37,7 @@ spec:
                 name: room-service
                 port:
                   number: 8080
-          - path: /course-plan
+          - path: /courseplan
             pathType: Prefix
             backend:
               service:
