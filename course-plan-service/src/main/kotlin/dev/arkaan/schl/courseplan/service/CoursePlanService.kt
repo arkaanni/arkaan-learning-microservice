@@ -7,9 +7,7 @@ import dev.arkaan.schl.courseplan.db.queryForResult
 import dev.arkaan.schl.courseplan.domain.CoursePlanDto
 import dev.arkaan.schl.courseplan.domain.CoursePlanRequest
 import io.jooby.kt.HandlerContext
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.selectAll
 
@@ -37,7 +35,7 @@ class CoursePlanService(
     private suspend fun checkSubjectAndSchedule(
         subjectCode: String,
         scheduleId: String
-    ): Boolean = coroutineScope {
+    ): Boolean = withContext(Dispatchers.IO) {
         val responses = awaitAll(
             async { scheduleClient.checkScheduleExist(scheduleId) },
             async { subjectClient.checkSubjectExist(subjectCode) }
