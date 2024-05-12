@@ -10,12 +10,10 @@ class SubjectHttpClient(
     private val baseUrl: String
 ) {
     private val logger = LoggerFactory.getLogger(SubjectHttpClient::class.java)
-    suspend fun checkSubjectExist(id: String): Boolean {
-        println(baseUrl + id)
-        return Fuel.get(path = baseUrl + id).awaitObjectResult(jacksonDeserializerOf<Subject>())
+    suspend fun checkSubjectExist(id: String): Boolean =
+        Fuel.get(path = baseUrl + id).awaitObjectResult(jacksonDeserializerOf<Subject>())
             .fold(
                 { _ -> true },
                 { error -> logger.warn("${::checkSubjectExist.name} failed: ${error.message}"); false }
             )
-    }
 }
