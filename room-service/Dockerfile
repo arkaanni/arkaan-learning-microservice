@@ -9,7 +9,8 @@ FROM gradle:8.7-jdk17-graal as builder
 
 WORKDIR /build
 
-COPY . /build
+COPY src /build/src
+COPY build.gradle gradle.properties settings.gradle /build/
 
 RUN gradle nativeCompile --no-daemon
 
@@ -18,5 +19,7 @@ FROM debian:stable-slim
 WORKDIR /app
 
 COPY --from=builder /build/build/native/nativeCompile/room-service /app
+
+EXPOSE 8080:8080
 
 ENTRYPOINT ["/app/room-service"]
