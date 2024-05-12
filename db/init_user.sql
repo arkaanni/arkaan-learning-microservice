@@ -5,7 +5,7 @@ CREATE USER IF NOT EXISTS 'course_plan_service'@'%' IDENTIFIED BY 'course_plan_s
 
 GRANT ALL ON student.* TO 'student_service'@'%';
 GRANT ALL ON subject.* TO 'subject_service'@'%';
-GRANT ALL ON room.* TO 'subject_service'@'%';
+GRANT ALL ON room.* TO 'room_service'@'%';
 GRANT ALL ON course_plan.* TO 'course_plan_service'@'%';
 
 FLUSH PRIVILEGES;
