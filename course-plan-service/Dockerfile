@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre
+FROM eclipse-temurin:17-jre-alpine
 EXPOSE 8443:8443
 EXPOSE 8446:8446
 RUN mkdir /app

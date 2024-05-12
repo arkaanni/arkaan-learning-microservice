@@ -29,17 +29,17 @@ spec:
               value: course_plan_service
             - name: db_password
               value: course_plan_service
-            - name: student.api
+            - name: student_api
               valueFrom:
                 configMapKeyRef:
                   key: student_api
                   name: api
-            - name: subject.api
+            - name: subject_api
               valueFrom:
                 configMapKeyRef:
                   key: subject_api
                   name: api
-            - name: schedule.api
+            - name: schedule_api
               valueFrom:
                 configMapKeyRef:
                   key: schedule_api
