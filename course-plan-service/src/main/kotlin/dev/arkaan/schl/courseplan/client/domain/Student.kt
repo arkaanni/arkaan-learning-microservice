@@ -1,4 +1,4 @@
-package dev.arkaan.schl.courseplan.db.entity
+package dev.arkaan.schl.courseplan.client.domain
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

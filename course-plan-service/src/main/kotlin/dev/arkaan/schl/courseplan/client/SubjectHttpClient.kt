@@ -3,8 +3,8 @@ package dev.arkaan.schl.courseplan.client
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.coroutines.awaitObjectResult
 import com.github.kittinunf.fuel.jackson.jacksonDeserializerOf
+import dev.arkaan.schl.courseplan.client.domain.Subject
 import org.slf4j.LoggerFactory
-import dev.arkaan.schl.courseplan.domain.Subject
 
 class SubjectHttpClient(
     private val baseUrl: String

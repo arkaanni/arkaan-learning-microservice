@@ -1,10 +1,13 @@
 package dev.arkaan.schl.courseplan.client
 
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.coroutines.*
+import com.github.kittinunf.fuel.coroutines.awaitObjectResult
 import com.github.kittinunf.fuel.jackson.jacksonDeserializerOf
-import dev.arkaan.schl.courseplan.domain.Schedule
-import kotlinx.coroutines.*
+import dev.arkaan.schl.courseplan.client.domain.Schedule
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 
 class ScheduleHttpClient(

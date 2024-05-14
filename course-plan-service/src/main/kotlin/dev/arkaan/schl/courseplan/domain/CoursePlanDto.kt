@@ -1,7 +1,8 @@
 package dev.arkaan.schl.courseplan.domain
 
 data class CoursePlanDto(
-    val studentId: String,
+    val id: String,
     val subjectCode: String,
-    val scheduleId: String
+    val scheduleId: String,
+    val year: Short
 )
