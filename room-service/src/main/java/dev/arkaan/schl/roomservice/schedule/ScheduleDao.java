@@ -98,7 +98,7 @@ public class ScheduleDao {
                 FROM room.recurring_schedule
                 WHERE id=?
                 """);
-            query.setString(0, id);
+            query.setString(1, id);
             return query;
         }, (rs) -> {
             if (!rs.next()) {
