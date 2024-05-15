@@ -30,15 +30,11 @@ class ScheduleHttpClient(
             .awaitObjectResult(jacksonDeserializerOf<Schedule>())
             .fold(
                 { data -> data },
-                {error -> logger.warn("${::getRecurringSchedule.name} failed: ${error.message}"); null}
+                { error -> logger.warn("${::getRecurringSchedule.name} failed: ${error.message}"); null}
             )
     }
 
-    suspend fun checkScheduleExist(id: String): Boolean = withContext(Dispatchers.IO) {
-        val responses = awaitAll(
-            async { getSchedule(id) != null },
-            async { getRecurringSchedule(id) != null }
-        )
-        responses[0].or(responses[1])
-    }
+    suspend fun checkScheduleExist(id: String): Boolean = getSchedule(id) != null
+
+    suspend fun checkRecurringScheduleExist(id: String) : Boolean = getRecurringSchedule(id) != null
 }

@@ -6,8 +6,8 @@ import dev.arkaan.schl.courseplan.db.entity.CoursePlan
 import dev.arkaan.schl.courseplan.db.inTransaction
 import dev.arkaan.schl.courseplan.domain.CoursePlanDto
 import dev.arkaan.schl.courseplan.domain.CoursePlanRequest
+import io.jooby.Context
 import io.jooby.StatusCode
-import io.jooby.kt.HandlerContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -21,31 +21,51 @@ class CoursePlanService(
     private val scheduleClient: ScheduleHttpClient,
     private val subjectClient: SubjectHttpClient
     ) {
-    fun getCoursePlan(): suspend HandlerContext.() -> List<CoursePlanDto> = {
-        CoursePlan.inTransaction(db) {
-            selectAll()
-                .map {
-                    CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[year])
-                }
-        }
+
+    fun getCoursePlan(): List<CoursePlanDto> = CoursePlan.inTransaction(db) {
+        selectAll()
+            .map {
+                CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[year])
+            }
     }
 
-    fun createCoursePlan(): suspend HandlerContext.() -> String = {
+    suspend fun createCoursePlan(ctx: Context): String {
         val coursePlan = ctx.body(CoursePlanRequest::class.java)
         val check = checkSubjectAndSchedule(coursePlan.subjectCode, coursePlan.scheduleId)
-        if (check) {
-            CoursePlan.inTransaction(db) {
-                insert {
-                    it[subjectCode] = coursePlan.subjectCode
-                    it[scheduleId] = coursePlan.scheduleId
-                    it[semester] = coursePlan.semester
-                    it[year] = coursePlan.year
-                }
+        return if (check) {
+            val isAvailable = checkAvailability(coursePlan)
+            if (isAvailable) {
+                insertCoursePlan(coursePlan)
+                "New course plan added"
+            } else {
+                ctx.responseCode = StatusCode.BAD_REQUEST
+                "Course plan already exist for the schedule"
             }
-            "New course plan added"
         } else {
             ctx.responseCode = StatusCode.BAD_REQUEST
             "Subject code and/or schedule id not found"
+        }
+    }
+
+    private fun insertCoursePlan(request: CoursePlanRequest) {
+        CoursePlan.inTransaction(db) {
+            insert {
+                it[subjectCode] = request.subjectCode
+                it[scheduleId] = request.scheduleId
+                it[semester] = request.semester
+                it[year] = request.year
+            }
+        }
+    }
+
+    private suspend fun checkAvailability(request: CoursePlanRequest): Boolean = withContext(Dispatchers.IO) {
+        CoursePlan.inTransaction {
+            select(scheduleId)
+                .where {
+                    scheduleId eq request.scheduleId
+                    semester eq request.semester
+                    year eq request.year
+                }.empty()
         }
     }
 
@@ -54,7 +74,7 @@ class CoursePlanService(
         scheduleId: String
     ): Boolean = withContext(Dispatchers.IO) {
         val responses = awaitAll(
-            async { scheduleClient.checkScheduleExist(scheduleId) },
+            async { scheduleClient.checkRecurringScheduleExist(scheduleId) },
             async { subjectClient.checkSubjectExist(subjectCode) }
         )
         responses[0].and(responses[1])

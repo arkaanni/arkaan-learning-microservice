@@ -46,8 +46,8 @@ fun main(args: Array<String>) {
         coroutine {
             path("/courseplan") {
                 with(coursePlanService) {
-                    get("/", getCoursePlan())
-                    post("/", createCoursePlan())
+                    get("/") { getCoursePlan() }
+                    post("/") { createCoursePlan(ctx) }
                 }
             }
         }
