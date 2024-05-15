@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -24,8 +26,8 @@ public class ScheduleDao {
         return jdbcTemplate.query("SELECT id, description, start, until, room_id FROM schedule", (rs, rowNum) -> {
             String id = rs.getString(1);
             String desc = rs.getString(2);
-            LocalDate start = rs.getTimestamp(3).toLocalDateTime().toLocalDate();
-            LocalDate until = rs.getTimestamp(4).toLocalDateTime().toLocalDate();
+            LocalDateTime start = rs.getTimestamp(3).toLocalDateTime();
+            LocalDateTime until = rs.getTimestamp(4).toLocalDateTime();
             short roomId = rs.getShort(5);
             return new Schedule(id, desc, start, until, roomId);
         });
@@ -84,8 +86,8 @@ public class ScheduleDao {
                 return null;
             }
             String desc = rs.getString(1);
-            LocalDate start = rs.getTimestamp(2).toLocalDateTime().toLocalDate();
-            LocalDate until = rs.getTimestamp(3).toLocalDateTime().toLocalDate();
+            LocalDateTime start = rs.getTimestamp(2).toLocalDateTime();
+            LocalDateTime until = rs.getTimestamp(3).toLocalDateTime();
             short roomId = rs.getShort(4);
             return new Schedule(id, desc, start, until, roomId);
         });
@@ -125,8 +127,8 @@ public class ScheduleDao {
                       VALUES(?, ?, ?, ?);
                       """);
                 insertQuery.setString(1, schedule.description());
-                insertQuery.setDate(2,  Date.valueOf(schedule.start()));
-                insertQuery.setDate(3, Date.valueOf(schedule.until()));
+                insertQuery.setTimestamp(2, Timestamp.valueOf(schedule.start()));
+                insertQuery.setTimestamp(3, Timestamp.valueOf(schedule.until()));
                 insertQuery.setShort(4, schedule.roomId());
                 return insertQuery;
             });

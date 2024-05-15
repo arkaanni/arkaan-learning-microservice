@@ -1,12 +1,12 @@
 package dev.arkaan.schl.roomservice.schedule;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record Schedule(
         String id,
         String description,
-        LocalDate start,
-        LocalDate until,
+        LocalDateTime start,
+        LocalDateTime until,
         short roomId
 ) {
 }
