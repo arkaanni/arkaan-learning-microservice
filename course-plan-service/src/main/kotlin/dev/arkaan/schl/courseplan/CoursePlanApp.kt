@@ -5,6 +5,7 @@ import com.typesafe.config.Config
 import dev.arkaan.schl.courseplan.client.ClientExtension
 import dev.arkaan.schl.courseplan.db.ExposedExtension
 import dev.arkaan.schl.courseplan.service.CoursePlanService
+import dev.arkaan.schl.courseplan.service.EnrollmentService
 import dev.arkaan.schl.courseplan.service.ServiceExtension
 import io.jooby.*
 import io.jooby.jackson.JacksonModule
@@ -43,11 +44,18 @@ fun main(args: Array<String>) {
         }
 
         val coursePlanService = require(CoursePlanService::class.java)
+        val enrollmentService = require(EnrollmentService::class.java)
         coroutine {
             path("/courseplan") {
                 with(coursePlanService) {
                     get("/") { getCoursePlan() }
                     post("/") { createCoursePlan(ctx) }
+                }
+                with(enrollmentService) {
+                    get("/enrollment/{studentId}") {
+                        val studentId = ctx.path("studentId").value()
+                        getEnrollment(studentId)
+                    }
                 }
             }
         }

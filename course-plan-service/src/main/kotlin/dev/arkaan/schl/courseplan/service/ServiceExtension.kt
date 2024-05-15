@@ -12,6 +12,10 @@ class ServiceExtension: Extension {
         val scheduleClient = application.require(ScheduleHttpClient::class.java)
         val subjectClient = application.require(SubjectHttpClient::class.java)
         val coursePlanService by lazy { CoursePlanService(db, scheduleClient, subjectClient) }
-        application.services.put(CoursePlanService::class.java, coursePlanService)
+        val enrollmentService by lazy { EnrollmentService(db) }
+        with(application.services) {
+            put(CoursePlanService::class.java, coursePlanService)
+            put(EnrollmentService::class.java, enrollmentService)
+        }
     }
 }
