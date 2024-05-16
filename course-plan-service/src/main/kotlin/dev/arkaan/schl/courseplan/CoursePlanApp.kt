@@ -56,6 +56,7 @@ fun main(args: Array<String>) {
                         val studentId = ctx.path("studentId").value()
                         getEnrollment(studentId)
                     }
+                    post("/enrollment") { enroll(ctx) }
                 }
             }
         }

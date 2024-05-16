@@ -28,3 +28,5 @@ class ExposedExtension: Extension {
 fun <T: Table, R> T.inTransaction(db: Database, func: T.() -> R): R = transaction(db) { func() }
 
 fun <T: Table, R> T.inTransaction(func: T.() -> R): R = transaction { func() }
+
+fun <T: Table, R> T.queryForResult(func: T.() -> R): R = func()

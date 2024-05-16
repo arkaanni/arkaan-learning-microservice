@@ -4,6 +4,7 @@ import dev.arkaan.schl.courseplan.client.ScheduleHttpClient
 import dev.arkaan.schl.courseplan.client.SubjectHttpClient
 import dev.arkaan.schl.courseplan.db.entity.CoursePlan
 import dev.arkaan.schl.courseplan.db.inTransaction
+import dev.arkaan.schl.courseplan.db.queryForResult
 import dev.arkaan.schl.courseplan.domain.CoursePlanDto
 import dev.arkaan.schl.courseplan.domain.CoursePlanRequest
 import io.jooby.Context
@@ -13,6 +14,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 
@@ -22,12 +24,22 @@ class CoursePlanService(
     private val subjectClient: SubjectHttpClient
     ) {
 
-    fun getCoursePlan(): List<CoursePlanDto> = CoursePlan.inTransaction(db) {
-        selectAll()
-            .map {
-                CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[year])
-            }
+    fun getCoursePlan(): List<CoursePlanDto> =
+        CoursePlan.queryForResult {
+            selectAll()
+                .map {
+                    CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[semester], it[year])
+                }
     }
+
+    fun getCoursePlan(forId: String): CoursePlanDto =
+        CoursePlan.queryForResult {
+            selectAll()
+                .limit(1)
+                .where(id eq forId)
+                .map { CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[semester], it[year]) }
+                .first()
+        }
 
     suspend fun createCoursePlan(ctx: Context): String {
         val coursePlan = ctx.body(CoursePlanRequest::class.java)
@@ -59,7 +71,7 @@ class CoursePlanService(
     }
 
     private suspend fun checkAvailability(request: CoursePlanRequest): Boolean = withContext(Dispatchers.IO) {
-        CoursePlan.inTransaction {
+        CoursePlan.queryForResult {
             select(scheduleId)
                 .where {
                     scheduleId eq request.scheduleId
