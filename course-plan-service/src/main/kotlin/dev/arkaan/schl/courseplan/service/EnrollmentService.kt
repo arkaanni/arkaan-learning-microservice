@@ -35,40 +35,48 @@ class EnrollmentService(
     fun getEnrollment(forStudentId: String, forCoursePlanId: String): EnrollmentDto? =
         Enrollment.queryForResult {
             selectAll()
+                .limit(1)
                 .where {
                     studentId eq forStudentId
                     coursePlanId eq forCoursePlanId
                 }
                 .map(::fromResult)
                 .firstOrNull()
-    }
+        }
 
-    suspend fun enroll(ctx: Context): String =
-        withContext(Dispatchers.IO) {
-            val request = ctx.body(EnrollmentRequest::class.java)
-            with(request) {
-                val coursePlanAndStudent = awaitAll(
-                    async { coursePlanService.getCoursePlan(coursePlanId) },
-                    async { studentClient.getStudentById(studentId) },
-                    async { getEnrollment(studentId) }
-                )
-                val coursePlanDto = coursePlanAndStudent[0] as CoursePlanDto
-                val student = coursePlanAndStudent[1] as Student
-                val enrollmentDto = coursePlanAndStudent[2] as EnrollmentDto?
-                if (enrollmentDto == null) {
-                    ctx.responseCode = StatusCode.BAD_REQUEST
-                    "Already enrolled"
-                } else {
-                    val isEligible = student.semester == coursePlanDto.semester
-                    if (isEligible) {
-                        insertEnrollment(studentId, coursePlanId)
-                        "Enrollment success"
-                    } else {
-                        "Student not eligible to enroll"
-                    }
-                }
+    suspend fun enroll(ctx: Context): String = withContext(Dispatchers.IO) {
+        val request = ctx.body(EnrollmentRequest::class.java)
+        with(request) {
+            val coursePlanAndStudent = awaitAll(
+                async { coursePlanService.getCoursePlan(coursePlanId) },
+                async { studentClient.getStudentById(studentId) },
+                async { getEnrollment(studentId, coursePlanId) }
+            )
+            val coursePlanDto = coursePlanAndStudent[0] as CoursePlanDto?
+            val student = coursePlanAndStudent[1] as Student?
+            val enrollmentDto = coursePlanAndStudent[2] as EnrollmentDto?
+
+            ctx.responseCode = StatusCode.BAD_REQUEST
+            if (student == null) {
+                return@with "Student not found"
+            }
+            if (coursePlanDto == null) {
+                return@with "Course plan not found"
+            }
+            if (enrollmentDto != null) {
+                return@with "Already enrolled"
+            }
+            // whats the correct way for this?
+            val isEligible = student.semester == coursePlanDto.semester
+            return@with if (isEligible) {
+                insertEnrollment(studentId, coursePlanId)
+                ctx.responseCode = StatusCode.CREATED
+                "Enrollment success"
+            } else {
+                "Student not eligible to enroll"
             }
         }
+    }
 
     private fun insertEnrollment(forStudentId: String, forCoursePlanId: String) {
         Enrollment.inTransaction(db) {

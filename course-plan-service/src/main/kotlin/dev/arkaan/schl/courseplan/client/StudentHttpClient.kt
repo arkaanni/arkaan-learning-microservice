@@ -11,7 +11,7 @@ class StudentHttpClient(
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val getStudent: suspend (id: String) -> Student? = {
-        Fuel.get("$baseUrl/$it")
+        Fuel.get("$baseUrl/student/$it")
             .timeout(2000)
             .awaitObjectResult(jacksonDeserializerOf<Student>())
             .fold(

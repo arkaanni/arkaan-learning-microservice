@@ -32,13 +32,13 @@ class CoursePlanService(
                 }
     }
 
-    fun getCoursePlan(forId: String): CoursePlanDto =
+    fun getCoursePlan(forId: String): CoursePlanDto? =
         CoursePlan.queryForResult {
             selectAll()
                 .limit(1)
                 .where(id eq forId)
                 .map { CoursePlanDto(it[id], it[subjectCode], it[scheduleId], it[semester], it[year]) }
-                .first()
+                .firstOrNull()
         }
 
     suspend fun createCoursePlan(ctx: Context): String {

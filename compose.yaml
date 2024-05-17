@@ -1,0 +1,41 @@
+services:
+  student:
+    build:
+      context: student-service
+      dockerfile: Dockerfile
+    ports:
+      - "8441:8443"
+    external_links:
+      - "mysql8:mysql8"
+    environment:
+      db_host: mysql8
+      db_port: 3306
+      db_user: student_service
+      db_password: student_service
+      db_name: student
+  subject:
+    build:
+      context: subject-service
+      dockerfile: jar.Dockerfile
+    ports:
+      - "8442:8443"
+    external_links:
+      - "mysql8:mysql8"
+    environment:
+      db_host: mysql8
+      db_port: 3306
+      db_user: subject_service
+      db_password: subject_service
+  room:
+    build:
+      context: room-service
+      dockerfile: jar.Dockerfile
+    ports:
+      - "8443:8080"
+    external_links:
+      - "mysql8:mysql8"
+    environment:
+      db_host: mysql8
+      db_port: 3306
+      db_user: room_service
+      db_password: room_service

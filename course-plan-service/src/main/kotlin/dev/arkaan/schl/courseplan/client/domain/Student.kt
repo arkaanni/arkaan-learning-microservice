@@ -3,12 +3,12 @@ package dev.arkaan.schl.courseplan.client.domain
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class Student(
-    @JsonProperty
+    @JsonProperty("studentId")
     val studentId: String,
-    @JsonProperty
+    @JsonProperty("firstName")
     val firstName: String,
-    @JsonProperty
+    @JsonProperty("lastName")
     val lastName: String,
-    @JsonProperty
+    @JsonProperty("semester")
     val semester: Byte
 )

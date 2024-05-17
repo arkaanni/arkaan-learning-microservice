@@ -3,12 +3,12 @@ package dev.arkaan.schl.courseplan.domain
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class EnrollmentDto(
-    @JsonProperty
+    @JsonProperty("id")
     val id: String,
-    @JsonProperty
+    @JsonProperty("coursePlanId")
     val coursePlanId: String,
-    @JsonProperty
+    @JsonProperty("studentId")
     val studentId: String,
-    @JsonProperty
-    val grade: Char
+    @JsonProperty("grade")
+    val grade: Char?
 )
