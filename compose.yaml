@@ -39,3 +39,23 @@ services:
       db_port: 3306
       db_user: room_service
       db_password: room_service
+  courseplan:
+    build:
+      context: course-plan-service
+      dockerfile: Dockerfile
+    ports:
+      - "8444:8443"
+    external_links:
+      - "mysql8:mysql8"
+    links:
+      - "room:room"
+      - "student:student"
+      - "subject:subject"
+    environment:
+      db_host: mysql8
+      db_port: 3306
+      db_user: course_plan_service
+      db_password: course_plan_service
+      student_api: student
+      subject_api: subject
+      schedule_api: room
