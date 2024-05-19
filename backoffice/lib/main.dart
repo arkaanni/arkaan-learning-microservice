@@ -38,10 +38,9 @@ class _AppState extends State<MyApp> {
       });
     }
     return MaterialApp(
-      theme: ThemeData.dark(),
       home: Scaffold(
         appBar: AppBar(),
-        drawer: _Navigation(changePage),
+        drawer: _Navigation(changePage, _page),
         body: switch(_page) {
           Page.student => widget.studentPage,
           Page.subject => const Text("Subject"),
@@ -53,72 +52,60 @@ class _AppState extends State<MyApp> {
   }
 }
 
-Widget content(Page page) {
-  switch(page) {
-    case Page.student:
-      return const Text("Student");
-    case Page.subject:
-      return const Text("Subject");
-    case Page.room:
-      return const Text("Room");
-    case Page.courseplan:
-      return const Text("Courseplan");
-  }
-}
-
 enum Page { student, subject, room, courseplan }
 
 class _Navigation extends StatelessWidget {
   final Function(Page) navigate;
+  final Page selectedPage;
 
-  const _Navigation(this.navigate);
+  const _Navigation(this.navigate, this.selectedPage);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 40, 20, 40),
+        padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
         children: [
+          const Text("Student", style: TextStyle()),
+          const Divider(),
           ListTile(
-            title: ElevatedButton(
-              style: const ButtonStyle(alignment: Alignment.centerLeft),
-              onPressed: () => {
-                navigate(Page.student),
-                Navigator.pop(context)
-              },
-              child: const Text("Student")
-            ),
+            selected: selectedPage == Page.student,
+            title: const Text("Student list"),
+            onTap: () => {
+              navigate(Page.student),
+              Navigator.pop(context)
+            },
           ),
+          const Text("Subject"),
+          const Divider(),
           ListTile(
-            title: ElevatedButton(
-              style: const ButtonStyle(alignment: Alignment.centerLeft),
-              onPressed: () => {
-                navigate(Page.subject),
-                Navigator.pop(context)
-              },
-              child: const Text("Subject")
-            ),
+            selected: selectedPage == Page.subject,
+            title: const Text("Subject list"),
+            onTap: () => {
+              navigate(Page.subject),
+              Navigator.pop(context)
+            },
           ),
+          const Text("Room"),
+          const Divider(),
           ListTile(
-            title: ElevatedButton(
-              style: const ButtonStyle(alignment: Alignment.centerLeft),
-              onPressed: () => {
-                navigate(Page.room),
-                Navigator.pop(context)
-              },
-              child: const Text("Room")
-            ),
+            selected: selectedPage == Page.room,
+            title: const Text("Room list"),
+            onTap: () => {
+              navigate(Page.room),
+              Navigator.pop(context)
+            },
           ),
+          const Text("Course plan"),
+          const Divider(),
           ListTile(
-            title: ElevatedButton(
-              style: const ButtonStyle(alignment: Alignment.centerLeft),
-              onPressed: () => {
-                navigate(Page.courseplan),
-                Navigator.pop(context)
-              },
-              child: const Text("Course plan")
-            ),
-          )
+            selected: selectedPage == Page.courseplan,
+            title: const Text("Course plan list"),
+            onTap: () => {
+              navigate(Page.courseplan),
+              Navigator.pop(context)
+            },
+          ),
         ],
       ),
     );

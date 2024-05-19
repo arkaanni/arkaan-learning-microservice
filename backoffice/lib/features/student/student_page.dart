@@ -1,22 +1,17 @@
 import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StudentPage extends StatefulWidget {
   final StudentService studentService;
 
-  const StudentPage({
-    super.key,
-    required this.studentService
-  });
+  const StudentPage({super.key, required this.studentService});
 
   @override
   State createState() => _StudentPageState();
 }
 
 class _StudentPageState extends State<StudentPage> {
-
   List<Student> _studentList = List.empty(growable: true);
 
   @override
@@ -26,7 +21,7 @@ class _StudentPageState extends State<StudentPage> {
   }
 
   void fetchStudents() async {
-    await Future.delayed(const Duration(milliseconds: 2000));
+    await Future.delayed(const Duration(milliseconds: 1000));
     var studentList = await widget.studentService.getStudents().toList();
     setState(() {
       _studentList = studentList;
@@ -40,13 +35,23 @@ class _StudentPageState extends State<StudentPage> {
         child: CircularProgressIndicator(),
       );
     }
-    var student1 = _studentList.first.studentId;
-    return Row(
-      children: [
-        Center(
-          child: Text(student1.toString()),
-        )
-      ],
-    );
+    return SizedBox.expand(
+        child: DataTable(
+            columns: const <DataColumn>[
+          DataColumn(label: Text("Student ID")),
+          DataColumn(label: Text("Name")),
+          DataColumn(label: Text("Address")),
+          DataColumn(label: Text("Phone")),
+          DataColumn(label: Text("Semester")),
+        ],
+            rows: _studentList
+                .map((st) => DataRow(cells: [
+                      DataCell(Text(st.studentId)),
+                      DataCell(Text('${st.firstName} ${st.lastName}')),
+                      DataCell(Text(st.address)),
+                      DataCell(Text(st.phone)),
+                      DataCell(Text(st.semester.toString())),
+                    ]))
+                .toList()));
   }
 }
