@@ -1,4 +1,12 @@
 services:
+  ingress:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/tmp/docker.sock:ro"
+    environment:
+      HTTPS_METHOD: nohttps
   student:
     build:
       context: student-service
@@ -13,6 +21,8 @@ services:
       db_user: student_service
       db_password: student_service
       db_name: student
+      VIRTUAL_HOST: local.dev
+      VIRTUAL_PATH: /student
   subject:
     build:
       context: subject-service
@@ -26,6 +36,8 @@ services:
       db_port: 3306
       db_user: subject_service
       db_password: subject_service
+      VIRTUAL_HOST: local.dev
+      VIRTUAL_PATH: /subject
   room:
     build:
       context: room-service
@@ -39,6 +51,8 @@ services:
       db_port: 3306
       db_user: room_service
       db_password: room_service
+      VIRTUAL_HOST: local.dev
+      VIRTUAL_PATH: /room
   courseplan:
     build:
       context: course-plan-service
@@ -59,3 +73,5 @@ services:
       student_api: student
       subject_api: subject
       schedule_api: room
+      VIRTUAL_HOST: local.dev
+      VIRTUAL_PATH: /courseplan

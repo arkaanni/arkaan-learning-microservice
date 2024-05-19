@@ -83,7 +83,7 @@ public class E2ETest {
         var mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         var body = mapper.writeValueAsString(new RecurringSchedule(null, (short) 1, (short) 1, (short) 7, (short) 9, (short) 0, (short) 0, LocalDate.now(), LocalDate.now().plusWeeks(4)));
-        mockMvc.perform(post("/schedule/recurring")
+        mockMvc.perform(post("/room/schedule/recurring")
                 .contentType("application/json")
                 .content(body))
                 .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
@@ -100,7 +100,7 @@ public class E2ETest {
 
     @Test
     public void shouldGetRecurringSchedule() throws Exception {
-        mockMvc.perform(get("/schedule/recurring")
+        mockMvc.perform(get("/room/schedule/recurring")
                 .accept("application/json"))
                 .andExpect(result -> assertEquals(200, result.getResponse().getStatus()));
     }

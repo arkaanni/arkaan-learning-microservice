@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/schedule")
+@RequestMapping("/room/schedule")
 @CrossOrigin(origins = "*")
 public class ScheduleController {
 
