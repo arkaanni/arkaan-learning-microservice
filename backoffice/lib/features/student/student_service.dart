@@ -7,4 +7,6 @@ class StudentService {
   StudentService({required StudentDao dao}) : _dao = dao;
 
   Stream<Student> getStudents() => _dao.getStudents();
+
+  Future addStudent(Student student) => _dao.addStudent(student);
 }

@@ -1,11 +1,11 @@
 class Student {
   final int? id;
-  final String studentId;
-  final String firstName;
-  final String lastName;
-  final String address;
-  final String phone;
-  final int semester;
+  String studentId;
+  String firstName;
+  String lastName;
+  String address;
+  String phone;
+  int semester;
 
   Student({
     required this.id,
@@ -34,4 +34,13 @@ class Student {
       address: "",
       phone: "",
       semester: 1);
+
+  toJson() => {
+    "studentId": studentId,
+    "firstName": firstName,
+    "lastName": lastName,
+    "address": address,
+    "phone": phone,
+    "semester": semester
+  };
 }

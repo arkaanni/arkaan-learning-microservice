@@ -29,20 +29,25 @@ class _AppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Backoffice",
       home: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: pageTitles[_page],
+        ),
         drawer: _Navigation(changePage, _page),
-        body: switch(_page) {
-          Page.student => const StudentPage(),
-          Page.subject => const Text("Subject"),
-          Page.room => const Text("Room"),
-          Page.courseplan => const Text("Courseplan"),
-          Page.addStudent => const AddStudentPage()
-        },
+        body: routes[_page]
       ),
     );
   }
 }
+
+final pageTitles = {
+  Page.student: const Text("Student list"),
+  Page.subject: const Text("Subject list"),
+  Page.room: const Text("Room list"),
+  Page.courseplan: const Text("Course plan list"),
+  Page.addStudent: const Text("Add student")
+};
 
 final routes = {
   Page.student: const StudentPage(),
@@ -62,9 +67,9 @@ class _Navigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ListTile menu(Page page, String title) => ListTile(
+    ListTile menu(Page page) => ListTile(
       selected: selectedPage == page,
-      title: Text(title),
+      title: pageTitles[page],
       onTap: () => {
           navigate(page),
           Navigator.pop(context)
@@ -77,17 +82,17 @@ class _Navigation extends StatelessWidget {
         children: [
           const Text("Student"),
           const Divider(),
-          menu(Page.student, "Student list"),
-          menu(Page.addStudent, "Add student"),
+          menu(Page.student),
+          menu(Page.addStudent),
           const Text("Subject"),
           const Divider(),
-          menu(Page.subject, "Subject list"),
+          menu(Page.subject),
           const Text("Room"),
           const Divider(),
-          menu(Page.room, "Room list"),
+          menu(Page.room),
           const Text("Course plan"),
           const Divider(),
-          menu(Page.courseplan, "Course plan list"),
+          menu(Page.courseplan),
         ],
       ),
     );

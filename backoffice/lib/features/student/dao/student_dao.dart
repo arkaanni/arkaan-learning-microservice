@@ -13,4 +13,12 @@ class StudentDao {
        yield Student.fromJson(s);
     }
   }
+
+  Future addStudent(Student student) async {
+    return _dio.post("/student", data: student.toJson(), options: Options(
+      headers: {
+        "content-type": "application/json"
+      }
+    ));
+  }
 }
