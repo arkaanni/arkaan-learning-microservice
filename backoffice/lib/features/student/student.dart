@@ -25,4 +25,13 @@ class Student {
       address = json["address"],
       phone = json["phone"],
       semester = json["semester"];
+
+  factory Student.empty() => Student(
+      id: -1,
+      studentId: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      phone: "",
+      semester: 1);
 }

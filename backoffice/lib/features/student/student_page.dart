@@ -2,10 +2,11 @@ import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
 import 'package:flutter/material.dart';
 
-class StudentPage extends StatefulWidget {
-  final StudentService studentService;
+import '../../sl.dart';
 
-  const StudentPage({super.key, required this.studentService});
+class StudentPage extends StatefulWidget {
+  
+  const StudentPage({super.key});
 
   @override
   State createState() => _StudentPageState();
@@ -13,6 +14,7 @@ class StudentPage extends StatefulWidget {
 
 class _StudentPageState extends State<StudentPage> {
   List<Student> _studentList = List.empty(growable: true);
+  final StudentService studentService = sl.get<StudentService>();
 
   @override
   void initState() {
@@ -22,7 +24,7 @@ class _StudentPageState extends State<StudentPage> {
 
   void fetchStudents() async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    var studentList = await widget.studentService.getStudents().toList();
+    var studentList = await studentService.getStudents().toList();
     setState(() {
       _studentList = studentList;
     });

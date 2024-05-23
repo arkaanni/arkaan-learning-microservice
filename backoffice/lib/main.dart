@@ -1,26 +1,16 @@
-import 'package:backoffice/features/student/dao/student_dao.dart';
+import 'package:backoffice/features/student/add_student_page.dart';
 import 'package:backoffice/features/student/student_page.dart';
-import 'package:backoffice/features/student/student_service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import './sl.dart' as sl;
 
 void main() {
-  final dio = Dio(BaseOptions(
-    baseUrl: "http://local.dev",
-    connectTimeout: const Duration(milliseconds: 5000),
-  ));
-  var studentDao = StudentDao(dio: dio);
-  var studentService = StudentService(dao: studentDao);
-  var studentPage = StudentPage(studentService: studentService);
-  runApp(MyApp(studentPage: studentPage));
+  sl.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  final StudentPage studentPage;
-  const MyApp({
-    super.key,
-    required this.studentPage
-  });
+
+  const MyApp({super.key});
 
   @override
   State<StatefulWidget> createState() => _AppState();
@@ -42,17 +32,18 @@ class _AppState extends State<MyApp> {
         appBar: AppBar(),
         drawer: _Navigation(changePage, _page),
         body: switch(_page) {
-          Page.student => widget.studentPage,
+          Page.student => const StudentPage(),
           Page.subject => const Text("Subject"),
           Page.room => const Text("Room"),
-          Page.courseplan => const Text("Courseplan")
+          Page.courseplan => const Text("Courseplan"),
+          Page.addStudent => const AddStudentPage()
         },
       ),
     );
   }
 }
 
-enum Page { student, subject, room, courseplan }
+enum Page { student, addStudent, subject, room, courseplan }
 
 class _Navigation extends StatelessWidget {
   final Function(Page) navigate;
@@ -62,50 +53,32 @@ class _Navigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ListTile menu(Page page, String title) => ListTile(
+      selected: selectedPage == page,
+      title: Text(title),
+      onTap: () => {
+        navigate(page),
+        Navigator.pop(context)
+        },
+      );
+
     return Drawer(
       child: ListView(
         padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
         children: [
-          const Text("Student", style: TextStyle()),
+          const Text("Student"),
           const Divider(),
-          ListTile(
-            selected: selectedPage == Page.student,
-            title: const Text("Student list"),
-            onTap: () => {
-              navigate(Page.student),
-              Navigator.pop(context)
-            },
-          ),
+          menu(Page.student, "Student list"),
+          menu(Page.addStudent, "Add student"),
           const Text("Subject"),
           const Divider(),
-          ListTile(
-            selected: selectedPage == Page.subject,
-            title: const Text("Subject list"),
-            onTap: () => {
-              navigate(Page.subject),
-              Navigator.pop(context)
-            },
-          ),
+          menu(Page.subject, "Subject list"),
           const Text("Room"),
           const Divider(),
-          ListTile(
-            selected: selectedPage == Page.room,
-            title: const Text("Room list"),
-            onTap: () => {
-              navigate(Page.room),
-              Navigator.pop(context)
-            },
-          ),
+          menu(Page.room, "Room list"),
           const Text("Course plan"),
           const Divider(),
-          ListTile(
-            selected: selectedPage == Page.courseplan,
-            title: const Text("Course plan list"),
-            onTap: () => {
-              navigate(Page.courseplan),
-              Navigator.pop(context)
-            },
-          ),
+          menu(Page.courseplan, "Course plan list"),
         ],
       ),
     );
