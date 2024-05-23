@@ -20,13 +20,14 @@ class _AppState extends State<MyApp> {
 
   var _page = Page.student;
 
+  void changePage(Page page) {
+    setState(() {
+      _page = page;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void changePage(Page page) {
-      setState(() {
-        _page = page;
-      });
-    }
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(),
@@ -43,6 +44,14 @@ class _AppState extends State<MyApp> {
   }
 }
 
+final routes = {
+  Page.student: const StudentPage(),
+  Page.subject: const Text("Subject"),
+  Page.room: const Text("Room"),
+  Page.courseplan: const Text("Courseplan"),
+  Page.addStudent: const AddStudentPage()
+};
+
 enum Page { student, addStudent, subject, room, courseplan }
 
 class _Navigation extends StatelessWidget {
@@ -57,8 +66,8 @@ class _Navigation extends StatelessWidget {
       selected: selectedPage == page,
       title: Text(title),
       onTap: () => {
-        navigate(page),
-        Navigator.pop(context)
+          navigate(page),
+          Navigator.pop(context)
         },
       );
 
