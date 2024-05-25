@@ -58,6 +58,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
               },
             ),
             DropdownButtonFormField(
+              decoration: const InputDecoration(labelText: "Category"),
               onChanged: (value) {
                 roomForm.categoryId = value as int;
               },
