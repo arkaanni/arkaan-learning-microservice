@@ -60,10 +60,16 @@ class _AddRoomPageState extends State<AddRoomPage> {
             DropdownButtonFormField(
               decoration: const InputDecoration(labelText: "Category"),
               onChanged: (value) {
-                roomForm.categoryId = value as int;
+                roomForm.categoryId = value!;
+              },
+              validator: (value) {
+                if (value == null) {
+                  return "Room code required";
+                }
+                return null;
               },
               items: categories.map((category) {
-                return DropdownMenuItem(
+                return DropdownMenuItem<int>(
                   value: category.id,
                   child: Text(category.name),
                 );
