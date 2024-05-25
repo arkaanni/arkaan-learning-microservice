@@ -4,7 +4,7 @@ class Observable<T> {
 
   Observable(this._data);
 
-  void observe(Function fun) => _observers.add(fun);
+  void observe(Function(T) fun) => _observers.add(fun(_data));
 
   T get() => _data;
 

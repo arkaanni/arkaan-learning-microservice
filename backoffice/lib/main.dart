@@ -1,3 +1,4 @@
+import 'package:backoffice/features/room/room_page.dart';
 import 'package:backoffice/features/student/add_student_page.dart';
 import 'package:backoffice/features/student/student_page.dart';
 import 'package:backoffice/features/subject/add_subject_page.dart';
@@ -56,7 +57,7 @@ final routes = {
   Page.student: const StudentPage(),
   Page.subject: const SubjectPage(),
   Page.addSubject: const AddSubjectPage(),
-  Page.room: const Text("Room"),
+  Page.room: const RoomPage(),
   Page.courseplan: const Text("Courseplan"),
   Page.addStudent: const AddStudentPage()
 };
