@@ -3,9 +3,8 @@ import 'room.dart';
 
 Stream<Category> getCategories() => category_dao.getCategories();
 
-Future<Map<int, String>> getCategoriesMap() async {
-  Map<int, String> map = {};
-  await getCategories().forEach((category) =>
-      map.putIfAbsent(category.id!, () => category.name));
-  return map;
-}
+Future<Map<int, String>> getCategoriesMap() => getCategories()
+    .fold<Map<int, String>>({}, (prev, category) => {
+      ...prev,
+      category.id!: category.name
+    });
