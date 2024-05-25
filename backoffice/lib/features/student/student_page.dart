@@ -2,7 +2,7 @@ import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../sl.dart';
+import 'package:backoffice/sl.dart';
 
 class StudentPage extends StatefulWidget {
   
@@ -23,7 +23,6 @@ class _StudentPageState extends State<StudentPage> {
   }
 
   void fetchStudents() async {
-    await Future.delayed(const Duration(milliseconds: 1000));
     var studentList = await studentService.getStudents().toList();
     setState(() {
       _studentList = studentList;

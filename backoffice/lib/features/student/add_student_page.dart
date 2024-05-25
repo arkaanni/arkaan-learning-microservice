@@ -1,3 +1,4 @@
+import 'package:backoffice/core/dao_response.dart';
 import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
 import 'package:flutter/material.dart';
@@ -114,14 +115,11 @@ class _AddStudentPageState extends State<AddStudentPage> {
                     scaffoldMessenger.showSnackBar(
                       const SnackBar(content: Text("Submitting data"))
                     );
-                    studentService.addStudent(studentForm)
-                      .then((onValue) {
-                        scaffoldMessenger.showSnackBar(
-                          const SnackBar(content: Text("Student added"))
-                        );
-                    }).onError((e, _) {
+                    studentService.addStudent(studentForm).then((response) {
+                      String message = response.status == Status.success ? "Student added": response.message!;
+                      Color bgColor = response.status == Status.success ? Colors.white : Colors.redAccent;
                       scaffoldMessenger.showSnackBar(
-                          const SnackBar(content: Text("Add student failed"), backgroundColor: Colors.redAccent)
+                          SnackBar(content: Text(message), backgroundColor: bgColor)
                       );
                     });
                   }

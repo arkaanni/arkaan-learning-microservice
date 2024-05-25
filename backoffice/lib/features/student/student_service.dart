@@ -1,3 +1,4 @@
+import 'package:backoffice/core/dao_response.dart';
 import 'package:backoffice/features/student/dao/student_dao.dart';
 import 'package:backoffice/features/student/student.dart';
 
@@ -8,5 +9,5 @@ class StudentService {
 
   Stream<Student> getStudents() => _dao.getStudents();
 
-  Future addStudent(Student student) => _dao.addStudent(student);
+  Future<DaoResponse> addStudent(Student student) => _dao.addStudent(student);
 }

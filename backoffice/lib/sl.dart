@@ -1,3 +1,5 @@
+import 'package:backoffice/features/subject/dao/subject_dao.dart';
+import 'package:backoffice/features/subject/subject_service.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:backoffice/features/student/student_service.dart';
@@ -13,4 +15,6 @@ void init() {
   var studentDao = StudentDao(dio: dio);
   var studentService = StudentService(dao: studentDao);
   sl.registerSingleton<StudentService>(studentService);
+  sl.registerSingleton<SubjectDao>(SubjectDao(dio));
+  sl.registerSingleton<SubjectService>(SubjectService());
 }
