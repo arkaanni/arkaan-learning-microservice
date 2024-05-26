@@ -1,11 +1,11 @@
+import 'package:backoffice/features/student/add_student_page.dart';
 import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
 import 'package:flutter/material.dart';
-
 import 'package:backoffice/sl.dart';
 
 class StudentPage extends StatefulWidget {
-  
+
   const StudentPage({super.key});
 
   @override
@@ -36,23 +36,50 @@ class _StudentPageState extends State<StudentPage> {
         child: CircularProgressIndicator(),
       );
     }
-    return SizedBox.expand(
-        child: DataTable(
-            columns: const <DataColumn>[
-          DataColumn(label: Text("Student ID")),
-          DataColumn(label: Text("Name")),
-          DataColumn(label: Text("Address")),
-          DataColumn(label: Text("Phone")),
-          DataColumn(label: Text("Semester")),
-        ],
-            rows: _studentList
-                .map((st) => DataRow(cells: [
-                      DataCell(Text(st.studentId)),
-                      DataCell(Text('${st.firstName} ${st.lastName}')),
-                      DataCell(Text(st.address)),
-                      DataCell(Text(st.phone)),
-                      DataCell(Text(st.semester.toString())),
-                    ]))
-                .toList()));
+    return Padding(padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext ctx) {
+                      return const Dialog(
+                        insetPadding: EdgeInsets.all(60),
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all(56),
+                          child: AddStudentPage(),
+                        )
+                      );
+                    }
+                  );
+                },
+                child: const Text("Add student")),
+            ],
+          ),
+          Expanded(
+            child: DataTable(
+              columns: const <DataColumn>[
+                DataColumn(label: Text("Student ID")),
+                DataColumn(label: Text("Name")),
+                DataColumn(label: Text("Address")),
+                DataColumn(label: Text("Phone")),
+                DataColumn(label: Text("Semester")),
+              ],
+              rows: _studentList.map((st) => DataRow(
+                cells: [
+                  DataCell(Text(st.studentId)),
+                  DataCell(Text('${st.firstName} ${st.lastName}')),
+                  DataCell(Text(st.address)),
+                  DataCell(Text(st.phone)),
+                  DataCell(Text(st.semester.toString())),
+                ])).toList())
+          )
+        ]),
+    );
   }
 }

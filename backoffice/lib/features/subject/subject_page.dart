@@ -1,3 +1,4 @@
+import 'package:backoffice/features/subject/add_subject_page.dart';
 import 'package:backoffice/features/subject/subject_service.dart';
 import 'package:backoffice/sl.dart';
 import 'package:flutter/material.dart';
@@ -35,19 +36,48 @@ class _SubjectPageState extends State<SubjectPage> {
         child: CircularProgressIndicator(),
       );
     }
-    return SizedBox.expand(
-      child: DataTable(
-        columns: const <DataColumn>[
-          DataColumn(label: Text("Subject code")),
-          DataColumn(label: Text("Name")),
-          DataColumn(label: Text("Description"))
-        ],
-        rows: subjectList.map((sb) => DataRow(
-          cells: [
-            DataCell(Text(sb.subjectCode)),
-            DataCell(Text(sb.name)),
-            DataCell(Text(sb.description))
-          ])).toList()
+    return Padding(padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext ctx) {
+                      return const Dialog(
+                        insetPadding: EdgeInsets.all(60),
+                        child: SingleChildScrollView(
+                          padding: EdgeInsets.all(56),
+                          child: AddSubjectPage(),
+                        )
+                      );
+                    }
+                  );
+                },
+                child: const Text("Add subject")
+              ),
+            ],
+          ),
+          Expanded(
+            child: DataTable(
+              columns: const <DataColumn>[
+                DataColumn(label: Text("Subject code")),
+                DataColumn(label: Text("Name")),
+                DataColumn(label: Text("Description"))
+              ],
+              rows: subjectList.map((sb) => DataRow(
+                cells: [
+                  DataCell(Text(sb.subjectCode)),
+                  DataCell(Text(sb.name)),
+                  DataCell(Text(sb.description))
+                ])).toList()
+            )
+          )
+        ]
       )
     );
   }

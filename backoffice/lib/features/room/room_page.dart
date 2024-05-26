@@ -44,7 +44,7 @@ class _RoomPageState extends State {
         child: CircularProgressIndicator(),
       );
     }
-    return Padding(padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
+    return Padding(padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

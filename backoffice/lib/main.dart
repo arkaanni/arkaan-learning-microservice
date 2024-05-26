@@ -1,5 +1,4 @@
 import 'package:backoffice/features/room/room_page.dart';
-import 'package:backoffice/features/student/add_student_page.dart';
 import 'package:backoffice/features/student/student_page.dart';
 import 'package:backoffice/features/subject/add_subject_page.dart';
 import 'package:backoffice/features/subject/subject_page.dart';
@@ -47,19 +46,15 @@ class _AppState extends State<MyApp> {
 final pageTitles = {
   Page.student: const Text("Student list"),
   Page.subject: const Text("Subject list"),
-  Page.addSubject: const Text("Add subject"),
   Page.room: const Text("Room list"),
-  Page.courseplan: const Text("Course plan list"),
-  Page.addStudent: const Text("Add student")
+  Page.courseplan: const Text("Course plan list")
 };
 
 final routes = {
   Page.student: const StudentPage(),
   Page.subject: const SubjectPage(),
-  Page.addSubject: const AddSubjectPage(),
   Page.room: const RoomPage(),
-  Page.courseplan: const Text("Courseplan"),
-  Page.addStudent: const AddStudentPage()
+  Page.courseplan: const Text("Courseplan")
 };
 
 enum Page { student, addStudent, subject, addSubject, room, courseplan }
@@ -88,11 +83,9 @@ class _Navigation extends StatelessWidget {
           const Text("Student"),
           const Divider(),
           menu(Page.student),
-          menu(Page.addStudent),
           const Text("Subject"),
           const Divider(),
           menu(Page.subject),
-          menu(Page.addSubject),
           const Text("Room"),
           const Divider(),
           menu(Page.room),

@@ -2,8 +2,7 @@ import 'package:backoffice/core/dao_response.dart';
 import 'package:backoffice/features/student/student.dart';
 import 'package:backoffice/features/student/student_service.dart';
 import 'package:flutter/material.dart';
-
-import '../../sl.dart';
+import 'package:backoffice/sl.dart';
 
 class AddStudentPage extends StatefulWidget {
   const AddStudentPage({super.key});
@@ -19,12 +18,10 @@ class _AddStudentPageState extends State<AddStudentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Form(
+    return Form(
         key: formKey,
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.6,
           child: Wrap(
             direction: Axis.horizontal,
             runSpacing: 24,
@@ -129,7 +126,6 @@ class _AddStudentPageState extends State<AddStudentPage> {
             ],
           ),
         ),
-      ),
     );
   }
 }
