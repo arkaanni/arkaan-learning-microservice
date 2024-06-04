@@ -109,14 +109,18 @@ class _AddStudentPageState extends State<AddStudentPage> {
                   if (formKey.currentState!.validate()) {
                     var scaffoldMessenger = ScaffoldMessenger.of(context);
                     formKey.currentState!.save();
-                    scaffoldMessenger.showSnackBar(
-                      const SnackBar(content: Text("Submitting data"))
+                    scaffoldMessenger.showSnackBar(const SnackBar(
+                      content: Text("Submitting data"),
+                      behavior: SnackBarBehavior.floating,)
                     );
+                    Navigator.pop(context);
                     studentService.addStudent(studentForm).then((response) {
                       String message = response.status == Status.success ? "Student added": response.message!;
                       Color bgColor = response.status == Status.success ? Colors.white : Colors.redAccent;
-                      scaffoldMessenger.showSnackBar(
-                          SnackBar(content: Text(message), backgroundColor: bgColor)
+                      scaffoldMessenger.showSnackBar(SnackBar(
+                        content: Text(message),
+                        backgroundColor: bgColor,
+                        behavior: SnackBarBehavior.floating)
                       );
                     });
                   }
