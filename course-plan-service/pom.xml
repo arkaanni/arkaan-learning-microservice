@@ -148,6 +148,12 @@
             <version>1.8.21</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.jooby</groupId>
+            <artifactId>jooby-test</artifactId>
+            <version>${joobyVersion}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
