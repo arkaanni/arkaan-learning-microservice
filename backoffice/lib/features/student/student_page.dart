@@ -48,11 +48,11 @@ class _StudentPageState extends State<StudentPage> {
                   showDialog(
                     context: context,
                     builder: (BuildContext ctx) {
-                      return const Dialog(
-                        insetPadding: EdgeInsets.all(60),
+                      return Dialog(
+                        insetPadding: const EdgeInsets.all(60),
                         child: SingleChildScrollView(
-                          padding: EdgeInsets.all(56),
-                          child: AddStudentPage(),
+                          padding: const EdgeInsets.all(56),
+                          child: AddStudentPage(addStudentCallback: fetchStudents),
                         )
                       );
                     }

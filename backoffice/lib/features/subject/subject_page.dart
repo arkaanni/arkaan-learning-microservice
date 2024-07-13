@@ -48,11 +48,11 @@ class _SubjectPageState extends State<SubjectPage> {
                   showDialog(
                     context: context,
                     builder: (BuildContext ctx) {
-                      return const Dialog(
-                        insetPadding: EdgeInsets.all(60),
+                      return Dialog(
+                        insetPadding: const EdgeInsets.all(60),
                         child: SingleChildScrollView(
-                          padding: EdgeInsets.all(56),
-                          child: AddSubjectPage(),
+                          padding: const EdgeInsets.all(56),
+                          child: AddSubjectPage(addSubjectCallback: fetchSubjects),
                         )
                       );
                     }

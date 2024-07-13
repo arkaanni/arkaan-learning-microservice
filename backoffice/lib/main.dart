@@ -1,6 +1,6 @@
+import 'package:backoffice/features/courseplan/courseplan_page.dart';
 import 'package:backoffice/features/room/room_page.dart';
 import 'package:backoffice/features/student/student_page.dart';
-import 'package:backoffice/features/subject/add_subject_page.dart';
 import 'package:backoffice/features/subject/subject_page.dart';
 import 'package:flutter/material.dart';
 import './sl.dart' as sl;

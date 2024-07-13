@@ -58,7 +58,7 @@ class _RoomPageState extends State {
                       builder: (BuildContext ctx) {
                         return Dialog(
                           insetPadding: const EdgeInsets.all(60),
-                          child: AddRoomPage(onCloseCallback: fetchRooms)
+                          child: AddRoomPage(addRoomCallback: fetchRooms)
                         );
                       });
                 },

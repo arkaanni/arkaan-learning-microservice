@@ -1,14 +1,16 @@
 import 'package:backoffice/core/dao_response.dart';
 import 'package:flutter/material.dart';
 import 'package:backoffice/features/room/room_service.dart';
-import 'package:backoffice/features/room/category_service.dart' as category_service;
+import 'package:backoffice/features/room/category_service.dart'
+    as category_service;
 import 'room.dart';
 import 'package:backoffice/sl.dart';
 
 class AddRoomPage extends StatefulWidget {
-  final Function onCloseCallback;
+  final Function _addRoomCallback;
 
-  const AddRoomPage({super.key, required this.onCloseCallback});
+  const AddRoomPage({super.key, required Function addRoomCallback})
+    : _addRoomCallback = addRoomCallback;
 
   @override
   State<StatefulWidget> createState() => _AddRoomPageState();
@@ -80,11 +82,12 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 if (formKey.currentState!.validate()) {
                   var scaffoldMessenger = ScaffoldMessenger.of(context);
                   formKey.currentState!.save();
-                  Navigator.pop(context);
-                  scaffoldMessenger.showSnackBar(const SnackBar(
-                      content: Text("Submitting data"),
-                      behavior: SnackBarBehavior.floating));
+                  var submitSnackBar = scaffoldMessenger.showSnackBar(
+                      const SnackBar(
+                          content: Text("Submitting data"),
+                          behavior: SnackBarBehavior.floating));
                   roomService.addRoom(roomForm).then((response) {
+                    submitSnackBar.close();
                     String message = response.status == Status.success
                         ? "Room added"
                         : response.message!;
@@ -95,7 +98,10 @@ class _AddRoomPageState extends State<AddRoomPage> {
                         content: Text(message),
                         backgroundColor: bgColor,
                         behavior: SnackBarBehavior.floating));
-                    widget.onCloseCallback();
+                    if (response.status == Status.success) {
+                      Navigator.pop(context);
+                      widget._addRoomCallback();
+                    }
                   });
                 }
               },

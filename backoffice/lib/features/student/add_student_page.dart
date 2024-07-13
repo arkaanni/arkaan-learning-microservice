@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:backoffice/sl.dart';
 
 class AddStudentPage extends StatefulWidget {
-  const AddStudentPage({super.key});
+  final Function _addStudentCallback;
+  const AddStudentPage({super.key, required Function addStudentCallback})
+    : _addStudentCallback = addStudentCallback;
 
   @override
   State<StatefulWidget> createState() => _AddStudentPageState();
@@ -109,19 +111,23 @@ class _AddStudentPageState extends State<AddStudentPage> {
                   if (formKey.currentState!.validate()) {
                     var scaffoldMessenger = ScaffoldMessenger.of(context);
                     formKey.currentState!.save();
-                    scaffoldMessenger.showSnackBar(const SnackBar(
+                    var submitSnackBar = scaffoldMessenger.showSnackBar(const SnackBar(
                       content: Text("Submitting data"),
-                      behavior: SnackBarBehavior.floating,)
+                      behavior: SnackBarBehavior.floating)
                     );
-                    Navigator.pop(context);
                     studentService.addStudent(studentForm).then((response) {
+                      submitSnackBar.close();
                       String message = response.status == Status.success ? "Student added": response.message!;
-                      Color bgColor = response.status == Status.success ? Colors.white : Colors.redAccent;
+                      Color bgColor = response.status == Status.success ? Colors.green : Colors.redAccent;
                       scaffoldMessenger.showSnackBar(SnackBar(
                         content: Text(message),
                         backgroundColor: bgColor,
                         behavior: SnackBarBehavior.floating)
                       );
+                      if (response.status == Status.success) {
+                        widget._addStudentCallback();
+                        Navigator.pop(context);
+                      }
                     });
                   }
                 },

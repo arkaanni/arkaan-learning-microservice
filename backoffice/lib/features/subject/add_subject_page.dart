@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:backoffice/sl.dart';
 
 class AddSubjectPage extends StatefulWidget {
+  final Function _addSubjectCallback;
 
-  const AddSubjectPage({super.key});
+  const AddSubjectPage({super.key, required Function addSubjectCallback})
+      : _addSubjectCallback = addSubjectCallback;
 
   @override
   State<StatefulWidget> createState() => _AddSubjectPageState();
 }
 
 class _AddSubjectPageState extends State<AddSubjectPage> {
-
   final subjectService = sl.get<SubjectService>();
   final formKey = GlobalKey<FormState>();
   final subjectForm = Subject.empty();
@@ -72,15 +73,28 @@ class _AddSubjectPageState extends State<AddSubjectPage> {
                 if (formKey.currentState!.validate()) {
                   var scaffoldMessenger = ScaffoldMessenger.of(context);
                   formKey.currentState!.save();
-                  scaffoldMessenger.showSnackBar(
-                    const SnackBar(content: Text("Submitting data"))
-                  );
+                  var submitSnackBar = scaffoldMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text("Submitting data"),
+                        behavior: SnackBarBehavior.floating,
+                      ));
                   subjectService.addSubject(subjectForm).then((response) {
-                    String message = response.status == Status.success ? "Student added": response.message!;
-                    Color bgColor = response.status == Status.success ? Colors.white : Colors.redAccent;
-                    scaffoldMessenger.showSnackBar(
-                      SnackBar(content: Text(message), backgroundColor: bgColor)
-                    );
+                    submitSnackBar.close();
+                    String message = response.status == Status.success
+                        ? "Subject added"
+                        : response.message!;
+                    Color bgColor = response.status == Status.success
+                        ? Colors.green
+                        : Colors.redAccent;
+                    scaffoldMessenger.showSnackBar(SnackBar(
+                      content: Text(message),
+                      backgroundColor: bgColor,
+                      behavior: SnackBarBehavior.floating,
+                    ));
+                    if (response.status == Status.success) {
+                      widget._addSubjectCallback();
+                      Navigator.pop(context);
+                    }
                   });
                 }
               },
