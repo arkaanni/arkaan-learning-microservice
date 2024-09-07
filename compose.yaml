@@ -21,7 +21,7 @@ services:
       db_user: student_service
       db_password: student_service
       db_name: student
-      VIRTUAL_HOST: local.dev
+      VIRTUAL_HOST: dev.local
       VIRTUAL_PATH: /student
   subject:
     build:
@@ -36,7 +36,7 @@ services:
       db_port: 3306
       db_user: subject_service
       db_password: subject_service
-      VIRTUAL_HOST: local.dev
+      VIRTUAL_HOST: dev.local
       VIRTUAL_PATH: /subject
   room:
     build:
@@ -51,7 +51,7 @@ services:
       db_port: 3306
       db_user: room_service
       db_password: room_service
-      VIRTUAL_HOST: local.dev
+      VIRTUAL_HOST: dev.local
       VIRTUAL_PATH: /room
   courseplan:
     build:
@@ -73,5 +73,5 @@ services:
       student_api: student
       subject_api: subject
       schedule_api: room
-      VIRTUAL_HOST: local.dev
+      VIRTUAL_HOST: dev.local
       VIRTUAL_PATH: /courseplan
