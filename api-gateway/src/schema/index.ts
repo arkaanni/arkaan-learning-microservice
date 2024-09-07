@@ -1,11 +1,13 @@
 import graphql from "graphql";
 import StudentQuery from "./student/query";
 import StudentMutation from "./student/mutation";
+import SubjectQuery from "./subject/query";
 
 const Query = new graphql.GraphQLObjectType({
   name: "Query",
   fields: {
-    ...StudentQuery
+    ...StudentQuery,
+    ...SubjectQuery
   }
 });
 
