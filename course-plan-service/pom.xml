@@ -196,7 +196,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>dev.arkaan.schl.courseplan.CoursePlanAppKt</mainClass>
+                                    <mainClass>dev.arkaan.schl.courseplan.CoursePlanApp</mainClass>
                                 </transformer>
                             </transformers>
                             <outputFile>target/${project.artifactId}.jar</outputFile>
